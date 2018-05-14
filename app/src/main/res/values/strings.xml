@@ -3,4 +3,5 @@
 	<string name="fab_label_popular">Popular</string>
 	<string name="fab_label_highest_rated">Highest Rated</string>
 	<string name="fab_label_main">Sort By</string>
+	<string name="menu_refresh_title">Refresh</string>
 </resources>
