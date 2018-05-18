@@ -6,7 +6,7 @@
 	<android.support.design.widget.CoordinatorLayout
 		android:id="@+id/coordinator_layout"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content" >
 		
 		<android.support.design.widget.AppBarLayout
 			android:id="@+id/app_bar_layout_main"
@@ -33,7 +33,10 @@
 			<android.support.v7.widget.RecyclerView
 				android:id="@+id/recycler_view"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingEnd="@dimen/half_standard_margin"
+				android:paddingStart="@dimen/half_standard_margin"
+				android:scrollbars="vertical"
 				app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 		
 		</android.support.v4.widget.SwipeRefreshLayout>
@@ -58,14 +61,14 @@
 			android:layout_height="match_parent"
 			android:layout_gravity="bottom|end"
 			android:contentDescription="@string/fab_label_main"
-			android:padding="@dimen/standard_margin"
+			android:elevation="@dimen/view_elevation"
 			app:menu_backgroundColor="@color/fabFadedBackground"
 			app:menu_colorNormal="@color/colorAccent"
 			app:menu_fab_label="@string/fab_label_main"
 			app:menu_fab_size="normal"
 			app:menu_icon="@drawable/ic_sort_24px"
 			app:menu_openDirection="up"
-			app:menu_showShadow="true">
+			app:menu_showShadow="true" >
 			
 			<com.github.clans.fab.FloatingActionButton
 				android:id="@+id/fab_sort_popular"

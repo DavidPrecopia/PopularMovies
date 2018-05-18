@@ -20,6 +20,7 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
 import com.github.clans.fab.FloatingActionMenu;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		swipeRefreshLayout.setOnRefreshListener(this);
 
 
-		FloatingActionMenu fam = binding.fabBase;
+		final FloatingActionMenu fam = binding.fabBase;
 		fam.setIconAnimated(false);
 		fam.setClosedOnTouchOutside(true);
 		
@@ -53,6 +54,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
 		recyclerView.setHasFixedSize(true);
 		recyclerView.setAdapter(new MovieAdapter(getTempTitles()));
+		
+		// Hides the Floating Action Menu when scrolling down
+		// Shows it when scrolling up
+		recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+				super.onScrolled(recyclerView, dx, dy);
+				if (dy > 0 && !fam.isMenuButtonHidden()) {
+					fam.hideMenuButton(true);
+				} else if (dy < 0 && fam.isMenuButtonHidden()) {
+					fam.showMenuButton(true);
+				}
+			}
+		});
 	}
 	
 	/**
@@ -60,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	 */
 	private List<String> getTempTitles() {
 		List<String> temp = new ArrayList<>();
-		for (int x = 0; x < 200; x++) {
+		for (int x = 0; x < 50; x++) {
 			temp.add(String.valueOf(x));
 		}
 		return temp;
@@ -129,7 +144,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 			}
 			
 			private void bind() {
-				binding.movieTitle.setText(tempTitles.get(getAdapterPosition()));
+				binding.tvTitleMain.setText(tempTitles.get(getAdapterPosition()));
+				Picasso.get().load("http://image.tmdb.org/t/p/w780/nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg").into(binding.ivPosterMain);
 			}
 			
 			@Override
