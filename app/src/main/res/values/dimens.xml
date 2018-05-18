@@ -2,5 +2,7 @@
 <resources>
 	<dimen name="standard_margin">16dp</dimen>
 	<dimen name="half_standard_margin">8dp</dimen>
-	<dimen name="view_elevation">4dp</dimen>
+	
+	<dimen name="card_view_corner_radius">16dp</dimen>
+	<dimen name="view_elevation">8dp</dimen>
 </resources>
