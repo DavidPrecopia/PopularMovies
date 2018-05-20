@@ -1,5 +1,6 @@
 package com.example.android.popularmovies.activities;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 	
@@ -37,9 +37,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		
-		Toolbar toolbar = binding.toolbarMain;
-		setSupportActionBar(toolbar);
-		getSupportActionBar().setTitle(R.string.fab_label_popular);
+		setSupportActionBar(binding.toolbarMainActivity);
+		Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.fab_label_popular);
 		
 		
 		swipeRefreshLayout = binding.swipeRefresh;
@@ -133,13 +132,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 			
 			private void bind() {
 				binding.tvTitleMain.setText(tempTitles.get(getAdapterPosition()));
-				Picasso.get().load("http://image.tmdb.org/t/p/w780/nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg").into(binding.ivPosterMain);
+				Picasso.get().load("http://image.tmdb.org/t/p/w780/nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg").into(binding.ivPosterListItem);
 			}
 			
 			@Override
 			public void onClick(View v) {
-				Log.d("logTag", "onClick");
-				Toast.makeText(MainActivity.this, "ViewHolder clicked placeholder", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(MainActivity.this, "ViewHolder clicked placeholder", Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(MainActivity.this, DetailActivity.class));
 			}
 		}
 	}

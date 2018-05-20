@@ -22,11 +22,11 @@
 				android:layout_height="wrap_content">
 				
 				<ImageView
-					android:id="@+id/iv_poster_main"
+					android:id="@+id/iv_poster_list_item"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:adjustViewBounds="true"
-					android:contentDescription="@string/image_view_poster_description"
+					android:contentDescription="@string/iv_poster_description"
 					android:scaleType="centerInside"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
@@ -44,9 +44,9 @@
 					android:paddingStart="@dimen/standard_margin"
 					android:paddingTop="@dimen/half_standard_margin"
 					android:textColor="@android:color/white"
-					app:layout_constraintEnd_toEndOf="@+id/iv_poster_main"
-					app:layout_constraintStart_toStartOf="@+id/iv_poster_main"
-					app:layout_constraintTop_toBottomOf="@+id/iv_poster_main"
+					app:layout_constraintEnd_toEndOf="@+id/iv_poster_list_item"
+					app:layout_constraintStart_toStartOf="@+id/iv_poster_list_item"
+					app:layout_constraintTop_toBottomOf="@+id/iv_poster_list_item"
 					tools:text="This is a movie title" />
 			
 			</android.support.constraint.ConstraintLayout>

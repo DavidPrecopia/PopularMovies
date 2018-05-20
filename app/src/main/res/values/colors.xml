@@ -4,12 +4,8 @@
 	<color name="colorPrimaryDark">#263238</color>
 	<color name="colorAccent">#FF5722</color>
 	
-	<color name="activityBackground">#000000</color>
+	<color name="activityBackground">#424242</color>
 	
-	<!--
-		Background when the FloatingActionMenu is open.
-		Transparency is set with the first two numbers of the HEX code.
-		Same as activityBackground.
-	-->
+	<!--Background when the FloatingActionMenu is open-->
 	<color name="fabFadedBackground">#80000000</color>
 </resources>
