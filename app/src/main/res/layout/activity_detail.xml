@@ -50,39 +50,40 @@
 			<android.support.constraint.ConstraintLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
-				<!--isIndicator - user cannot change-->
+				
 				<RatingBar
 					android:id="@+id/rating_bar"
+					style="?android:attr/ratingBarStyleSmall"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:isIndicator="true"
-					android:numStars="5"
+					android:numStars="10"
 					android:stepSize=".5"
 					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toTopOf="parent" />
+					app:layout_constraintTop_toTopOf="parent"
+					tools:rating="10" />
 				
 				<TextView
 					android:id="@+id/release_date"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginEnd="@dimen/standard_margin"
-					android:layout_marginTop="@dimen/standard_margin"
+					android:layout_marginTop="8dp"
 					android:textColor="@android:color/white"
-					app:layout_constraintEnd_toEndOf="parent"
-					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/rating_bar"
 					tools:text="@tools:sample/date/mmddyy" />
 				
 				<TextView
 					android:id="@+id/plot"
 					android:layout_width="match_parent"
 					android:layout_height="0dp"
-					android:layout_marginTop="@dimen/half_standard_margin"
+					android:layout_marginTop="8dp"
+					android:text="@string/plot_test_text"
 					android:textColor="@android:color/white"
 					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintHorizontal_bias="1.0"
 					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintTop_toBottomOf="@+id/rating_bar"
-					android:text="@string/plot_test_text"
-					android:textSize="25sp"/>
+					app:layout_constraintTop_toBottomOf="@+id/release_date" />
 			
 			
 			</android.support.constraint.ConstraintLayout>

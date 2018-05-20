@@ -19,7 +19,9 @@ import android.widget.Toast;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
+import com.example.android.popularmovies.model.Movie;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,18 +55,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		RecyclerView recyclerView = binding.recyclerView;
 		recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
 		recyclerView.setHasFixedSize(true);
-		recyclerView.setAdapter(new MovieAdapter(getTempTitles()));
-	}
-	
-	/**
-	 * FAKE DATA FOR RECYCLERVIEW
-	 */
-	private List<String> getTempTitles() {
-		List<String> temp = new ArrayList<>();
-		for (int x = 0; x < 20; x++) {
-			temp.add(String.valueOf(x));
-		}
-		return temp;
+		recyclerView.setAdapter(new MovieAdapter(new ArrayList<Movie>()));
 	}
 	
 	
@@ -89,16 +80,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	public void onRefresh() {
 		Toast.makeText(this, "Placeholder for SwipeRefresh", Toast.LENGTH_SHORT).show();
 		swipeRefreshLayout.setRefreshing(false);
-		// showProgressBar
 	}
 	
 	
 	private class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 		
-		private List<String> tempTitles;
+		private List<Movie> movies;
 		
-		MovieAdapter(List<String> tempTitles) {
-			this.tempTitles = tempTitles;
+		MovieAdapter(List<Movie> movies) {
+			this.movies = movies;
 		}
 		
 		@NonNull
@@ -111,18 +101,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		
 		@Override
 		public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-			holder.bind();
+			holder.bind(movies.get(holder.getAdapterPosition()));
 		}
 		
 		@Override
 		public int getItemCount() {
-			return tempTitles.size();
+			return movies.size();
 		}
 		
 		
 		class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 			
 			private ListItemBinding binding;
+			private Movie movie;
 			
 			MovieViewHolder(ListItemBinding binding) {
 				super(binding.getRoot());
@@ -130,15 +121,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 				this.binding = binding;
 			}
 			
-			private void bind() {
-				binding.tvTitleMain.setText(tempTitles.get(getAdapterPosition()));
-				Picasso.get().load("http://image.tmdb.org/t/p/w780/nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg").into(binding.ivPosterListItem);
+			
+			private void bind(Movie movie) {
+				// TODO Bind list_item
+				
+				this.movie = movie;
+				bindImage();
+				
+				// TODO bindImmediately method
 			}
+			
+			private void bindImage() {
+				Picasso.get().load(movie.getPosterUrl()).into(binding.ivPosterListItem);
+			}
+			
 			
 			@Override
 			public void onClick(View v) {
-//				Toast.makeText(MainActivity.this, "ViewHolder clicked placeholder", Toast.LENGTH_SHORT).show();
-				startActivity(new Intent(MainActivity.this, DetailActivity.class));
+				// Should pass notice to Presenter
+				Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+				intent.putExtra(DetailActivity.class.getSimpleName(), new Gson().toJson(movies.get(getAdapterPosition())));
+				startActivity(intent);
 			}
 		}
 	}
