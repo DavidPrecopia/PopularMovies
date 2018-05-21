@@ -2,16 +2,20 @@ package com.example.android.popularmovies.activities;
 
 import com.example.android.popularmovies.contracts.IMainPresenterContract;
 import com.example.android.popularmovies.contracts.IMainViewContract;
+import com.example.android.popularmovies.contracts.IModelContract;
 import com.example.android.popularmovies.model.Movie;
+
+import java.util.List;
 
 final class MainPresenter implements IMainPresenterContract {
 	
 	private IMainViewContract view;
+	// TODO Need to concrete for now
+	private IModelContract model;
 	
+	private int lastSelected;
 	private static final int POPULAR_SORT = 0;
 	private static final int HIGHEST_RATED_SORT = 1;
-
-	private static final int LAST_SLECTED = POPULAR_SORT;
 	
 	
 	// TODO Replace with Dagger2
@@ -21,32 +25,50 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	@Override
 	public void load() {
-		loading();
 		view.setUpView();
 		getPopularMovies();
 	}
 	
 	
 	@Override
-	public void onListItemClicked(Movie movie) {
-		view.openSpecificMovie(movie);
-	}
-	
-	// Invoked by respective FAB
-	@Override
 	public void getPopularMovies() {
-	
+		lastSelected = POPULAR_SORT;
+		loading();
+		replaceData(model.getPopularMovies(false));
+		finishedLoading();
 	}
 	
-	// Invoked by respective FAB
 	@Override
 	public void getHighestRatedMovies() {
-	
+		lastSelected = HIGHEST_RATED_SORT;
+		loading();
+		replaceData(model.getHighestRatedMovies(false));
+		finishedLoading();
 	}
+	
+	private void replaceData(List<Movie> list) {
+		view.replaceData(list);
+	}
+	
 	
 	@Override
 	public void onRefresh() {
 		loading();
+		switch (lastSelected) {
+			case POPULAR_SORT:
+				replaceData(model.getPopularMovies(true));
+				break;
+			case HIGHEST_RATED_SORT:
+				replaceData(model.getHighestRatedMovies(true));
+				break;
+		}
+		finishedLoading();
+	}
+	
+	
+	@Override
+	public void onListItemClicked(Movie movie) {
+		view.openSpecificMovie(movie);
 	}
 	
 	

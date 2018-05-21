@@ -11,7 +11,7 @@ public final class Movie {
 	@SerializedName("vote_average")
 	private float rating;
 	
-	@SerializedName("release_data")
+	@SerializedName("release_date")
 	private String releaseDate;
 	
 	@SerializedName("overview")
