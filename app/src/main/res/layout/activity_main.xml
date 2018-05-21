@@ -12,7 +12,7 @@
 		<android.support.design.widget.AppBarLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:theme="@style/ToolbarTheme" >
+			android:theme="@style/ToolbarTheme">
 			
 			<android.support.v7.widget.Toolbar
 				android:id="@+id/toolbar_main_activity"
@@ -36,9 +36,27 @@
 				android:paddingEnd="@dimen/half_standard_margin"
 				android:paddingStart="@dimen/half_standard_margin"
 				android:scrollbars="vertical"
+				android:visibility="invisible"
 				app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 		
 		</android.support.v4.widget.SwipeRefreshLayout>
+		
+		
+		<ProgressBar
+			android:id="@+id/progress_bar"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:visibility="visible" />
+		
+		<TextView
+			android:id="@+id/tv_error"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:drawableTop="@drawable/ic_error_outline_36px"
+			android:gravity="center"
+			android:visibility="invisible" />
 		
 		
 		<!--
@@ -54,6 +72,7 @@
 			android:layout_gravity="bottom|end"
 			android:contentDescription="@string/fab_label_main"
 			android:elevation="@dimen/view_elevation"
+			android:visibility="invisible"
 			app:menu_backgroundColor="@color/fabFadedBackground"
 			app:menu_colorNormal="@color/colorAccent"
 			app:menu_fab_label="@string/fab_label_main"
@@ -66,7 +85,7 @@
 				android:id="@+id/fab_sort_popular"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_star_24px"
+				android:src="@drawable/ic_star_18px"
 				app:fab_colorNormal="@color/colorAccent"
 				app:fab_label="@string/fab_label_popular"
 				app:fab_showShadow="true"
@@ -83,14 +102,6 @@
 				app:fab_size="mini" />
 		
 		</com.github.clans.fab.FloatingActionMenu>
-		
-		
-		<ProgressBar
-			android:id="@+id/progress_bar"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:visibility="gone" />
 	
 	</android.support.design.widget.CoordinatorLayout>
 

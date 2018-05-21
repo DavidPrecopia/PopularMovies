@@ -9,7 +9,7 @@ public final class Movie {
 	
 	
 	@SerializedName("vote_average")
-	private int rating;
+	private float rating;
 	
 	@SerializedName("release_data")
 	private String releaseDate;
@@ -39,7 +39,7 @@ public final class Movie {
 		return title;
 	}
 	
-	public int getRating() {
+	public float getRating() {
 		return rating;
 	}
 	

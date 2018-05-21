@@ -3,44 +3,71 @@ package com.example.android.popularmovies.activities;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.contracts.IDetailPresenterContract;
+import com.example.android.popularmovies.contracts.IDetailViewContract;
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
 import com.example.android.popularmovies.model.Movie;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements IDetailViewContract {
 	
+	private IDetailPresenterContract presenter;
 	private ActivityDetailBinding binding;
-	private Movie movie;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 		
-		// TODO Bind the other Views
-		// via Presenter??
-		setToolbar();
-		
-		bindTitle();
-		bindImage();
+		presenter.load(movieFromIntent());
 	}
 	
-	private void setToolbar() {
+	private Movie movieFromIntent() {
+		return new Gson().fromJson(
+				getIntent().getStringExtra(DetailActivity.class.getSimpleName()),
+				Movie.class
+		);
+	}
+	
+	
+	@Override
+	public void setUpView() {
+		setUpToolbar();
+	}
+	
+	private void setUpToolbar() {
 		setSupportActionBar(binding.toolbarDetailActivity);
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 	}
 	
-	private void bindTitle() {
-		binding.collapsingToolbarLayout.setTitle(movie.getTitle());
+	
+	@Override
+	public void setTitle(String title) {
+		binding.collapsingToolbarLayout.setTitle(title);
 	}
 	
-	private void bindImage() {
-		String imageUrl = TextUtils.isEmpty(movie.getBackdropUrl()) ? movie.getPosterUrl() : movie.getBackdropUrl();
+	@Override
+	public void setBackdrop(String imageUrl) {
 		Picasso.get().load(imageUrl).into(binding.ivPosterDetailActivity);
+	}
+	
+	@Override
+	public void setUserRating(float rating) {
+		binding.userRating.setRating(rating);
+	}
+	
+	@Override
+	public void setReleaseDate(String date) {
+		binding.releaseDate.setText(date);
+	}
+	
+	@Override
+	public void setDescription(String description) {
+		binding.description.setText(description);
 	}
 }

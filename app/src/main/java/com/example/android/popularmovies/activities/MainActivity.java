@@ -14,9 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.contracts.IMainViewContract;
+import com.example.android.popularmovies.contracts.IMainPresenterContract;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
 import com.example.android.popularmovies.model.Movie;
@@ -28,34 +31,114 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity
+		implements SwipeRefreshLayout.OnRefreshListener, IMainViewContract {
+	
+	private IMainPresenterContract presenter;
 	
 	private ActivityMainBinding binding;
-	
-	private SwipeRefreshLayout swipeRefreshLayout;
+	private MovieAdapter movieAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-		
+		presenter.load();
+	}
+	
+	
+	@Override
+	public void setUpView() {
+		setToolbar();
+		setUpRecyclerView();
+		setUpFloatingActionMenu();
+		setUpSwipeRefresh();
+	}
+	
+	private void setToolbar() {
 		setSupportActionBar(binding.toolbarMainActivity);
 		Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.fab_label_popular);
-		
-		
-		swipeRefreshLayout = binding.swipeRefresh;
-		swipeRefreshLayout.setOnRefreshListener(this);
-
-
-		final FloatingActionMenu fam = binding.fabBase;
-		fam.setIconAnimated(false);
-		fam.setClosedOnTouchOutside(true);
-		
-		
+	}
+	
+	private void setUpRecyclerView() {
 		RecyclerView recyclerView = binding.recyclerView;
 		recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
 		recyclerView.setHasFixedSize(true);
-		recyclerView.setAdapter(new MovieAdapter(new ArrayList<Movie>()));
+		this.movieAdapter = new MovieAdapter(new ArrayList<Movie>());
+		recyclerView.setAdapter(movieAdapter);
+	}
+	
+	private void setUpFloatingActionMenu() {
+		FloatingActionMenu fam = binding.fabBase;
+		fam.setIconAnimated(false);
+		fam.setClosedOnTouchOutside(true);
+	}
+	
+	private void setUpSwipeRefresh() {
+		binding.swipeRefresh.setOnRefreshListener(this);
+	}
+	
+	
+	@Override
+	public void showLoading() {
+		binding.progressBar.setVisibility(View.VISIBLE);
+	}
+	
+	@Override
+	public void hideLoading() {
+		binding.progressBar.setVisibility(View.INVISIBLE);
+	}
+	
+	@Override
+	public void showError(String message) {
+		TextView error = binding.tvError;
+		error.setVisibility(View.VISIBLE);
+		error.setText(message);
+	}
+	
+	@Override
+	public void hideError() {
+		binding.tvError.setVisibility(View.INVISIBLE);
+	}
+	
+	@Override
+	public void showList() {
+		binding.recyclerView.setVisibility(View.VISIBLE);
+	}
+	
+	@Override
+	public void hideList() {
+		binding.recyclerView.setVisibility(View.INVISIBLE);
+	}
+	
+	@Override
+	public void showFab() {
+		binding.fabBase.setVisibility(View.VISIBLE);
+	}
+	
+	@Override
+	public void hideFab() {
+		binding.fabBase.setVisibility(View.INVISIBLE);
+	}
+	
+	
+	@Override
+	public void replaceData(List<Movie> newMovies) {
+		movieAdapter.replaceData(newMovies);
+	}
+	
+	
+	@Override
+	public void onRefresh() {
+		Toast.makeText(this, "Placeholder for SwipeRefresh", Toast.LENGTH_SHORT).show();
+		binding.swipeRefresh.setRefreshing(false);
+	}
+	
+	@Override
+	public void openSpecificMovie(Movie movie) {
+		Intent intent = new Intent(this, DetailActivity.class);
+		intent.putExtra(DetailActivity.class.getSimpleName(), new Gson().toJson(movie));
+		startActivity(intent);
 	}
 	
 	
@@ -74,12 +157,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-	}
-	
-	@Override
-	public void onRefresh() {
-		Toast.makeText(this, "Placeholder for SwipeRefresh", Toast.LENGTH_SHORT).show();
-		swipeRefreshLayout.setRefreshing(false);
 	}
 	
 	
@@ -104,6 +181,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 			holder.bind(movies.get(holder.getAdapterPosition()));
 		}
 		
+		private void replaceData(List<Movie> newMovies) {
+			this.movies = newMovies;
+			notifyDataSetChanged();
+		}
+		
 		@Override
 		public int getItemCount() {
 			return movies.size();
@@ -123,25 +205,24 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 			
 			
 			private void bind(Movie movie) {
-				// TODO Bind list_item
-				
 				this.movie = movie;
 				bindImage();
-				
-				// TODO bindImmediately method
+				bindTitle();
+				binding.executePendingBindings();
 			}
 			
 			private void bindImage() {
 				Picasso.get().load(movie.getPosterUrl()).into(binding.ivPosterListItem);
 			}
 			
+			private void bindTitle() {
+				binding.tvTitleMain.setText(movie.getTitle());
+			}
+			
 			
 			@Override
 			public void onClick(View v) {
-				// Should pass notice to Presenter
-				Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-				intent.putExtra(DetailActivity.class.getSimpleName(), new Gson().toJson(movies.get(getAdapterPosition())));
-				startActivity(intent);
+				presenter.onListItemClicked(movie);
 			}
 		}
 	}
