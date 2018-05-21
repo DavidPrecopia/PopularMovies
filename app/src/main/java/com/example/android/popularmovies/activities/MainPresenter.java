@@ -1,7 +1,7 @@
 package com.example.android.popularmovies.activities;
 
-import com.example.android.popularmovies.contracts.IMainViewContract;
 import com.example.android.popularmovies.contracts.IMainPresenterContract;
+import com.example.android.popularmovies.contracts.IMainViewContract;
 import com.example.android.popularmovies.model.Movie;
 
 final class MainPresenter implements IMainPresenterContract {
@@ -13,6 +13,12 @@ final class MainPresenter implements IMainPresenterContract {
 
 	private static final int LAST_SLECTED = POPULAR_SORT;
 	
+	
+	// TODO Replace with Dagger2
+	MainPresenter(IMainViewContract activity) {
+		view = activity;
+	}
+	
 	@Override
 	public void load() {
 		loading();
@@ -20,16 +26,19 @@ final class MainPresenter implements IMainPresenterContract {
 		getPopularMovies();
 	}
 	
+	
 	@Override
 	public void onListItemClicked(Movie movie) {
 		view.openSpecificMovie(movie);
 	}
 	
+	// Invoked by respective FAB
 	@Override
 	public void getPopularMovies() {
 	
 	}
 	
+	// Invoked by respective FAB
 	@Override
 	public void getHighestRatedMovies() {
 	
@@ -37,7 +46,7 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	@Override
 	public void onRefresh() {
-	
+		loading();
 	}
 	
 	

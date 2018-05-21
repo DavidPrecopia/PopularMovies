@@ -12,6 +12,11 @@ final class DetailPresenter implements IDetailPresenterContract {
 	
 	private Movie movie;
 	
+	// TODO Replace with Dagger2
+	DetailPresenter(IDetailViewContract activity) {
+		view = activity;
+	}
+	
 	@Override
 	public void load(Movie movie) {
 		this.movie = movie;

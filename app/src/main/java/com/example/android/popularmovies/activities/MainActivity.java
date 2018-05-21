@@ -15,11 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.contracts.IMainViewContract;
 import com.example.android.popularmovies.contracts.IMainPresenterContract;
+import com.example.android.popularmovies.contracts.IMainViewContract;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
 import com.example.android.popularmovies.model.Movie;
@@ -43,6 +42,8 @@ public class MainActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+		// TODO Replace with Dagger2
+		presenter = new MainPresenter(this);
 		presenter.load();
 	}
 	
@@ -72,7 +73,28 @@ public class MainActivity extends AppCompatActivity
 		FloatingActionMenu fam = binding.fabBase;
 		fam.setIconAnimated(false);
 		fam.setClosedOnTouchOutside(true);
+		binding.fabSortRated.setOnClickListener(fabRatedListener());
+		binding.fabSortPopular.setOnClickListener(fabPopularListener());
 	}
+	
+	private View.OnClickListener fabRatedListener() {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				presenter.getHighestRatedMovies();
+			}
+		};
+	}
+	
+	private View.OnClickListener fabPopularListener() {
+		return new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				presenter.getPopularMovies();
+			}
+		};
+	}
+	
 	
 	private void setUpSwipeRefresh() {
 		binding.swipeRefresh.setOnRefreshListener(this);
@@ -129,12 +151,6 @@ public class MainActivity extends AppCompatActivity
 	
 	
 	@Override
-	public void onRefresh() {
-		Toast.makeText(this, "Placeholder for SwipeRefresh", Toast.LENGTH_SHORT).show();
-		binding.swipeRefresh.setRefreshing(false);
-	}
-	
-	@Override
 	public void openSpecificMovie(Movie movie) {
 		Intent intent = new Intent(this, DetailActivity.class);
 		intent.putExtra(DetailActivity.class.getSimpleName(), new Gson().toJson(movie));
@@ -152,11 +168,17 @@ public class MainActivity extends AppCompatActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_refresh_item:
-				Toast.makeText(this, "Placeholder for Menu Refresh", Toast.LENGTH_SHORT).show();
+				presenter.onRefresh();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	@Override
+	public void onRefresh() {
+		binding.swipeRefresh.setRefreshing(false);
+		presenter.onRefresh();
 	}
 	
 	

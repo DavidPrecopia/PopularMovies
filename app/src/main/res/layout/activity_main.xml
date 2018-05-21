@@ -65,6 +65,7 @@
 			The FloatingActionMenu needs to detect the touch.
 			The aforesaid method is in the parent Java class
 		-->
+		
 		<com.github.clans.fab.FloatingActionMenu
 			android:id="@+id/fab_base"
 			android:layout_width="match_parent"
@@ -72,7 +73,7 @@
 			android:layout_gravity="bottom|end"
 			android:contentDescription="@string/fab_label_main"
 			android:elevation="@dimen/view_elevation"
-			android:visibility="invisible"
+			android:padding="@dimen/standard_margin"
 			app:menu_backgroundColor="@color/fabFadedBackground"
 			app:menu_colorNormal="@color/colorAccent"
 			app:menu_fab_label="@string/fab_label_main"
@@ -92,7 +93,7 @@
 				app:fab_size="mini" />
 			
 			<com.github.clans.fab.FloatingActionButton
-				android:id="@+id/fab_sort_highest_rated"
+				android:id="@+id/fab_sort_rated"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:src="@drawable/ic_thumb_up_18px"
