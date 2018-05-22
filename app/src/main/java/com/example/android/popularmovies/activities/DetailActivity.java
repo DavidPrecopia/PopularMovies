@@ -23,7 +23,7 @@ public class DetailActivity extends AppCompatActivity implements IDetailViewCont
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
-		// TODO Replace with Dagger2
+		
 		presenter = new DetailPresenter(this);
 		presenter.load(movieFromIntent());
 	}

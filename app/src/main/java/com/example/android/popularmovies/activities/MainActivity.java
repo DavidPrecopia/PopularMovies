@@ -33,6 +33,8 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity
 		implements SwipeRefreshLayout.OnRefreshListener, IMainViewContract {
 	
+	private static final String LOG_TAG = MainActivity.class.getSimpleName();
+	
 	private IMainPresenterContract presenter;
 	
 	private ActivityMainBinding binding;
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-		// TODO Replace with Dagger2
+		
 		presenter = new MainPresenter(this);
 		presenter.load();
 	}

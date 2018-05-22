@@ -12,7 +12,6 @@ final class DetailPresenter implements IDetailPresenterContract {
 	
 	private Movie movie;
 	
-	// TODO Replace with Dagger2
 	DetailPresenter(IDetailViewContract activity) {
 		view = activity;
 	}
@@ -44,13 +43,24 @@ final class DetailPresenter implements IDetailPresenterContract {
 	}
 	
 	private void setUserRating() {
-		// TODO How to calculate user rating?
 		view.setUserRating(movie.getRating());
 	}
 	
 	private void setReleaseDate() {
-		// TODO Prepare date
-		view.setReleaseDate(movie.getReleaseDate());
+		view.setReleaseDate(getFormattedDate());
+	}
+	
+	/*
+		How the date is formatted: yyyy-MM-dd
+		Returns: dd-MM-yyyy
+	 */
+	private String getFormattedDate() {
+		String[] dateArray = movie.getReleaseDate().split("-");
+		return dateArray[2]
+				+ ","
+				+ dateArray[3]
+				+ ", "
+				+ dateArray[0];
 	}
 	
 	private void setDescription() {

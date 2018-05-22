@@ -14,6 +14,7 @@ public final class Model implements IModelContract {
 	private List<Movie> highestRatedCache;
 	
 	public Model() {
+		network = new NetworkUtil();
 		this.popularCache = new ArrayList<>();
 		this.highestRatedCache = new ArrayList<>();
 	}

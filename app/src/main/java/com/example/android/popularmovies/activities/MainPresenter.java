@@ -3,6 +3,7 @@ package com.example.android.popularmovies.activities;
 import com.example.android.popularmovies.contracts.IMainPresenterContract;
 import com.example.android.popularmovies.contracts.IMainViewContract;
 import com.example.android.popularmovies.contracts.IModelContract;
+import com.example.android.popularmovies.model.Model;
 import com.example.android.popularmovies.model.Movie;
 
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.List;
 final class MainPresenter implements IMainPresenterContract {
 	
 	private IMainViewContract view;
-	// TODO Need to concrete for now
 	private IModelContract model;
 	
 	private int lastSelected;
@@ -18,9 +18,9 @@ final class MainPresenter implements IMainPresenterContract {
 	private static final int HIGHEST_RATED_SORT = 1;
 	
 	
-	// TODO Replace with Dagger2
 	MainPresenter(IMainViewContract activity) {
 		view = activity;
+		model = new Model();
 	}
 	
 	@Override
