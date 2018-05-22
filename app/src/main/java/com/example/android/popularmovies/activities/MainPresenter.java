@@ -13,13 +13,13 @@ final class MainPresenter implements IMainPresenterContract {
 	private IMainViewContract view;
 	private IModelContract model;
 	
-	private int lastSelected;
-	private static final int POPULAR_SORT = 0;
-	private static final int HIGHEST_RATED_SORT = 1;
+	private int lastSelectedSortBy;
+	private static final int POPULAR_SORT = 100;
+	private static final int HIGHEST_RATED_SORT = 200;
 	
 	
-	MainPresenter(IMainViewContract activity) {
-		view = activity;
+	MainPresenter(IMainViewContract view) {
+		this.view = view;
 		model = new Model();
 	}
 	
@@ -32,37 +32,48 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	@Override
 	public void getPopularMovies() {
-		lastSelected = POPULAR_SORT;
-		loading();
-		replaceData(model.getPopularMovies(false));
-		finishedLoading();
+		getMovies(POPULAR_SORT, false);
 	}
 	
 	@Override
 	public void getHighestRatedMovies() {
-		lastSelected = HIGHEST_RATED_SORT;
-		loading();
-		replaceData(model.getHighestRatedMovies(false));
+		getMovies(HIGHEST_RATED_SORT, false);
+	}
+	
+	@Override
+	public void onRefresh() {
+		switch (lastSelectedSortBy) {
+			case POPULAR_SORT:
+				getMovies(POPULAR_SORT, true);
+				break;
+			case HIGHEST_RATED_SORT:
+				getMovies(HIGHEST_RATED_SORT, true);
+				break;
+		}
+	}
+	
+	private void getMovies(int sortBy, boolean forceRefresh) {
+		lastSelectedSortBy = sortBy;
+		startLoading();
+		switch (sortBy) {
+			case POPULAR_SORT:
+				replaceData(model.getPopularMovies(forceRefresh));
+				setViewTitle(view.getPopularTitle());
+				break;
+			case HIGHEST_RATED_SORT:
+				replaceData(model.getHighestRatedMovies(forceRefresh));
+				setViewTitle(view.getHighestRatedTitle());
+				break;
+		}
 		finishedLoading();
+	}
+	
+	private void setViewTitle(String title) {
+		view.setTitle(title);
 	}
 	
 	private void replaceData(List<Movie> list) {
 		view.replaceData(list);
-	}
-	
-	
-	@Override
-	public void onRefresh() {
-		loading();
-		switch (lastSelected) {
-			case POPULAR_SORT:
-				replaceData(model.getPopularMovies(true));
-				break;
-			case HIGHEST_RATED_SORT:
-				replaceData(model.getHighestRatedMovies(true));
-				break;
-		}
-		finishedLoading();
 	}
 	
 	
@@ -72,7 +83,7 @@ final class MainPresenter implements IMainPresenterContract {
 	}
 	
 	
-	private void loading() {
+	private void startLoading() {
 		view.showLoading();
 		view.hideList();
 		view.hideFab();

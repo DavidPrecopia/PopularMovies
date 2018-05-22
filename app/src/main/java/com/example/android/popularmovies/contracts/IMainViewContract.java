@@ -9,6 +9,10 @@ public interface IMainViewContract {
 	
 	void replaceData(List<Movie> newMovies);
 	
+	void setTitle(String title);
+	String getPopularTitle();
+	String getHighestRatedTitle();
+	
 	void showLoading();
 	void hideLoading();
 	

@@ -12,8 +12,8 @@ final class DetailPresenter implements IDetailPresenterContract {
 	
 	private Movie movie;
 	
-	DetailPresenter(IDetailViewContract activity) {
-		view = activity;
+	DetailPresenter(IDetailViewContract view) {
+		this.view = view;
 	}
 	
 	@Override

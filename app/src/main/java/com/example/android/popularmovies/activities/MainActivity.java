@@ -33,8 +33,6 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity
 		implements SwipeRefreshLayout.OnRefreshListener, IMainViewContract {
 	
-	private static final String LOG_TAG = MainActivity.class.getSimpleName();
-	
 	private IMainPresenterContract presenter;
 	
 	private ActivityMainBinding binding;
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity
 		RecyclerView recyclerView = binding.recyclerView;
 		recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
 		recyclerView.setHasFixedSize(true);
-		this.movieAdapter = new MovieAdapter(new ArrayList<Movie>());
+		this.movieAdapter = new MovieAdapter(new ArrayList<>());
 		recyclerView.setAdapter(movieAdapter);
 	}
 	
@@ -80,26 +78,31 @@ public class MainActivity extends AppCompatActivity
 	}
 	
 	private View.OnClickListener fabRatedListener() {
-		return new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				presenter.getHighestRatedMovies();
-			}
-		};
+		return v -> presenter.getHighestRatedMovies();
 	}
 	
 	private View.OnClickListener fabPopularListener() {
-		return new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				presenter.getPopularMovies();
-			}
-		};
+		return v -> presenter.getPopularMovies();
 	}
-	
 	
 	private void setUpSwipeRefresh() {
 		binding.swipeRefresh.setOnRefreshListener(this);
+	}
+	
+	
+	@Override
+	public void setTitle(String title) {
+		Objects.requireNonNull(getSupportActionBar()).setTitle(title);
+	}
+	
+	@Override
+	public String getPopularTitle() {
+		return getString(R.string.fab_label_popular);
+	}
+	
+	@Override
+	public String getHighestRatedTitle() {
+		return getString(R.string.fab_label_highest_rated);
 	}
 	
 	
