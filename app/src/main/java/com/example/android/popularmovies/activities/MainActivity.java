@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.contracts.IMainPresenterContract;
-import com.example.android.popularmovies.contracts.IMainViewContract;
+import com.example.android.popularmovies.activities.contracts_font.IMainPresenterContract;
+import com.example.android.popularmovies.activities.contracts_font.IMainViewContract;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
 import com.example.android.popularmovies.model.Movie;
@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity
 		}
 		
 		private void replaceData(List<Movie> newMovies) {
+			this.movies.clear();
 			this.movies = newMovies;
 			notifyDataSetChanged();
 		}

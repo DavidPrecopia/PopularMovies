@@ -1,10 +1,10 @@
-package com.example.android.popularmovies.contracts;
+package com.example.android.popularmovies.model.contracts_back;
 
 import com.example.android.popularmovies.model.Movie;
 
 import java.util.List;
 
-public interface INetworkContract {
+public interface IRemoteStorage {
 	List<Movie> getPopularMovies();
 	List<Movie> getHighestRatedMovies();
 }

@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.contracts;
+package com.example.android.popularmovies.model.contracts_back;
 
 import com.example.android.popularmovies.model.Movie;
 

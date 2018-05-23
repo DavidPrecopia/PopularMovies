@@ -5,24 +5,24 @@ import com.google.gson.annotations.SerializedName;
 public final class Movie {
 
 	@SerializedName("original_title")
-	private String title;
+	private final String title;
 	
 	
 	@SerializedName("vote_average")
-	private float rating;
+	private final float rating;
 	
 	@SerializedName("release_date")
-	private String releaseDate;
+	private final String releaseDate;
 	
 	@SerializedName("overview")
-	private String description;
+	private final String description;
 	
 	
 	@SerializedName("poster_path")
-	private String posterUrl;
+	private final String posterUrl;
 	
 	@SerializedName("backdrop_path")
-	private String backdropUrl;
+	private final String backdropUrl;
 	
 	
 	Movie(String title, int rating, String releaseDate, String description, String posterUrl, String backdropUrl) {

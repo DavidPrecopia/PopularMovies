@@ -1,8 +1,8 @@
 package com.example.android.popularmovies.activities;
 
-import com.example.android.popularmovies.contracts.IMainPresenterContract;
-import com.example.android.popularmovies.contracts.IMainViewContract;
-import com.example.android.popularmovies.contracts.IModelContract;
+import com.example.android.popularmovies.activities.contracts_font.IMainPresenterContract;
+import com.example.android.popularmovies.activities.contracts_font.IMainViewContract;
+import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.Model;
 import com.example.android.popularmovies.model.Movie;
 
@@ -20,7 +20,7 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	MainPresenter(IMainViewContract view) {
 		this.view = view;
-		model = new Model();
+		model = Model.getInstance();
 	}
 	
 	@Override

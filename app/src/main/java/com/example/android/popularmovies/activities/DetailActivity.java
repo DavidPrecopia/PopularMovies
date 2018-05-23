@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.contracts.IDetailPresenterContract;
-import com.example.android.popularmovies.contracts.IDetailViewContract;
+import com.example.android.popularmovies.activities.contracts_font.IDetailPresenterContract;
+import com.example.android.popularmovies.activities.contracts_font.IDetailViewContract;
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
 import com.example.android.popularmovies.model.Movie;
 import com.google.gson.Gson;

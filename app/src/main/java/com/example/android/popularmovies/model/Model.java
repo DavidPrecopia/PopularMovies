@@ -1,42 +1,48 @@
 package com.example.android.popularmovies.model;
 
-import com.example.android.popularmovies.contracts.IModelContract;
-import com.example.android.popularmovies.contracts.INetworkContract;
+import com.example.android.popularmovies.model.contracts_back.ILocalStorage;
+import com.example.android.popularmovies.model.contracts_back.IModelContract;
+import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class Model implements IModelContract {
 	
-	private INetworkContract network;
+	private ILocalStorage localStorage;
+	private IRemoteStorage remoteStorage;
 	
-	private List<Movie> popularCache;
-	private List<Movie> highestRatedCache;
+	private static Model model;
 	
-	public Model() {
-		network = new NetworkUtil();
-		this.popularCache = new ArrayList<>();
-		this.highestRatedCache = new ArrayList<>();
+	public static Model getInstance() {
+		if (model == null) {
+			model = new Model();
+		}
+		return model;
+	}
+	
+	private Model() {
+		remoteStorage = new NetworkUtil();
+		localStorage = new DatabaseUtil();
 	}
 	
 	
 	@Override
 	public List<Movie> getPopularMovies(boolean forceRefresh) {
-		if (shouldRefresh(forceRefresh, popularCache)) {
-			network.getPopularMovies();
+		if (shouldRefresh(forceRefresh, localStorage.havePopular())) {
+			remoteStorage.getPopularMovies();
 		}
-		return popularCache;
+		return localStorage.getPopularMovies();
 	}
 	
 	@Override
 	public List<Movie> getHighestRatedMovies(boolean forceRefresh) {
-		if (shouldRefresh(forceRefresh, highestRatedCache)) {
-			network.getHighestRatedMovies();
+		if (shouldRefresh(forceRefresh, localStorage.haveHighestRated())) {
+			remoteStorage.getHighestRatedMovies();
 		}
-		return highestRatedCache;
+		return localStorage.getHighestRatedMovies();
 	}
 	
-	private boolean shouldRefresh(boolean forceRefresh, List<Movie> list) {
-		return forceRefresh || list.isEmpty();
+	private boolean shouldRefresh(boolean forceRefresh, boolean haveLocal) {
+		return forceRefresh || ! haveLocal;
 	}
 }
