@@ -21,7 +21,7 @@ import com.example.android.popularmovies.activities.contracts_font.IMainPresente
 import com.example.android.popularmovies.activities.contracts_font.IMainViewContract;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
-import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.model.datamodel.Movie;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;

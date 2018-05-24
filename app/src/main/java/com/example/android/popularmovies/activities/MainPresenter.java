@@ -4,7 +4,7 @@ import com.example.android.popularmovies.activities.contracts_font.IMainPresente
 import com.example.android.popularmovies.activities.contracts_font.IMainViewContract;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.Model;
-import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.model.datamodel.Movie;
 
 import java.util.List;
 

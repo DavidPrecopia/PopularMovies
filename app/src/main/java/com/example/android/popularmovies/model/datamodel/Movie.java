@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.model;
+package com.example.android.popularmovies.model.datamodel;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -25,7 +25,7 @@ public final class Movie {
 	private final String backdropUrl;
 	
 	
-	Movie(String title, int rating, String releaseDate, String description, String posterUrl, String backdropUrl) {
+	public Movie(String title, int rating, String releaseDate, String description, String posterUrl, String backdropUrl) {
 		this.title = title;
 		this.rating = rating;
 		this.releaseDate = releaseDate;

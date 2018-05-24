@@ -1,16 +1,17 @@
-package com.example.android.popularmovies.model;
+package com.example.android.popularmovies.model.local;
 
+import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.contracts_back.ILocalStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-final class DatabaseUtil implements ILocalStorage {
+public final class Local implements ILocalStorage {
 	
 	private List<Movie> popularCache;
 	private List<Movie> highestRatedCache;
 	
-	DatabaseUtil() {
+	public Local() {
 		this.popularCache = new ArrayList<>();
 		this.highestRatedCache = new ArrayList<>();
 	}

@@ -1,10 +1,11 @@
-package com.example.android.popularmovies.model;
+package com.example.android.popularmovies.model.remote;
 
+import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
 
 import java.util.List;
 
-final class NetworkUtil implements IRemoteStorage {
+public final class Remote implements IRemoteStorage {
 	
 	public List<Movie> getPopularMovies() {
 		return null;

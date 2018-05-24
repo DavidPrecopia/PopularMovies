@@ -3,6 +3,9 @@ package com.example.android.popularmovies.model;
 import com.example.android.popularmovies.model.contracts_back.ILocalStorage;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
+import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.local.Local;
+import com.example.android.popularmovies.model.remote.Remote;
 
 import java.util.List;
 
@@ -21,8 +24,8 @@ public final class Model implements IModelContract {
 	}
 	
 	private Model() {
-		remoteStorage = new NetworkUtil();
-		localStorage = new DatabaseUtil();
+		remoteStorage = new Remote();
+		localStorage = new Local();
 	}
 	
 	
