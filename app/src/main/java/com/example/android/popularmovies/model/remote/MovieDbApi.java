@@ -4,9 +4,9 @@ import com.example.android.popularmovies.model.datamodel.ResultsHolder;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
-interface MovieDbClient {
+interface MovieDbApi {
 	@GET(UrlManager.SORT_BY_URL)
-	Call<ResultsHolder> getMovies(@Path(UrlManager.SORT_BY_PARAMETER) String sortBy);
+	Call<ResultsHolder> getMovies(@Query(UrlManager.QUERY) String sortBy);
 }

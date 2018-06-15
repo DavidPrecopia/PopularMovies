@@ -24,11 +24,12 @@ public final class Model implements IModelContract {
 	}
 	
 	private Model() {
-		remoteStorage = new Remote();
-		localStorage = new Local();
+		remoteStorage = Remote.getInstance();
+		localStorage = Local.getInstance();
 	}
 	
 	
+	// TODO replace date in local
 	@Override
 	public List<Movie> getPopularMovies(boolean forceRefresh) {
 		if (shouldRefresh(forceRefresh, localStorage.havePopular())) {
@@ -37,6 +38,7 @@ public final class Model implements IModelContract {
 		return localStorage.getPopularMovies();
 	}
 	
+	// TODO Replace data in local
 	@Override
 	public List<Movie> getHighestRatedMovies(boolean forceRefresh) {
 		if (shouldRefresh(forceRefresh, localStorage.haveHighestRated())) {

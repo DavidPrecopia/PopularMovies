@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity
 		private List<Movie> movies;
 		
 		MovieAdapter(List<Movie> movies) {
+			this.movies = new ArrayList<>();
 			this.movies = movies;
 		}
 		
@@ -216,7 +217,7 @@ public class MainActivity extends AppCompatActivity
 		
 		@Override
 		public int getItemCount() {
-			return movies.size();
+			return movies == null ? 0 : movies.size();
 		}
 		
 		

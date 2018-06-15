@@ -11,7 +11,16 @@ public final class Local implements ILocalStorage {
 	private List<Movie> popularCache;
 	private List<Movie> highestRatedCache;
 	
-	public Local() {
+	private static  Local local;
+	
+	public static Local getInstance() {
+		if (local == null) {
+			local = new Local();
+		}
+		return local;
+	}
+	
+	private Local() {
 		this.popularCache = new ArrayList<>();
 		this.highestRatedCache = new ArrayList<>();
 	}

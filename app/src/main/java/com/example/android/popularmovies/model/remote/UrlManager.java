@@ -2,13 +2,15 @@ package com.example.android.popularmovies.model.remote;
 
 final class UrlManager {
 	
-	static final String BASE_URL = "https://api.themoviedb.org/3/discover/movie?api_key=" + ApiKey.apiKey;
+	static final String BASE_URL = "https://api.themoviedb.org/";
+	// Relative URL
+	static final String SORT_BY_URL = "3/discover/movie?api_key=" + ApiKey.apiKey;
 	
-	static final String SORT_BY_PARAMETER = "sort";
-	static final String SORT_BY_URL = "&sort_by={" + SORT_BY_PARAMETER + "}.desc";
+	static final String QUERY = "sort_by";
 	
-	static final String SORT_BY_POPULAR = "top_rated";
-	static final String SORT_BY_HIGHEST_RATED = "vote_count";
+	private static final String SORT_ORDER = ".desc";
+	static final String QUERY_POPULAR = "top_rated" + SORT_ORDER;
+	static final String QUERY_HIGHEST_RATED = "vote_count" + SORT_ORDER;
 	
 	
 	private UrlManager() {

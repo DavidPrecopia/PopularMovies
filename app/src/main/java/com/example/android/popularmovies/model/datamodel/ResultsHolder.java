@@ -14,7 +14,7 @@ public final class ResultsHolder {
 		this.results = new ArrayList<>();
 	}
 	
-	List<Movie> getResults() {
+	public List<Movie> getResults() {
 		return results;
 	}
 }
