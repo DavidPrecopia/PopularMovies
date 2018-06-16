@@ -11,6 +11,7 @@ final class DetailPresenter implements IDetailPresenterContract {
 	private IDetailViewContract view;
 	
 	private Movie movie;
+	private static final String DATE_SEPARATOR = ", ";
 	
 	DetailPresenter(IDetailViewContract view) {
 		this.view = view;
@@ -39,7 +40,11 @@ final class DetailPresenter implements IDetailPresenterContract {
 		String imageUrl = TextUtils.isEmpty(movie.getBackdropUrl())
 				? movie.getPosterUrl()
 				: movie.getBackdropUrl();
-		view.setBackdrop(imageUrl);
+		view.setBackdrop(backdropUrl(imageUrl));
+	}
+	
+	private String backdropUrl(String imageUrl) {
+		return UrlManager.IMAGE_URL + imageUrl;
 	}
 	
 	private void setUserRating() {
@@ -56,10 +61,12 @@ final class DetailPresenter implements IDetailPresenterContract {
 	 */
 	private String getFormattedDate() {
 		String[] dateArray = movie.getReleaseDate().split("-");
+		// Android Studio recommended concatenating a String
+		// instead of using StringBuilder
 		return dateArray[2]
-				+ ","
+				+ DATE_SEPARATOR
 				+ dateArray[3]
-				+ ", "
+				+ DATE_SEPARATOR
 				+ dateArray[0];
 	}
 	

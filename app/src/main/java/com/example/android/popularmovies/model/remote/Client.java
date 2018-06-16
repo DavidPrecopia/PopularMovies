@@ -1,12 +1,13 @@
 package com.example.android.popularmovies.model.remote;
 
+import android.util.Log;
+
 import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.datamodel.ResultsHolder;
 
 import java.util.List;
 
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -43,13 +44,9 @@ final class Client {
 	}
 	
 	private Single<List<Movie>> queryNetwork(String sortBy) {
+		Log.d(LOG_TAG, UrlManager.BASE_URL + UrlManager.SORT_BY_URL + UrlManager.QUERY_POPULAR);
 		return movieDbApi.getMovies(sortBy)
-				.map(new Function<ResultsHolder, List<Movie>>() {
-					@Override
-					public List<Movie> apply(ResultsHolder resultsHolder) throws Exception {
-						return resultsHolder.getResults();
-					}
-				});
+				.map(ResultsHolder::getResults);
 	}
 	
 	private boolean invalidSortBy(String sortBy) {

@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity
 		binding.fabSortPopular.setOnClickListener(fabPopularListener());
 	}
 	
-	// TODO Fix fabBase closing when clicked
 	private View.OnClickListener fabRatedListener() {
 		return v -> {
 			binding.fabBase.close(false);
@@ -94,6 +93,13 @@ public class MainActivity extends AppCompatActivity
 	
 	private void setUpSwipeRefresh() {
 		binding.swipeRefresh.setOnRefreshListener(this);
+	}
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_refresh, menu);
+		return true;
 	}
 	
 	
@@ -171,12 +177,6 @@ public class MainActivity extends AppCompatActivity
 	
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_refresh, menu);
-		return true;
-	}
-	
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_refresh_item:
@@ -193,6 +193,12 @@ public class MainActivity extends AppCompatActivity
 		presenter.onRefresh();
 	}
 	
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		presenter.stop();
+	}
 	
 	private class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 		
@@ -241,13 +247,19 @@ public class MainActivity extends AppCompatActivity
 			
 			private void bind(Movie movie) {
 				this.movie = movie;
-				bindImage();
+				bindPoster();
 				bindTitle();
 				binding.executePendingBindings();
 			}
 			
-			private void bindImage() {
-				Picasso.get().load(movie.getPosterUrl()).into(binding.ivPosterListItem);
+			private void bindPoster() {
+				Picasso.get()
+						.load(posterUrl())
+						.into(binding.ivPosterListItem);
+			}
+			
+			private String posterUrl() {
+				return UrlManager.IMAGE_URL + movie.getPosterUrl();
 			}
 			
 			private void bindTitle() {

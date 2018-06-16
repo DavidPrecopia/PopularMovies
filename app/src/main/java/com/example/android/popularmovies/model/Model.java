@@ -1,10 +1,8 @@
 package com.example.android.popularmovies.model;
 
-import com.example.android.popularmovies.model.contracts_back.ILocalStorage;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
 import com.example.android.popularmovies.model.datamodel.Movie;
-import com.example.android.popularmovies.model.local.LocalStorage;
 import com.example.android.popularmovies.model.remote.RemoteStorage;
 
 import java.util.List;
@@ -12,8 +10,8 @@ import java.util.List;
 import io.reactivex.Single;
 
 public final class Model implements IModelContract {
-	
-	private ILocalStorage localStorage;
+
+//	private ILocalStorage localStorage;
 	private IRemoteStorage remoteStorage;
 	
 	private static Model model;
@@ -27,7 +25,7 @@ public final class Model implements IModelContract {
 	
 	private Model() {
 		remoteStorage = RemoteStorage.getInstance();
-		localStorage = LocalStorage.getInstance();
+//		localStorage = LocalStorage.getInstance();
 	}
 	
 	

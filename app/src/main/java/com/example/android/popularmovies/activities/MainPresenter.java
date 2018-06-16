@@ -1,5 +1,7 @@
 package com.example.android.popularmovies.activities;
 
+import android.util.Log;
+
 import com.example.android.popularmovies.activities.contracts_front.IMainPresenterContract;
 import com.example.android.popularmovies.activities.contracts_front.IMainViewContract;
 import com.example.android.popularmovies.model.Model;
@@ -71,9 +73,9 @@ final class MainPresenter implements IMainPresenterContract {
 	private void getMovies(int sortBy, boolean forceRefresh) {
 		lastSelectedSortBy = sortBy;
 		startLoading();
-		
 		switch (sortBy) {
 			case POPULAR_SORT:
+				Log.d(LOG_TAG, String.valueOf(POPULAR_SORT));
 				disposable.add(
 						model.getPopularMovies(forceRefresh)
 								.subscribeOn(Schedulers.io())
@@ -82,6 +84,7 @@ final class MainPresenter implements IMainPresenterContract {
 				);
 				break;
 			case HIGHEST_RATED_SORT:
+				Log.d(LOG_TAG, String.valueOf(HIGHEST_RATED_SORT));
 				disposable.add(
 						model.getHighestRatedMovies(forceRefresh)
 								.subscribeOn(Schedulers.io())
@@ -96,6 +99,7 @@ final class MainPresenter implements IMainPresenterContract {
 		return new DisposableSingleObserver<List<Movie>>() {
 			@Override
 			public void onSuccess(List<Movie> movies) {
+				Log.d(LOG_TAG, "onSuccess - Popular");
 				replaceData(movies);
 				setViewTitle(view.getPopularTitle());
 				finishedLoading();
@@ -112,6 +116,7 @@ final class MainPresenter implements IMainPresenterContract {
 		return new DisposableSingleObserver<List<Movie>>() {
 			@Override
 			public void onSuccess(List<Movie> movies) {
+				Log.d(LOG_TAG, "onSuccess - Highest Rated");
 				replaceData(movies);
 				setViewTitle(view.getHighestRatedTitle());
 				finishedLoading();
