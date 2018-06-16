@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.activities.contracts_font;
+package com.example.android.popularmovies.activities.contracts_front;
 
 import com.example.android.popularmovies.model.datamodel.Movie;
 

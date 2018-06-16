@@ -4,9 +4,11 @@ import com.example.android.popularmovies.model.datamodel.Movie;
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 public interface ILocalStorage {
-	List<Movie> getPopularMovies();
-	List<Movie> getHighestRatedMovies();
+	Single<List<Movie>> getPopularMovies();
+	Single<List<Movie>> getHighestRatedMovies();
 
 	void replacePopularMovies(List<Movie> newMovies);
 	void replaceHighestRatedMovies(List<Movie> newMovies);

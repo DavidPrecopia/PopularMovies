@@ -36,7 +36,6 @@
 				android:paddingEnd="@dimen/half_standard_margin"
 				android:paddingStart="@dimen/half_standard_margin"
 				android:scrollbars="vertical"
-				android:visibility="invisible"
 				app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 		
 		</android.support.v4.widget.SwipeRefreshLayout>

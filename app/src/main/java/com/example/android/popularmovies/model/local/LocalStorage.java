@@ -1,39 +1,41 @@
 package com.example.android.popularmovies.model.local;
 
-import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.contracts_back.ILocalStorage;
+import com.example.android.popularmovies.model.datamodel.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Local implements ILocalStorage {
+import io.reactivex.Single;
+
+public final class LocalStorage implements ILocalStorage {
 	
 	private List<Movie> popularCache;
 	private List<Movie> highestRatedCache;
 	
-	private static  Local local;
+	private static LocalStorage localStorage;
 	
-	public static Local getInstance() {
-		if (local == null) {
-			local = new Local();
+	public static LocalStorage getInstance() {
+		if (localStorage == null) {
+			localStorage = new LocalStorage();
 		}
-		return local;
+		return localStorage;
 	}
 	
-	private Local() {
+	private LocalStorage() {
 		this.popularCache = new ArrayList<>();
 		this.highestRatedCache = new ArrayList<>();
 	}
 	
 	
 	@Override
-	public List<Movie> getPopularMovies() {
-		return null;
+	public Single<List<Movie>> getPopularMovies() {
+		return Single.just(popularCache);
 	}
 	
 	@Override
-	public List<Movie> getHighestRatedMovies() {
-		return null;
+	public Single<List<Movie>> getHighestRatedMovies() {
+		return Single.just(highestRatedCache);
 	}
 	
 	@Override

@@ -1,9 +1,10 @@
-package com.example.android.popularmovies.activities.contracts_font;
+package com.example.android.popularmovies.activities.contracts_front;
 
 import com.example.android.popularmovies.model.datamodel.Movie;
 
 public interface IMainPresenterContract {
-	void load();
+	void start();
+	void stop();
 	
 	void onListItemClicked(Movie movie);
 	

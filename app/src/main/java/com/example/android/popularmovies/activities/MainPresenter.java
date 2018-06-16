@@ -1,17 +1,25 @@
 package com.example.android.popularmovies.activities;
 
-import com.example.android.popularmovies.activities.contracts_font.IMainPresenterContract;
-import com.example.android.popularmovies.activities.contracts_font.IMainViewContract;
-import com.example.android.popularmovies.model.contracts_back.IModelContract;
+import com.example.android.popularmovies.activities.contracts_front.IMainPresenterContract;
+import com.example.android.popularmovies.activities.contracts_front.IMainViewContract;
 import com.example.android.popularmovies.model.Model;
+import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+
 final class MainPresenter implements IMainPresenterContract {
+	
+	private static final String LOG_TAG = MainPresenter.class.getSimpleName();
 	
 	private IMainViewContract view;
 	private IModelContract model;
+	private CompositeDisposable disposable;
 	
 	private int lastSelectedSortBy;
 	private static final int POPULAR_SORT = 100;
@@ -21,12 +29,20 @@ final class MainPresenter implements IMainPresenterContract {
 	MainPresenter(IMainViewContract view) {
 		this.view = view;
 		model = Model.getInstance();
+		disposable = new CompositeDisposable();
 	}
 	
 	@Override
-	public void load() {
+	public void start() {
 		view.setUpView();
 		getPopularMovies();
+	}
+	
+	@Override
+	public void stop() {
+		disposable.clear();
+		view = null;
+		model = null;
 	}
 	
 	
@@ -55,25 +71,66 @@ final class MainPresenter implements IMainPresenterContract {
 	private void getMovies(int sortBy, boolean forceRefresh) {
 		lastSelectedSortBy = sortBy;
 		startLoading();
+		
 		switch (sortBy) {
 			case POPULAR_SORT:
-				replaceData(model.getPopularMovies(forceRefresh));
-				setViewTitle(view.getPopularTitle());
+				disposable.add(
+						model.getPopularMovies(forceRefresh)
+								.subscribeOn(Schedulers.io())
+								.observeOn(AndroidSchedulers.mainThread())
+								.subscribeWith(popularObserver())
+				);
 				break;
 			case HIGHEST_RATED_SORT:
-				replaceData(model.getHighestRatedMovies(forceRefresh));
-				setViewTitle(view.getHighestRatedTitle());
+				disposable.add(
+						model.getHighestRatedMovies(forceRefresh)
+								.subscribeOn(Schedulers.io())
+								.observeOn(AndroidSchedulers.mainThread())
+								.subscribeWith(highestRatedObserver())
+				);
 				break;
 		}
-		finishedLoading();
+	}
+
+	private DisposableSingleObserver<List<Movie>> popularObserver() {
+		return new DisposableSingleObserver<List<Movie>>() {
+			@Override
+			public void onSuccess(List<Movie> movies) {
+				replaceData(movies);
+				setViewTitle(view.getPopularTitle());
+				finishedLoading();
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				// Will handle prior to submission
+			}
+		};
+	}
+
+	private DisposableSingleObserver<List<Movie>> highestRatedObserver() {
+		return new DisposableSingleObserver<List<Movie>>() {
+			@Override
+			public void onSuccess(List<Movie> movies) {
+				replaceData(movies);
+				setViewTitle(view.getHighestRatedTitle());
+				finishedLoading();
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				// Will handle prior to submission
+			}
+		};
+	}
+	
+	
+	private void replaceData(List<Movie> list) {
+		view.replaceData(list);
 	}
 	
 	private void setViewTitle(String title) {
 		view.setTitle(title);
-	}
-	
-	private void replaceData(List<Movie> list) {
-		view.replaceData(list);
 	}
 	
 	
@@ -85,13 +142,13 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	private void startLoading() {
 		view.showLoading();
-		view.hideList();
+//		view.hideList();
 		view.hideFab();
 	}
 	
 	private void finishedLoading() {
 		view.hideLoading();
-		view.showList();
+//		view.showList();
 		view.showFab();
 	}
 }

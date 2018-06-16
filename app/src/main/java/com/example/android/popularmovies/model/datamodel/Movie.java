@@ -8,8 +8,8 @@ public final class Movie {
 	private final String title;
 	
 	
-	@SerializedName("vote_average")
-	private final float rating;
+//	@SerializedName("vote_average")
+	private final float vote_average;
 	
 	@SerializedName("release_date")
 	private final String releaseDate;
@@ -27,7 +27,7 @@ public final class Movie {
 	
 	public Movie(String title, int rating, String releaseDate, String description, String posterUrl, String backdropUrl) {
 		this.title = title;
-		this.rating = rating;
+		this.vote_average = rating;
 		this.releaseDate = releaseDate;
 		this.description = description;
 		this.posterUrl = posterUrl;
@@ -40,7 +40,7 @@ public final class Movie {
 	}
 	
 	public float getRating() {
-		return rating;
+		return vote_average;
 	}
 	
 	public String getReleaseDate() {

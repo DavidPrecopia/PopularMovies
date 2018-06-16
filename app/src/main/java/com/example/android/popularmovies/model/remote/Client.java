@@ -3,18 +3,18 @@ package com.example.android.popularmovies.model.remote;
 import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.datamodel.ResultsHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
+import io.reactivex.Single;
+import io.reactivex.functions.Function;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 final class Client {
 	
+	private static final String LOG_TAG = Client.class.getSimpleName();
 	private final MovieDbApi movieDbApi;
-	
-	private List<Movie> movieList;
 	
 	private static Client client;
 	
@@ -27,35 +27,32 @@ final class Client {
 	
 	private Client() {
 		Retrofit retrofit = new Retrofit.Builder()
-				.baseUrl(UrlManager.BASE_URL + "/")
+				.baseUrl(UrlManager.BASE_URL)
 				.addConverterFactory(GsonConverterFactory.create())
+				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.build();
 		movieDbApi = retrofit.create(MovieDbApi.class);
 	}
 	
 	
-	List<Movie> getMovies(String sortBy) {
+	Single<List<Movie>> getMovies(String sortBy) {
 		if (invalidSortBy(sortBy)) {
-			throw new IllegalArgumentException("Passed parameter not recognized");
+			throw new IllegalArgumentException("Parameter not recognized");
 		}
 		return queryNetwork(sortBy);
 	}
 	
-	private List<Movie> queryNetwork(String sortBy) {
-		Call<ResultsHolder> call = movieDbApi.getMovies(sortBy);
-		List<Movie> movieList = new ArrayList<>();
-		
-		call.enqueue(Remote.getInstance());
-		
-//		try {
-//			movieList = call.execute().body().getResults();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		return movieList;
+	private Single<List<Movie>> queryNetwork(String sortBy) {
+		return movieDbApi.getMovies(sortBy)
+				.map(new Function<ResultsHolder, List<Movie>>() {
+					@Override
+					public List<Movie> apply(ResultsHolder resultsHolder) throws Exception {
+						return resultsHolder.getResults();
+					}
+				});
 	}
 	
 	private boolean invalidSortBy(String sortBy) {
-		return ! sortBy.equals(UrlManager.QUERY_POPULAR) && ! sortBy.equals(UrlManager.QUERY_HIGHEST_RATED);
+		return !sortBy.equals(UrlManager.QUERY_POPULAR) && !sortBy.equals(UrlManager.QUERY_HIGHEST_RATED);
 	}
 }

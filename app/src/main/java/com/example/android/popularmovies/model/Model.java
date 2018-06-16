@@ -4,10 +4,12 @@ import com.example.android.popularmovies.model.contracts_back.ILocalStorage;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
 import com.example.android.popularmovies.model.datamodel.Movie;
-import com.example.android.popularmovies.model.local.Local;
-import com.example.android.popularmovies.model.remote.Remote;
+import com.example.android.popularmovies.model.local.LocalStorage;
+import com.example.android.popularmovies.model.remote.RemoteStorage;
 
 import java.util.List;
+
+import io.reactivex.Single;
 
 public final class Model implements IModelContract {
 	
@@ -24,27 +26,27 @@ public final class Model implements IModelContract {
 	}
 	
 	private Model() {
-		remoteStorage = Remote.getInstance();
-		localStorage = Local.getInstance();
+		remoteStorage = RemoteStorage.getInstance();
+		localStorage = LocalStorage.getInstance();
 	}
 	
 	
-	// TODO replace date in local
 	@Override
-	public List<Movie> getPopularMovies(boolean forceRefresh) {
-		if (shouldRefresh(forceRefresh, localStorage.havePopular())) {
-			remoteStorage.getPopularMovies();
-		}
-		return localStorage.getPopularMovies();
+	public Single<List<Movie>> getPopularMovies(boolean forceRefresh) {
+		return remoteStorage.getPopularMovies();
+//		if (shouldRefresh(forceRefresh, localStorage.havePopular())) {
+//		} else {
+//			return localStorage.getPopularMovies();
+//		}
 	}
 	
-	// TODO Replace data in local
 	@Override
-	public List<Movie> getHighestRatedMovies(boolean forceRefresh) {
-		if (shouldRefresh(forceRefresh, localStorage.haveHighestRated())) {
-			remoteStorage.getHighestRatedMovies();
-		}
-		return localStorage.getHighestRatedMovies();
+	public Single<List<Movie>> getHighestRatedMovies(boolean forceRefresh) {
+		return remoteStorage.getHighestRatedMovies();
+//		if (shouldRefresh(forceRefresh, localStorage.haveHighestRated())) {
+//		} else {
+//			return localStorage.getHighestRatedMovies();
+//		}
 	}
 	
 	private boolean shouldRefresh(boolean forceRefresh, boolean haveLocal) {

@@ -2,8 +2,8 @@ package com.example.android.popularmovies.activities;
 
 import android.text.TextUtils;
 
-import com.example.android.popularmovies.activities.contracts_font.IDetailPresenterContract;
-import com.example.android.popularmovies.activities.contracts_font.IDetailViewContract;
+import com.example.android.popularmovies.activities.contracts_front.IDetailPresenterContract;
+import com.example.android.popularmovies.activities.contracts_front.IDetailViewContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
 
 final class DetailPresenter implements IDetailPresenterContract {

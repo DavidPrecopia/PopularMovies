@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.activities.contracts_font.IMainPresenterContract;
-import com.example.android.popularmovies.activities.contracts_font.IMainViewContract;
+import com.example.android.popularmovies.activities.contracts_front.IMainPresenterContract;
+import com.example.android.popularmovies.activities.contracts_front.IMainViewContract;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
 import com.example.android.popularmovies.model.datamodel.Movie;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		
 		presenter = new MainPresenter(this);
-		presenter.load();
+		presenter.start();
 	}
 	
 	
@@ -77,12 +77,19 @@ public class MainActivity extends AppCompatActivity
 		binding.fabSortPopular.setOnClickListener(fabPopularListener());
 	}
 	
+	// TODO Fix fabBase closing when clicked
 	private View.OnClickListener fabRatedListener() {
-		return v -> presenter.getHighestRatedMovies();
+		return v -> {
+			binding.fabBase.close(false);
+			presenter.getHighestRatedMovies();
+		};
 	}
 	
 	private View.OnClickListener fabPopularListener() {
-		return v -> presenter.getPopularMovies();
+		return v -> {
+			binding.fabBase.close(false);
+			presenter.getPopularMovies();
+		};
 	}
 	
 	private void setUpSwipeRefresh() {
@@ -192,8 +199,7 @@ public class MainActivity extends AppCompatActivity
 		private List<Movie> movies;
 		
 		MovieAdapter(List<Movie> movies) {
-			this.movies = new ArrayList<>();
-			this.movies = movies;
+			this.movies = new ArrayList<>(movies);
 		}
 		
 		@NonNull
@@ -211,7 +217,7 @@ public class MainActivity extends AppCompatActivity
 		
 		private void replaceData(List<Movie> newMovies) {
 			this.movies.clear();
-			this.movies = newMovies;
+			this.movies.addAll(newMovies);
 			notifyDataSetChanged();
 		}
 		
