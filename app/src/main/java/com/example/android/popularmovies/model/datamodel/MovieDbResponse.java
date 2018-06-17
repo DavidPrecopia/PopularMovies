@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * This will initially hold de-serialized list of movies from MovieDb.
  */
-public final class ResultsHolder {
+public final class MovieDbResponse {
 
 	private final List<Movie> results;
 	
-	public ResultsHolder() {
+	public MovieDbResponse() {
 		this.results = new ArrayList<>();
 	}
 	
