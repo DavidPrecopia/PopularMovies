@@ -6,7 +6,7 @@ import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-interface MovieDbApi {
-	@GET(UrlManager.SORT_BY_URL)
-	Single<ResultsHolder> getMovies(@Query(UrlManager.QUERY) String sortBy);
+interface MovieDbService {
+	@GET(UrlManager.SORT_RELATIVE_URL)
+	Single<ResultsHolder> getMovies(@Query(UrlManager.QUERY_TERM) String sortBy);
 }

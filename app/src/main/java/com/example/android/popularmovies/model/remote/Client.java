@@ -1,7 +1,5 @@
 package com.example.android.popularmovies.model.remote;
 
-import android.util.Log;
-
 import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.datamodel.ResultsHolder;
 
@@ -15,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 final class Client {
 	
 	private static final String LOG_TAG = Client.class.getSimpleName();
-	private final MovieDbApi movieDbApi;
+	private final MovieDbService movieDbService;
 	
 	private static Client client;
 	
@@ -32,9 +30,8 @@ final class Client {
 				.addConverterFactory(GsonConverterFactory.create())
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.build();
-		movieDbApi = retrofit.create(MovieDbApi.class);
+		movieDbService = retrofit.create(MovieDbService.class);
 	}
-	
 	
 	Single<List<Movie>> getMovies(String sortBy) {
 		if (invalidSortBy(sortBy)) {
@@ -44,8 +41,7 @@ final class Client {
 	}
 	
 	private Single<List<Movie>> queryNetwork(String sortBy) {
-		Log.d(LOG_TAG, UrlManager.BASE_URL + UrlManager.SORT_BY_URL + UrlManager.QUERY_POPULAR);
-		return movieDbApi.getMovies(sortBy)
+		return movieDbService.getMovies(sortBy)
 				.map(ResultsHolder::getResults);
 	}
 	

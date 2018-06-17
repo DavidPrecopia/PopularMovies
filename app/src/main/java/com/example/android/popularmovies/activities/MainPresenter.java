@@ -37,7 +37,7 @@ final class MainPresenter implements IMainPresenterContract {
 	@Override
 	public void start() {
 		view.setUpView();
-		getPopularMovies();
+		getHighestRatedMovies();
 	}
 	
 	@Override
@@ -50,11 +50,13 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	@Override
 	public void getPopularMovies() {
+		lastSelectedSortBy = POPULAR_SORT;
 		getMovies(POPULAR_SORT, false);
 	}
 	
 	@Override
 	public void getHighestRatedMovies() {
+		lastSelectedSortBy = HIGHEST_RATED_SORT;
 		getMovies(HIGHEST_RATED_SORT, false);
 	}
 	
@@ -71,7 +73,6 @@ final class MainPresenter implements IMainPresenterContract {
 	}
 	
 	private void getMovies(int sortBy, boolean forceRefresh) {
-		lastSelectedSortBy = sortBy;
 		startLoading();
 		switch (sortBy) {
 			case POPULAR_SORT:

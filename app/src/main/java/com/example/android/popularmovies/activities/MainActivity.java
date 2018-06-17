@@ -73,21 +73,21 @@ public class MainActivity extends AppCompatActivity
 		FloatingActionMenu fam = binding.fabBase;
 		fam.setIconAnimated(false);
 		fam.setClosedOnTouchOutside(true);
-		binding.fabSortRated.setOnClickListener(fabRatedListener());
 		binding.fabSortPopular.setOnClickListener(fabPopularListener());
-	}
-	
-	private View.OnClickListener fabRatedListener() {
-		return v -> {
-			binding.fabBase.close(false);
-			presenter.getHighestRatedMovies();
-		};
+		binding.fabSortRated.setOnClickListener(fabRatedListener());
 	}
 	
 	private View.OnClickListener fabPopularListener() {
 		return v -> {
 			binding.fabBase.close(false);
 			presenter.getPopularMovies();
+		};
+	}
+	
+	private View.OnClickListener fabRatedListener() {
+		return v -> {
+			binding.fabBase.close(false);
+			presenter.getHighestRatedMovies();
 		};
 	}
 	
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity
 			}
 			
 			private String posterUrl() {
-				return UrlManager.IMAGE_URL + movie.getPosterUrl();
+				return UrlManager.POSTER_URL + movie.getPosterUrl();
 			}
 			
 			private void bindTitle() {

@@ -44,7 +44,7 @@ final class DetailPresenter implements IDetailPresenterContract {
 	}
 	
 	private String backdropUrl(String imageUrl) {
-		return UrlManager.IMAGE_URL + imageUrl;
+		return UrlManager.BACKDROP_URL + imageUrl;
 	}
 	
 	private void setUserRating() {
