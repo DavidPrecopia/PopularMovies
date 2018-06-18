@@ -10,7 +10,6 @@ import com.example.android.popularmovies.activities.contracts_front.IDetailViewC
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
 import com.example.android.popularmovies.model.datamodel.Movie;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -54,7 +53,9 @@ public class DetailActivity extends AppCompatActivity implements IDetailViewCont
 	
 	@Override
 	public void setBackdrop(String imageUrl) {
-		Picasso.get().load(imageUrl).into(binding.ivPosterDetailActivity);
+		GlideApp.with(this)
+				.load(imageUrl)
+				.into(binding.ivPosterDetailActivity);
 	}
 	
 	@Override

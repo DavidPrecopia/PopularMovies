@@ -1,7 +1,5 @@
 package com.example.android.popularmovies.model;
 
-import android.util.Log;
-
 import com.example.android.popularmovies.model.contracts_back.ILocalStorage;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
@@ -15,7 +13,6 @@ import io.reactivex.Single;
 
 public final class Model implements IModelContract {
 	
-	private final IRemoteStorage remoteStorage;
 	private final ILocalStorage localStorage;
 	
 	private final Single<List<Movie>> popularFromRemote;
@@ -32,8 +29,8 @@ public final class Model implements IModelContract {
 	
 	private Model() {
 		localStorage = LocalStorage.getInstance();
-		remoteStorage = RemoteStorage.getInstance();
 		
+		IRemoteStorage remoteStorage = RemoteStorage.getInstance();
 		popularFromRemote = remoteStorage.getPopularMovies()
 				.map(movies -> {
 					localStorage.replacePopularMovies(movies);
@@ -46,14 +43,11 @@ public final class Model implements IModelContract {
 				});
 	}
 	
-	private static final String LOG_TAG = Model.class.getSimpleName();
 	@Override
 	public Single<List<Movie>> getPopularMovies() {
 		if (localStorage.havePopular()) {
-			Log.d(LOG_TAG, "pop local");
 			return localStorage.getPopularMovies();
 		} else {
-			Log.d(LOG_TAG, "pop remote");
 			return forceRefreshPopularMovies();
 		}
 	}
@@ -61,10 +55,8 @@ public final class Model implements IModelContract {
 	@Override
 	public Single<List<Movie>> getHighestRatedMovies() {
 		if (localStorage.haveHighestRated()) {
-			Log.d(LOG_TAG, "rated local");
 			return localStorage.getHighestRatedMovies();
 		} else {
-			Log.d(LOG_TAG, "rated remote");
 			return forceRefreshHighestRatedMovies();
 		}
 	}

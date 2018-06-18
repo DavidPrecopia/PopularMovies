@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,7 +25,6 @@ import com.example.android.popularmovies.databinding.ListItemBinding;
 import com.example.android.popularmovies.model.datamodel.Movie;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,10 +64,18 @@ public class MainActivity extends AppCompatActivity
 	
 	private void setUpRecyclerView() {
 		RecyclerView recyclerView = binding.recyclerView;
-		recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
+		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount(), LinearLayoutManager.VERTICAL, false));
 		recyclerView.setHasFixedSize(true);
 		this.movieAdapter = new MovieAdapter(new ArrayList<>());
 		recyclerView.setAdapter(movieAdapter);
+	}
+	
+	private int gridLayoutSpanCount() {
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			return 4;
+		} else {
+			return 2;
+		}
 	}
 	
 	private void setUpFloatingActionMenu() {
@@ -278,7 +286,7 @@ public class MainActivity extends AppCompatActivity
 			}
 			
 			private void bindPoster() {
-				Picasso.get()
+				GlideApp.with(MainActivity.this)
 						.load(posterUrl())
 						.into(binding.ivPosterListItem);
 			}
