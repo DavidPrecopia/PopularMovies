@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity
 	
 	private ActivityMainBinding binding;
 	private MovieAdapter movieAdapter;
+	private MenuItem menuRefreshItem;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menuRefreshItem = menu.findItem(R.menu.menu_refresh);
 		getMenuInflater().inflate(R.menu.menu_refresh, menu);
 		return true;
 	}
@@ -130,10 +132,26 @@ public class MainActivity extends AppCompatActivity
 	}
 	
 	@Override
+	public void enableRefreshing() {
+		binding.swipeRefresh.setVisibility(View.VISIBLE);
+		if (menuRefreshItem != null) {
+			menuRefreshItem.setVisible(true);
+		}
+	}
+	
+	@Override
+	public void disableRefreshing() {
+		binding.swipeRefresh.setVisibility(View.INVISIBLE);
+		if (menuRefreshItem != null) {
+			menuRefreshItem.setVisible(false);
+		}
+	}
+	
+	@Override
 	public void showError(String message) {
-		TextView error = binding.tvError;
-		error.setVisibility(View.VISIBLE);
-		error.setText(message);
+		TextView tvError = binding.tvError;
+		tvError.setVisibility(View.VISIBLE);
+		tvError.setText(message);
 	}
 	
 	@Override
@@ -193,12 +211,19 @@ public class MainActivity extends AppCompatActivity
 		presenter.onRefresh();
 	}
 	
-	
 	@Override
-	protected void onStop() {
-		super.onStop();
+	protected void onPause() {
+		super.onPause();
 		presenter.stop();
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		presenter.destroy();
+		presenter = null;
+	}
+	
 	
 	private class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 		

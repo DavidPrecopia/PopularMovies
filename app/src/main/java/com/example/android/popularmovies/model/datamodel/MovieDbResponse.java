@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This will initially hold de-serialized list of movies from MovieDb.
+ * This will initially hold the de-serialized list of movies from The MovieDb.
  */
 public final class MovieDbResponse {
 
@@ -14,7 +14,7 @@ public final class MovieDbResponse {
 		this.results = new ArrayList<>();
 	}
 	
-	public List<Movie> getResults() {
+	public List<Movie> getMoviesList() {
 		return results;
 	}
 }

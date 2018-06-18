@@ -15,7 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 final class Client {
 	
-	private static final String LOG_TAG = Client.class.getSimpleName();
 	private final MovieDbService movieDbService;
 	
 	private static Client client;
@@ -56,8 +55,8 @@ final class Client {
 	}
 	
 	private Single<List<Movie>> queryNetwork(String sortBy) {
-		return movieDbService.getMovies(sortBy)
-				.map(MovieDbResponse::getResults);
+		return movieDbService.getMoviesSorted(sortBy)
+				.map(MovieDbResponse::getMoviesList);
 	}
 	
 	private boolean invalidSortBy(String sortBy) {

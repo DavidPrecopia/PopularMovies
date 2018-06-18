@@ -5,6 +5,7 @@ import com.example.android.popularmovies.model.datamodel.Movie;
 public interface IMainPresenterContract {
 	void start();
 	void stop();
+	void destroy();
 	
 	void onListItemClicked(Movie movie);
 	

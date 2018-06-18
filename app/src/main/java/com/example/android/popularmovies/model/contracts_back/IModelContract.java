@@ -7,6 +7,9 @@ import java.util.List;
 import io.reactivex.Single;
 
 public interface IModelContract {
-	Single<List<Movie>> getPopularMovies(boolean forceRefresh);
-	Single<List<Movie>> getHighestRatedMovies(boolean forceRefresh);
+	Single<List<Movie>> getPopularMovies();
+	Single<List<Movie>> getHighestRatedMovies();
+	
+	Single<List<Movie>> forceRefreshPopularMovies();
+	Single<List<Movie>> forceRefreshHighestRatedMovies();
 }

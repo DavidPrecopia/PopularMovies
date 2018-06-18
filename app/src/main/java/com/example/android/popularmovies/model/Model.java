@@ -13,11 +13,8 @@ import io.reactivex.Single;
 
 public final class Model implements IModelContract {
 	
-	private static final String LOG_TAG = Model.class.getSimpleName();
+	private final IRemoteStorage remoteStorage;
 	private final ILocalStorage localStorage;
-	
-	private final Single<List<Movie>> popularFromRemote;
-	private final Single<List<Movie>> highestRatedFromRemote;
 	
 	private static Model model;
 	
@@ -29,44 +26,45 @@ public final class Model implements IModelContract {
 	}
 	
 	private Model() {
-		IRemoteStorage remoteStorage = RemoteStorage.getInstance();
 		localStorage = LocalStorage.getInstance();
-		
-		popularFromRemote = remoteStorage.getPopularMovies()
+		remoteStorage = RemoteStorage.getInstance();
+	}
+	
+	
+	@Override
+	public Single<List<Movie>> getPopularMovies() {
+		if (localStorage.havePopular()) {
+			return localStorage.getPopularMovies();
+		} else {
+			return forceRefreshPopularMovies();
+		}
+	}
+	
+	@Override
+	public Single<List<Movie>> getHighestRatedMovies() {
+		if (localStorage.haveHighestRated()) {
+			return localStorage.getHighestRatedMovies();
+		} else {
+			return forceRefreshHighestRatedMovies();
+		}
+	}
+	
+	
+	@Override
+	public Single<List<Movie>> forceRefreshPopularMovies() {
+		return remoteStorage.getPopularMovies()
 				.map(movies -> {
 					localStorage.replacePopularMovies(movies);
 					return movies;
 				});
-		
-		highestRatedFromRemote = remoteStorage.getHighestRatedMovies()
+	}
+	
+	@Override
+	public Single<List<Movie>> forceRefreshHighestRatedMovies() {
+		return remoteStorage.getHighestRatedMovies()
 				.map(movies -> {
 					localStorage.replaceHighestRatedMovies(movies);
 					return movies;
 				});
-	}
-	
-	
-	
-	@Override
-	public Single<List<Movie>> getPopularMovies(boolean forceRefresh) {
-		if (shouldRefresh(forceRefresh, localStorage.havePopular())) {
-			return popularFromRemote;
-		} else {
-			return localStorage.getPopularMovies();
-		}
-	}
-	
-	@Override
-	public Single<List<Movie>> getHighestRatedMovies(boolean forceRefresh) {
-		if (shouldRefresh(forceRefresh, localStorage.haveHighestRated())) {
-			return highestRatedFromRemote;
-		} else {
-			return localStorage.getHighestRatedMovies();
-		}
-	}
-	
-	
-	private boolean shouldRefresh(boolean forceRefresh, boolean haveLocal) {
-		return forceRefresh || ! haveLocal;
 	}
 }

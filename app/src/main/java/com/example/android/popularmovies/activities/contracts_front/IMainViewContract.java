@@ -16,6 +16,9 @@ public interface IMainViewContract {
 	void showLoading();
 	void hideLoading();
 	
+	void enableRefreshing();
+	void disableRefreshing();
+	
 	void showError(String message);
 	void hideError();
 	

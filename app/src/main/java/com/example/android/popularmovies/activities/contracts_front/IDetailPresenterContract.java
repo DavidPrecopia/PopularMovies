@@ -3,5 +3,5 @@ package com.example.android.popularmovies.activities.contracts_front;
 import com.example.android.popularmovies.model.datamodel.Movie;
 
 public interface IDetailPresenterContract {
-	void load(Movie movie);
+	void start(Movie movie);
 }

@@ -25,7 +25,7 @@ public class DetailActivity extends AppCompatActivity implements IDetailViewCont
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 		
 		presenter = new DetailPresenter(this);
-		presenter.load(movieFromIntent());
+		presenter.start(movieFromIntent());
 	}
 	
 	private Movie movieFromIntent() {
@@ -70,5 +70,12 @@ public class DetailActivity extends AppCompatActivity implements IDetailViewCont
 	@Override
 	public void setDescription(String description) {
 		binding.description.setText(description);
+	}
+	
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		presenter = null;
 	}
 }
