@@ -29,7 +29,6 @@ final class Client {
 	private Client() {
 		movieDbService = new Retrofit.Builder()
 				.baseUrl(UrlManager.BASE_URL)
-				.client(customOkHttpClient())
 				.addConverterFactory(GsonConverterFactory.create())
 				.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 				.build()
@@ -40,7 +39,7 @@ final class Client {
 		OkHttpClient.Builder builder = new OkHttpClient.Builder();
 		if (BuildConfig.DEBUG) {
 			HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-			logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+			logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 			builder.addInterceptor(logging);
 		}
 		return builder.build();
@@ -55,7 +54,7 @@ final class Client {
 	}
 	
 	private Single<List<Movie>> queryNetwork(String sortBy) {
-		return movieDbService.getMoviesSorted(sortBy)
+		return movieDbService.sortedMovies(sortBy)
 				.map(MovieDbResponse::getMoviesList);
 	}
 	

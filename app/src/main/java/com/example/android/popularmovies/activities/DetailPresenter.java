@@ -11,7 +11,7 @@ final class DetailPresenter implements IDetailPresenterContract {
 	private IDetailViewContract view;
 	
 	private Movie movie;
-	private static final String DATE_SEPARATOR = ", ";
+	private static final String DATE_SEPARATOR = "/";
 	
 	DetailPresenter(IDetailViewContract view) {
 		this.view = view;
@@ -63,14 +63,20 @@ final class DetailPresenter implements IDetailPresenterContract {
 		String[] dateArray = movie.getReleaseDate().split("-");
 		// Android Studio recommended concatenating a String
 		// instead of using StringBuilder
-		return dateArray[2]
+		return dateArray[1]
 				+ DATE_SEPARATOR
-				+ dateArray[3]
+				+ dateArray[2]
 				+ DATE_SEPARATOR
 				+ dateArray[0];
 	}
 	
 	private void setDescription() {
 		view.setDescription(movie.getDescription());
+	}
+	
+	
+	@Override
+	public void destroy() {
+		view = null;
 	}
 }

@@ -76,6 +76,7 @@ public class DetailActivity extends AppCompatActivity implements IDetailViewCont
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		presenter.destroy();
 		presenter = null;
 	}
 }

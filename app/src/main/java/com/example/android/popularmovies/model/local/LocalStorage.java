@@ -53,11 +53,11 @@ public final class LocalStorage implements ILocalStorage {
 	
 	@Override
 	public boolean havePopular() {
-		return ! popularCache.isEmpty();
+		return !popularCache.isEmpty();
 	}
 	
 	@Override
 	public boolean haveHighestRated() {
-		return ! highestRatedCache.isEmpty();
+		return !highestRatedCache.isEmpty();
 	}
 }
