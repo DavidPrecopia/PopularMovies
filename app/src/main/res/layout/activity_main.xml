@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:background="@color/activityBackground" >
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 	
 	<android.support.design.widget.CoordinatorLayout
 		android:id="@+id/coordinator_layout"
@@ -55,6 +54,7 @@
 			android:layout_gravity="center"
 			android:drawableTop="@drawable/ic_error_outline_36px"
 			android:gravity="center"
+			android:textColor="@color/errorText"
 			android:visibility="invisible" />
 		
 		
@@ -85,7 +85,7 @@
 				android:id="@+id/fab_sort_popular"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:src="@drawable/ic_star_18px"
+				android:src="@drawable/ic_star_24px"
 				app:fab_colorNormal="@color/colorAccent"
 				app:fab_label="@string/fab_label_popular"
 				app:fab_showShadow="true"

@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity
 	
 	private class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 		
-		private List<Movie> movies;
+		private final List<Movie> movies;
 		
 		MovieAdapter(List<Movie> movies) {
 			this.movies = new ArrayList<>(movies);
@@ -262,13 +262,13 @@ public class MainActivity extends AppCompatActivity
 		
 		@Override
 		public int getItemCount() {
-			return movies == null ? 0 : movies.size();
+			return movies.size();
 		}
 		
 		
 		class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 			
-			private ListItemBinding binding;
+			private final ListItemBinding binding;
 			private Movie movie;
 			
 			MovieViewHolder(ListItemBinding binding) {

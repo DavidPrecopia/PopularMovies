@@ -19,7 +19,7 @@ final class MainPresenter implements IMainPresenterContract {
 	private IMainViewContract view;
 	private IModelContract model;
 	
-	private CompositeDisposable disposable;
+	private final CompositeDisposable disposable;
 	
 	private int lastSelectedSortBy;
 	private static final int POPULAR_SORT = 100;
