@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
-		implements SwipeRefreshLayout.OnRefreshListener, IMainViewContract {
+		implements IMainViewContract, SwipeRefreshLayout.OnRefreshListener {
 	
 	private IMainPresenterContract presenter;
 	
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		
-		presenter = new MainPresenter(this);
+		presenter = new MainPresenter(this, new NetworkUtil(getApplicationContext()));
 		presenter.start();
 	}
 	
@@ -155,17 +155,19 @@ public class MainActivity extends AppCompatActivity
 		}
 	}
 	
+	
 	@Override
 	public void showError(String message) {
 		TextView tvError = binding.tvError;
-		tvError.setVisibility(View.VISIBLE);
 		tvError.setText(message);
+		tvError.setVisibility(View.VISIBLE);
 	}
 	
 	@Override
 	public void hideError() {
 		binding.tvError.setVisibility(View.INVISIBLE);
 	}
+	
 	
 	@Override
 	public void showList() {

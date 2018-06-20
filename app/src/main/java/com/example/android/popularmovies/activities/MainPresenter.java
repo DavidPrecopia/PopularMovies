@@ -1,7 +1,10 @@
 package com.example.android.popularmovies.activities;
 
+import android.util.Log;
+
 import com.example.android.popularmovies.activities.contracts_front.IMainPresenterContract;
 import com.example.android.popularmovies.activities.contracts_front.IMainViewContract;
+import com.example.android.popularmovies.activities.contracts_front.INetworkUtilContract;
 import com.example.android.popularmovies.model.Model;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
@@ -16,19 +19,26 @@ import io.reactivex.schedulers.Schedulers;
 
 final class MainPresenter implements IMainPresenterContract {
 	
+	private static final String LOG_TAG = MainPresenter.class.getSimpleName();
+	
+	private static final String NO_NETWORK_ERROR_MESSAGE = "No internet connection";
+	private static final String GENERIC_ERROR_MESSAGE = "Encounter an error";
+	
 	private IMainViewContract view;
 	private IModelContract model;
 	
+	private final INetworkUtilContract networkUtil;
 	private final CompositeDisposable disposable;
 	
 	private int lastSelectedSortBy;
 	private static final int POPULAR_SORT = 100;
 	private static final int HIGHEST_RATED_SORT = 200;
 	
-	MainPresenter(IMainViewContract view) {
+	MainPresenter(IMainViewContract view, INetworkUtilContract networkUtil) {
 		this.view = view;
-		model = Model.getInstance();
-		disposable = new CompositeDisposable();
+		this.model = Model.getInstance();
+		this.networkUtil = networkUtil;
+		this.disposable = new CompositeDisposable();
 	}
 	
 	
@@ -46,6 +56,11 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	@Override
 	public void onRefresh() {
+		if (noNetworkConnection()) {
+			showError(NO_NETWORK_ERROR_MESSAGE);
+			return;
+		}
+		
 		switch (lastSelectedSortBy) {
 			case POPULAR_SORT:
 				getMovies(model.forceRefreshPopularMovies(), view.getPopularTitle());
@@ -56,9 +71,10 @@ final class MainPresenter implements IMainPresenterContract {
 		}
 	}
 	
-	
 	private void getMovies(final Single<List<Movie>> single, final String viewTitle) {
+		hideError();
 		startLoading();
+		
 		disposable.add(single
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
@@ -77,7 +93,8 @@ final class MainPresenter implements IMainPresenterContract {
 			
 			@Override
 			public void onError(Throwable e) {
-				// Will handle prior to submission
+				Log.d(LOG_TAG, e.getMessage());
+				showError(GENERIC_ERROR_MESSAGE);
 			}
 		};
 	}
@@ -88,6 +105,21 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	private void setViewTitle(String title) {
 		view.setTitle(title);
+	}
+	
+	
+	private void showError(String message) {
+		view.hideLoading();
+		view.enableRefreshing();
+		view.showError(message);
+	}
+	
+	private void hideError() {
+		view.hideError();
+	}
+	
+	private boolean noNetworkConnection() {
+		return ! networkUtil.haveConnection();
 	}
 	
 	
@@ -115,7 +147,12 @@ final class MainPresenter implements IMainPresenterContract {
 	@Override
 	public void start() {
 		view.setUpView();
-		getPopularMovies();
+		
+		if (noNetworkConnection()) {
+			showError(NO_NETWORK_ERROR_MESSAGE);
+		} else {
+			getPopularMovies();
+		}
 	}
 	
 	@Override

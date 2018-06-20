@@ -8,5 +8,5 @@
 	<!--Background when the FloatingActionMenu is open-->
 	<color name="fabFadedBackground">#80000000</color>
 	
-	<color name="errorText">#C51162</color>
+	<color name="error">#FF0000</color>
 </resources>
