@@ -290,6 +290,8 @@ public class MainActivity extends AppCompatActivity
 			private void bindPoster() {
 				GlideApp.with(MainActivity.this)
 						.load(posterUrl())
+						.placeholder(R.drawable.black_placeholder)
+						.error(R.drawable.black_placeholder)
 						.into(binding.ivPosterListItem);
 			}
 			

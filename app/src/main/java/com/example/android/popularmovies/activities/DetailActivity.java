@@ -55,6 +55,8 @@ public class DetailActivity extends AppCompatActivity implements IDetailViewCont
 	public void setBackdrop(String imageUrl) {
 		GlideApp.with(this)
 				.load(imageUrl)
+				.placeholder(R.drawable.black_placeholder)
+				.error(R.drawable.black_placeholder)
 				.into(binding.ivPosterDetailActivity);
 	}
 	

@@ -47,6 +47,7 @@ public final class Model implements IModelContract {
 				});
 	}
 	
+	
 	@Override
 	public Single<List<Movie>> getPopularMovies() {
 		if (localStorage.havePopular()) {

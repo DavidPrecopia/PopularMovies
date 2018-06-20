@@ -1,5 +1,7 @@
 package com.example.android.popularmovies.model.remote;
 
+import android.util.Log;
+
 import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
 import com.example.android.popularmovies.model.datamodel.Movie;
 
@@ -26,6 +28,7 @@ public final class RemoteStorage implements IRemoteStorage {
 	
 	
 	public Single<List<Movie>> getPopularMovies() {
+		Log.d("LOG_TAG", "getPopularMovies");
 		return client.getMovies(UrlManager.QUERY_POPULAR);
 	}
 	

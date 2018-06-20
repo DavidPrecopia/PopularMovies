@@ -110,6 +110,7 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	private void showError(String message) {
 		view.hideLoading();
+		view.hideFab();
 		view.enableRefreshing();
 		view.showError(message);
 	}
