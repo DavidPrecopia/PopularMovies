@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_refresh_item:
+			case R.id.menu_item_refresh:
 				presenter.onRefresh();
 				return true;
 			default:

@@ -72,7 +72,7 @@
 			android:contentDescription="@string/fab_label_main"
 			android:elevation="@dimen/view_elevation"
 			android:padding="@dimen/standard_margin"
-			app:menu_backgroundColor="@color/fabFadedBackground"
+			app:menu_backgroundColor="@color/famFadedBackground"
 			app:menu_colorNormal="@color/colorAccent"
 			app:menu_fab_label="@string/fab_label_main"
 			app:menu_fab_size="normal"
@@ -101,7 +101,5 @@
 				app:fab_size="mini" />
 		
 		</com.github.clans.fab.FloatingActionMenu>
-	
 	</android.support.design.widget.CoordinatorLayout>
-
 </layout>

@@ -6,7 +6,8 @@
 	<color name="activityBackground">#424242</color>
 	
 	<!--Background when the FloatingActionMenu is open-->
-	<color name="fabFadedBackground">#80000000</color>
+	<!--80% transparency-->
+	<color name="famFadedBackground">#80000000</color>
 	
 	<color name="error">#FF0000</color>
 </resources>

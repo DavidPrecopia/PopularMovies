@@ -10,11 +10,8 @@ import com.example.android.popularmovies.model.remote.RemoteStorage;
 import java.util.List;
 
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 
 public final class Model implements IModelContract {
-	
-	private static final String LOG_TAG = Model.class.getSimpleName();
 	
 	private final ILocalStorage localStorage;
 	
@@ -38,14 +35,12 @@ public final class Model implements IModelContract {
 				.map(movies -> {
 					localStorage.replacePopularMovies(movies);
 					return movies;
-				})
-				.observeOn(Schedulers.io());
+				});
 		highestRatedFromRemote = remoteStorage.getHighestRatedMovies()
 				.map(movies -> {
 					localStorage.replaceHighestRatedMovies(movies);
 					return movies;
-				})
-				.observeOn(Schedulers.io());
+				});
 	}
 	
 	

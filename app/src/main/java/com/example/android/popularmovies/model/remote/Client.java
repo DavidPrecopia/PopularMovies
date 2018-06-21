@@ -6,7 +6,6 @@ import com.example.android.popularmovies.model.datamodel.MovieDbResponse;
 import java.util.List;
 
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -36,15 +35,14 @@ final class Client {
 	
 	Single<List<Movie>> getMovies(String sortBy) {
 		if (invalidSortBy(sortBy)) {
-			throw new IllegalArgumentException("Parameter not recognized");
+			throw new IllegalArgumentException("Parameter \"sortBy\" not recognized");
 		}
 		return queryNetwork(sortBy);
 	}
 	
 	private Single<List<Movie>> queryNetwork(String sortBy) {
 		return movieDbService.sortedMovies(sortBy)
-				.map(MovieDbResponse::getMoviesList)
-				.observeOn(Schedulers.io());
+				.map(MovieDbResponse::getMoviesList);
 	}
 	
 	private boolean invalidSortBy(String sortBy) {

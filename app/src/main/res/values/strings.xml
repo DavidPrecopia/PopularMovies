@@ -12,6 +12,4 @@
 	<string name="fab_label_main">Sort By</string>
 	
 	<string name="iv_poster_description">Movie poster</string>
-	
-	<string name="error_image">Error image</string>
 </resources>

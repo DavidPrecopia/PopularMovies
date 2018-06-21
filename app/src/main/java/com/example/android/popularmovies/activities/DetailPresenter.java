@@ -36,8 +36,8 @@ final class DetailPresenter implements IDetailPresenterContract {
 	}
 	
 	private void setBackdrop() {
-		String imageUrl = TextUtils.isEmpty(movie.getBackdropUrl()) ?
-				movie.getPosterUrl()
+		String imageUrl = TextUtils.isEmpty(movie.getBackdropUrl())
+				? movie.getPosterUrl()
 				: movie.getBackdropUrl();
 		view.setBackdrop(backdropUrl(imageUrl));
 	}
