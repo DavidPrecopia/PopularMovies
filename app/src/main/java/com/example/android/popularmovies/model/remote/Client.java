@@ -6,6 +6,7 @@ import com.example.android.popularmovies.model.datamodel.MovieDbResponse;
 import java.util.List;
 
 import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -42,7 +43,8 @@ final class Client {
 	
 	private Single<List<Movie>> queryNetwork(String sortBy) {
 		return movieDbService.sortedMovies(sortBy)
-				.map(MovieDbResponse::getMoviesList);
+				.map(MovieDbResponse::getMoviesList)
+				.observeOn(Schedulers.io());
 	}
 	
 	private boolean invalidSortBy(String sortBy) {

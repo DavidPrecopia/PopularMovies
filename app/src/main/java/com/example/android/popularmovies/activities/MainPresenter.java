@@ -26,9 +26,8 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	private IMainViewContract view;
 	private IModelContract model;
-	
-	private final INetworkUtilContract networkUtil;
-	private final CompositeDisposable disposable;
+	private INetworkUtilContract networkUtil;
+	private CompositeDisposable disposable;
 	
 	private int lastSelectedSortBy;
 	private static final int POPULAR_SORT = 100;
@@ -163,8 +162,10 @@ final class MainPresenter implements IMainPresenterContract {
 	
 	@Override
 	public void destroy() {
-		disposable.clear();
 		view = null;
 		model = null;
+		networkUtil = null;
+		disposable.clear();
+		disposable = null;
 	}
 }

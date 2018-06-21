@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-		
+
 		presenter = new MainPresenter(this, new NetworkUtil(getApplicationContext()));
 		presenter.start();
 	}
@@ -223,15 +223,15 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
 	protected void onPause() {
-		super.onPause();
 		presenter.stop();
+		super.onPause();
 	}
 	
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		presenter.destroy();
 		presenter = null;
+		super.onDestroy();
 	}
 	
 	
