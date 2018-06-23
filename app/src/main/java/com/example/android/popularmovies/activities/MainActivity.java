@@ -24,7 +24,6 @@ import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
 import com.example.android.popularmovies.model.datamodel.Movie;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,7 +198,7 @@ public class MainActivity extends AppCompatActivity
 	@Override
 	public void openSpecificMovie(Movie movie) {
 		Intent intent = new Intent(this, DetailActivity.class);
-		intent.putExtra(DetailActivity.class.getSimpleName(), new Gson().toJson(movie));
+		intent.putExtra(DetailActivity.class.getSimpleName(), movie);
 		startActivity(intent);
 	}
 	

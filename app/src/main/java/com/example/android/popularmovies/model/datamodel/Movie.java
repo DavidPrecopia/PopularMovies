@@ -1,12 +1,14 @@
 package com.example.android.popularmovies.model.datamodel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public final class Movie {
-
+public final class Movie implements Parcelable {
+	
 	@SerializedName("original_title")
 	private final String title;
-	
 	
 	@SerializedName("vote_average")
 	private final float rating;
@@ -16,7 +18,6 @@ public final class Movie {
 	
 	@SerializedName("overview")
 	private final String description;
-	
 	
 	@SerializedName("poster_path")
 	private final String posterUrl;
@@ -57,5 +58,43 @@ public final class Movie {
 	
 	public String getBackdropUrl() {
 		return backdropUrl;
+	}
+	
+	
+	public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+		@Override
+		public Movie createFromParcel(Parcel in) {
+			return new Movie(in);
+		}
+		
+		@Override
+		public Movie[] newArray(int size) {
+			return new Movie[size];
+		}
+	};
+	
+	protected Movie(Parcel in) {
+		title = in.readString();
+		rating = in.readFloat();
+		releaseDate = in.readString();
+		description = in.readString();
+		posterUrl = in.readString();
+		backdropUrl = in.readString();
+	}
+	
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		
+		dest.writeString(title);
+		dest.writeFloat(rating);
+		dest.writeString(releaseDate);
+		dest.writeString(description);
+		dest.writeString(posterUrl);
+		dest.writeString(backdropUrl);
 	}
 }

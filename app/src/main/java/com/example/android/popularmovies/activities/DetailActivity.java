@@ -9,7 +9,6 @@ import com.example.android.popularmovies.activities.contracts_front.IDetailPrese
 import com.example.android.popularmovies.activities.contracts_front.IDetailViewContract;
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
 import com.example.android.popularmovies.model.datamodel.Movie;
-import com.google.gson.Gson;
 
 import java.util.Objects;
 
@@ -28,10 +27,7 @@ public class DetailActivity extends AppCompatActivity implements IDetailViewCont
 	}
 	
 	private Movie movieFromIntent() {
-		return new Gson().fromJson(
-				getIntent().getStringExtra(DetailActivity.class.getSimpleName()),
-				Movie.class
-		);
+		return getIntent().getParcelableExtra(DetailActivity.class.getSimpleName());
 	}
 	
 	
