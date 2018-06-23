@@ -7,7 +7,11 @@ final class UrlManager {
 	}
 	
 	static final String BASE_URL = "https://api.themoviedb.org/";
-	
+
+	/**
+	 * API key hidden in local files.
+	 * Instructions: https://medium.com/code-better/hiding-api-keys-from-your-android-repository-b23f5598b906
+	 */
 	private static final String API_KEY = "api_key=" + BuildConfig.ApiKey;
 	static final String SORT_RELATIVE_URL = "3/discover/movie?" + API_KEY;
 	
