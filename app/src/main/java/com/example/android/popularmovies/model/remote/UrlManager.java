@@ -1,12 +1,14 @@
 package com.example.android.popularmovies.model.remote;
 
+import com.example.android.popularmovies.BuildConfig;
+
 final class UrlManager {
 	private UrlManager() {
 	}
 	
 	static final String BASE_URL = "https://api.themoviedb.org/";
 	
-	private static final String API_KEY = "api_key=" + ApiKey.apiKey;
+	private static final String API_KEY = "api_key=" + BuildConfig.ApiKey;
 	static final String SORT_RELATIVE_URL = "3/discover/movie?" + API_KEY;
 	
 	static final String SORT_BY_QUERY = "sort_by";
