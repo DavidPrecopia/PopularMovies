@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
@@ -36,13 +37,26 @@ public class MainActivity extends AppCompatActivity
 	
 	private ActivityMainBinding binding;
 	private MovieAdapter movieAdapter;
+	
+	private RecyclerView recyclerView;
+	private SwipeRefreshLayout swipeRefreshLayout;
+	private FloatingActionMenu floatingActionMenu;
+	private ProgressBar progressBar;
+	private TextView tvError;
+	
 	private MenuItem menuRefreshItem;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
+		
+		recyclerView = binding.recyclerView;
+		swipeRefreshLayout = binding.swipeRefresh;
+		floatingActionMenu = binding.fabBase;
+		progressBar = binding.progressBar;
+		tvError = binding.tvError;
+		
 		presenter = new MainPresenter(this, new NetworkUtil(getApplicationContext()));
 		presenter.start();
 	}
@@ -62,7 +76,6 @@ public class MainActivity extends AppCompatActivity
 	}
 	
 	private void setUpRecyclerView() {
-		RecyclerView recyclerView = binding.recyclerView;
 		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount(), LinearLayoutManager.VERTICAL, false));
 		recyclerView.setHasFixedSize(true);
 		this.movieAdapter = new MovieAdapter(new ArrayList<>());
@@ -78,29 +91,28 @@ public class MainActivity extends AppCompatActivity
 	}
 	
 	private void setUpFloatingActionMenu() {
-		FloatingActionMenu fam = binding.fabBase;
-		fam.setIconAnimated(false);
-		fam.setClosedOnTouchOutside(true);
+		floatingActionMenu.setIconAnimated(false);
+		floatingActionMenu.setClosedOnTouchOutside(true);
 		binding.fabSortPopular.setOnClickListener(fabPopularListener());
 		binding.fabSortRated.setOnClickListener(fabRatedListener());
 	}
 	
 	private View.OnClickListener fabPopularListener() {
 		return v -> {
-			binding.fabBase.close(false);
+			floatingActionMenu.close(false);
 			presenter.getPopularMovies();
 		};
 	}
 	
 	private View.OnClickListener fabRatedListener() {
 		return v -> {
-			binding.fabBase.close(false);
+			floatingActionMenu.close(false);
 			presenter.getHighestRatedMovies();
 		};
 	}
 	
 	private void setUpSwipeRefresh() {
-		binding.swipeRefresh.setOnRefreshListener(this);
+		swipeRefreshLayout.setOnRefreshListener(this);
 	}
 	
 	
@@ -130,17 +142,17 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
 	public void showLoading() {
-		binding.progressBar.setVisibility(View.VISIBLE);
+		progressBar.setVisibility(View.VISIBLE);
 	}
 	
 	@Override
 	public void hideLoading() {
-		binding.progressBar.setVisibility(View.INVISIBLE);
+		progressBar.setVisibility(View.INVISIBLE);
 	}
 	
 	@Override
 	public void enableRefreshing() {
-		binding.swipeRefresh.setVisibility(View.VISIBLE);
+		swipeRefreshLayout.setVisibility(View.VISIBLE);
 		if (menuRefreshItem != null) {
 			menuRefreshItem.setVisible(true);
 		}
@@ -148,7 +160,7 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
 	public void disableRefreshing() {
-		binding.swipeRefresh.setVisibility(View.INVISIBLE);
+		swipeRefreshLayout.setVisibility(View.INVISIBLE);
 		if (menuRefreshItem != null) {
 			menuRefreshItem.setVisible(false);
 		}
@@ -157,35 +169,34 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
 	public void showError(String message) {
-		TextView tvError = binding.tvError;
 		tvError.setText(message);
 		tvError.setVisibility(View.VISIBLE);
 	}
 	
 	@Override
 	public void hideError() {
-		binding.tvError.setVisibility(View.INVISIBLE);
+		tvError.setVisibility(View.INVISIBLE);
 	}
 	
 	
 	@Override
 	public void showList() {
-		binding.recyclerView.setVisibility(View.VISIBLE);
+		recyclerView.setVisibility(View.VISIBLE);
 	}
 	
 	@Override
 	public void hideList() {
-		binding.recyclerView.setVisibility(View.INVISIBLE);
+		recyclerView.setVisibility(View.INVISIBLE);
 	}
 	
 	@Override
 	public void showFab() {
-		binding.fabBase.setVisibility(View.VISIBLE);
+		floatingActionMenu.setVisibility(View.VISIBLE);
 	}
 	
 	@Override
 	public void hideFab() {
-		binding.fabBase.setVisibility(View.INVISIBLE);
+		floatingActionMenu.setVisibility(View.INVISIBLE);
 	}
 	
 	
@@ -216,7 +227,7 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
 	public void onRefresh() {
-		binding.swipeRefresh.setRefreshing(false);
+		swipeRefreshLayout.setRefreshing(false);
 		presenter.onRefresh();
 	}
 	
@@ -259,6 +270,7 @@ public class MainActivity extends AppCompatActivity
 			this.movies.clear();
 			this.movies.addAll(newMovies);
 			notifyDataSetChanged();
+			recyclerView.smoothScrollToPosition(0);
 		}
 		
 		@Override
@@ -270,42 +282,38 @@ public class MainActivity extends AppCompatActivity
 		class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 			
 			private final ListItemBinding binding;
-			private Movie movie;
 			
 			MovieViewHolder(ListItemBinding binding) {
 				super(binding.getRoot());
-				binding.getRoot().setOnClickListener(this);
 				this.binding = binding;
+				binding.getRoot().setOnClickListener(this);
 			}
 			
 			
 			private void bind(Movie movie) {
-				this.movie = movie;
-				bindPoster();
-				bindTitle();
+				bindTitle(movie.getTitle());
+				bindPoster(movie.getPosterUrl());
 				binding.executePendingBindings();
 			}
 			
-			private void bindPoster() {
+			private void bindTitle(String title) {
+				binding.tvTitleMain.setText(title);
+			}
+			
+			private void bindPoster(String specificPosterUrl) {
 				GlideApp.with(MainActivity.this)
-						.load(posterUrl())
+						.load(UrlManager.POSTER_URL + specificPosterUrl)
 						.placeholder(R.drawable.black_placeholder)
 						.error(R.drawable.black_placeholder)
 						.into(binding.ivPosterListItem);
 			}
 			
-			private String posterUrl() {
-				return UrlManager.POSTER_URL + movie.getPosterUrl();
-			}
-			
-			private void bindTitle() {
-				binding.tvTitleMain.setText(movie.getTitle());
-			}
-			
 			
 			@Override
 			public void onClick(View v) {
-				presenter.onListItemClicked(movie);
+				presenter.onListItemClicked(
+						movies.get(getAdapterPosition())
+				);
 			}
 		}
 	}

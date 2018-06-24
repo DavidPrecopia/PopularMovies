@@ -1,12 +1,11 @@
 <resources>
-
 	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
+		<!--Sets the background of Activities-->
 		<item name="android:windowBackground">@color/activityBackground</item>
 	</style>
 	
 	<style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-	
 </resources>

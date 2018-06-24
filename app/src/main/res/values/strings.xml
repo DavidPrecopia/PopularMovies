@@ -7,9 +7,9 @@
 	<!--MainActivity-->
 	<string name="menu_refresh_title">Refresh</string>
 	
+	<string name="iv_poster_description">Movie poster</string>
+	
 	<string name="fab_label_popular">@string/title_popular</string>
 	<string name="fab_label_highest_rated">@string/title_highest_rated</string>
 	<string name="fab_label_main">Sort By</string>
-	
-	<string name="iv_poster_description">Movie poster</string>
 </resources>

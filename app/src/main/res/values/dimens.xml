@@ -5,5 +5,6 @@
 	
 	<dimen name="card_view_corner_radius">16dp</dimen>
 	<dimen name="view_elevation">8dp</dimen>
-	<dimen name="app_bar_layout_height_detail_activity">300dp</dimen>
+	
+	<dimen name="app_bar_height_detail_activity">300dp</dimen>
 </resources>
