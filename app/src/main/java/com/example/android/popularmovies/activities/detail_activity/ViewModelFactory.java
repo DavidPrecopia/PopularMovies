@@ -6,17 +6,19 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
+import com.example.android.popularmovies.model.datamodel.Movie;
+
 final class ViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
 	
 	private final Application application;
-	private final int movieId;
+	private final Movie movieId;
 	
 	/**
 	 * Creates a {@code AndroidViewModelFactory}
 	 *
 	 * @param application an application to pass in {@link AndroidViewModel}
 	 */
-	ViewModelFactory(@NonNull Application application, int movieId) {
+	ViewModelFactory(@NonNull Application application, Movie movieId) {
 		super(application);
 		this.application = application;
 		this.movieId = movieId;

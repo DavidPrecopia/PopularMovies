@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
+import com.example.android.popularmovies.model.datamodel.Movie;
 
 import java.util.Objects;
 
@@ -34,8 +35,12 @@ public class DetailActivity extends AppCompatActivity {
 	}
 	
 	private void setUpViewModel() {
-		ViewModelFactory factory = new ViewModelFactory(getApplication(), getMovieId());
+		ViewModelFactory factory = new ViewModelFactory(getApplication(), /*getMovieId()*/ movieFromIntent());
 		viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
+	}
+	
+	private Movie movieFromIntent() {
+		return getIntent().getParcelableExtra(DetailActivity.class.getSimpleName());
 	}
 	
 	private int getMovieId() {

@@ -15,6 +15,8 @@ import com.example.android.popularmovies.model.Model;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
 
+import java.util.Objects;
+
 public final class DetailViewModel extends AndroidViewModel {
 	
 	private MutableLiveData<Movie> movie;
@@ -22,9 +24,11 @@ public final class DetailViewModel extends AndroidViewModel {
 	private IModelContract model;
 	private int movieId;
 	
-	DetailViewModel(@NonNull Application application, int movieId) {
+	DetailViewModel(@NonNull Application application, Movie movieId) {
 		super(application);
-		this.movieId = movieId;
+		this.movie = new MutableLiveData<>();
+//		this.movieId = movieId;
+		this.movie.setValue(movieId);
 		this.model = Model.getInstance();
 	}
 	
@@ -52,7 +56,7 @@ public final class DetailViewModel extends AndroidViewModel {
 		Returns: dd-MM-yyyy
 	 */
 	public String getReleaseDate() {
-		String[] dateArray = movie.getValue().getReleaseDate().split("-");
+		String[] dateArray = Objects.requireNonNull(movie.getValue()).getReleaseDate().split("-");
 		// Android Studio recommended concatenating a String
 		// instead of using StringBuilder
 		return dateArray[1]
