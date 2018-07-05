@@ -3,7 +3,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	tools:context=".activities.DetailActivity">
+	tools:context=".activities.detail_activity.DetailActivity">
+	
+	<data>
+		
+		<variable
+			name="viewModel"
+			type="com.example.android.popularmovies.activities.detail_activity.DetailViewModel" />
+	</data>
 	
 	<android.support.design.widget.CoordinatorLayout
 		android:layout_width="match_parent"
@@ -19,10 +26,12 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				app:contentScrim="@color/colorPrimary"
-				app:layout_scrollFlags="scroll|exitUntilCollapsed">
+				app:layout_scrollFlags="scroll|exitUntilCollapsed"
+				app:title="@{viewModel.movie.title}">
 				
 				<ImageView
 					android:id="@+id/iv_poster_detail_activity"
+					android:src="@{viewModel.movie.backdropUrl}"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:contentDescription="@string/iv_poster_description"
@@ -56,6 +65,7 @@
 					android:layout_height="wrap_content"
 					android:isIndicator="true"
 					android:numStars="10"
+					android:rating="@{viewModel.movie.rating}"
 					android:stepSize=".5"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
@@ -67,6 +77,7 @@
 					android:layout_height="wrap_content"
 					android:layout_marginTop="@dimen/half_standard_margin"
 					android:textColor="@android:color/white"
+					android:text="@{viewModel.getReleaseDate()}"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toBottomOf="@+id/user_rating"
 					tools:text="@tools:sample/date/mmddyy" />
@@ -76,12 +87,13 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dp"
 					android:layout_marginTop="@dimen/half_standard_margin"
+					android:text="@{viewModel.movie.description}"
 					android:textColor="@android:color/white"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintHorizontal_bias="1.0"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toBottomOf="@+id/release_date" />
-				
+			
 			</android.support.constraint.ConstraintLayout>
 		</android.support.v4.widget.NestedScrollView>
 	</android.support.design.widget.CoordinatorLayout>

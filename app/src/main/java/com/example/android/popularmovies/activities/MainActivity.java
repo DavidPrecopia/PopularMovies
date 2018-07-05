@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
 import com.example.android.popularmovies.activities.contracts_front.IMainPresenterContract;
 import com.example.android.popularmovies.activities.contracts_front.IMainViewContract;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
