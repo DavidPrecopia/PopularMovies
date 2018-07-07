@@ -7,8 +7,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.android.popularmovies.activities.NetworkUtil;
-import com.example.android.popularmovies.activities.contracts_front.INetworkUtilContract;
+import com.example.android.popularmovies.activities.NetworkStatus;
+import com.example.android.popularmovies.activities.contracts_front.INetworkStatusContract;
 import com.example.android.popularmovies.model.Model;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
@@ -30,8 +30,9 @@ final class MainViewModel extends AndroidViewModel {
 	private CompositeDisposable disposable;
 	
 	private IModelContract model;
-	private INetworkUtilContract networkUtil;
+	private INetworkStatusContract networkStatus;
 	
+	// Used for refreshing
 	private int lastSelectedSortBy;
 	private static final int POPULAR_SORT = 100;
 	private static final int HIGHEST_RATED_SORT = 200;
@@ -41,12 +42,18 @@ final class MainViewModel extends AndroidViewModel {
 	
 	MainViewModel(@NonNull Application application) {
 		super(application);
-		
 		this.movies = new MutableLiveData<>();
 		this.errorMessage = new MutableLiveData<>();
 		this.disposable = new CompositeDisposable();
 		this.model = Model.getInstance();
-		this.networkUtil = NetworkUtil.getInstance(application);
+		this.networkStatus = NetworkStatus.getInstance(application);
+		
+		init();
+	}
+	
+	
+	private void init() {
+		getPopularMovies();
 	}
 	
 	
@@ -78,9 +85,9 @@ final class MainViewModel extends AndroidViewModel {
 		}
 		disposable.add(
 				single
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeWith(getObserver())
+						.subscribeOn(Schedulers.io())
+						.observeOn(AndroidSchedulers.mainThread())
+						.subscribeWith(getObserver())
 		);
 	}
 	
@@ -116,7 +123,7 @@ final class MainViewModel extends AndroidViewModel {
 	
 	
 	private boolean noNetworkConnection() {
-		return ! networkUtil.haveConnection();
+		return ! networkStatus.haveConnection();
 	}
 	
 	

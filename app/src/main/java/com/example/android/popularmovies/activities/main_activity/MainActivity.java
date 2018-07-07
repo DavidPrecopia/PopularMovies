@@ -48,11 +48,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-		
-		setUpView();
-		setUpViewModel();
-		
 		init();
+	}
+	
+	
+	private void init() {
+		setUpView();
+		displayLoading();
+		setUpViewModel();
+		setActionBarTitle(getPopularTitle());
 	}
 	
 	
@@ -75,14 +79,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	
-	private void init() {
-		displayLoading();
-		viewModel.getPopularMovies();
-		setActionBarTitle(getPopularTitle());
-	}
 	
-	
-	public void setActionBarTitle(String title) {
+	private void setActionBarTitle(String title) {
 		Objects.requireNonNull(getSupportActionBar()).setTitle(title);
 	}
 	
@@ -103,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	
-	public void setUpView() {
+	private void setUpView() {
 		getViewReferences();
 		setUpToolbar();
 		setUpRecyclerView();
@@ -206,6 +204,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		tvError.setVisibility(View.INVISIBLE);
 	}
 	
+	private void enableRefreshing() {
+		swipeRefreshLayout.setVisibility(View.VISIBLE);
+		if (menuRefreshItem != null) {
+			menuRefreshItem.setVisible(true);
+		}
+	}
+	
+	private void disableRefreshing() {
+		swipeRefreshLayout.setVisibility(View.INVISIBLE);
+		if (menuRefreshItem != null) {
+			menuRefreshItem.setVisible(false);
+		}
+	}
+	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -234,19 +246,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		progressBar.setVisibility(View.INVISIBLE);
 	}
 	
-	private void enableRefreshing() {
-		swipeRefreshLayout.setVisibility(View.VISIBLE);
-		if (menuRefreshItem != null) {
-			menuRefreshItem.setVisible(true);
-		}
-	}
-	
-	private void disableRefreshing() {
-		swipeRefreshLayout.setVisibility(View.INVISIBLE);
-		if (menuRefreshItem != null) {
-			menuRefreshItem.setVisible(false);
-		}
-	}
 	
 	private void showList() {
 		recyclerView.setVisibility(View.VISIBLE);

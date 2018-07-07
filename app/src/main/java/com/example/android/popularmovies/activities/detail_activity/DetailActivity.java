@@ -14,16 +14,16 @@ import java.util.Objects;
 public class DetailActivity extends AppCompatActivity {
 	
 	private DetailViewModel viewModel;
-	ActivityDetailBinding binding;
+	private ActivityDetailBinding binding;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
-		setUpView();
+		init();
 	}
 	
-	public void setUpView() {
+	public void init() {
 		setUpViewModel();
 		setUpBinding();
 		setUpToolbar();

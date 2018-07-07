@@ -5,22 +5,22 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.example.android.popularmovies.activities.contracts_front.INetworkUtilContract;
+import com.example.android.popularmovies.activities.contracts_front.INetworkStatusContract;
 
-public final class NetworkUtil implements INetworkUtilContract {
+public final class NetworkStatus implements INetworkStatusContract {
 	
 	private final NetworkInfo networkInfo;
 	
-	private static NetworkUtil networkUtil;
+	private static NetworkStatus networkUtil;
 	
-	public static NetworkUtil getInstance(Application context) {
+	public static NetworkStatus getInstance(Application context) {
 		if (networkUtil == null) {
-			networkUtil = new NetworkUtil(context);
+			networkUtil = new NetworkStatus(context);
 		}
 		return networkUtil;
 	}
 	
-	private NetworkUtil(Application context) {
+	private NetworkStatus(Application context) {
 		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		assert connectivityManager != null;
 		networkInfo = connectivityManager.getActiveNetworkInfo();

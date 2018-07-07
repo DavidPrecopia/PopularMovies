@@ -7,7 +7,6 @@ import android.widget.ImageView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.ActivityUrlManager;
-import com.example.android.popularmovies.activities.GlideApp;
 import com.google.gson.annotations.SerializedName;
 
 public final class Movie implements Parcelable {
