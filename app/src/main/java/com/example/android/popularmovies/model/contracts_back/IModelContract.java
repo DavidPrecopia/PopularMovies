@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.model.contracts_back;
 
 import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.datamodel.MovieDetails;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface IModelContract {
 	
 	Single<List<Movie>> forceRefreshPopularMovies();
 	Single<List<Movie>> forceRefreshHighestRatedMovies();
+	
+	Single<MovieDetails> getSingleMovie(int movieId);
 }

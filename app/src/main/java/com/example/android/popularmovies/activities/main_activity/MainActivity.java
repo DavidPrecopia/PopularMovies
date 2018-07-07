@@ -94,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	
-	private void openDetailActivity(Movie movie) {
+	private void openDetailActivity(int movieId) {
 		Intent intent = new Intent(this, DetailActivity.class);
-		intent.putExtra(DetailActivity.class.getSimpleName(), movie);
+		intent.putExtra(DetailActivity.class.getSimpleName(), movieId);
 		startActivity(intent);
 	}
 	
@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 			@Override
 			public void onClick(View v) {
 				openDetailActivity(
-						movies.get(getAdapterPosition())
+						movies.get(getAdapterPosition()).getId()
 				);
 			}
 		}

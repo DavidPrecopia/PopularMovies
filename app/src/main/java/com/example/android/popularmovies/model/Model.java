@@ -4,6 +4,7 @@ import com.example.android.popularmovies.model.contracts_back.ILocalStorage;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
 import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.datamodel.MovieDetails;
 import com.example.android.popularmovies.model.local.LocalStorage;
 import com.example.android.popularmovies.model.remote.RemoteStorage;
 
@@ -13,6 +14,7 @@ import io.reactivex.Single;
 
 public final class Model implements IModelContract {
 	
+	private final IRemoteStorage remoteStorage;
 	private final ILocalStorage localStorage;
 	
 	private final Single<List<Movie>> popularFromRemote;
@@ -29,8 +31,8 @@ public final class Model implements IModelContract {
 	
 	private Model() {
 		localStorage = LocalStorage.getInstance();
+		remoteStorage = RemoteStorage.getInstance();
 		
-		IRemoteStorage remoteStorage = RemoteStorage.getInstance();
 		popularFromRemote = remoteStorage.getPopularMovies()
 				.map(movies -> {
 					localStorage.replacePopularMovies(movies);
@@ -71,5 +73,11 @@ public final class Model implements IModelContract {
 	@Override
 	public Single<List<Movie>> forceRefreshHighestRatedMovies() {
 		return highestRatedFromRemote;
+	}
+	
+	
+	@Override
+	public Single<MovieDetails> getSingleMovie(int movieId) {
+		return remoteStorage.getSingleMovie(movieId);
 	}
 }

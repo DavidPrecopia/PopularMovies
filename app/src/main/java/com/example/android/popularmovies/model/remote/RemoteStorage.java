@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
 import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.datamodel.MovieDetails;
 
 import java.util.List;
 
@@ -34,5 +35,11 @@ public final class RemoteStorage implements IRemoteStorage {
 	
 	public Single<List<Movie>> getHighestRatedMovies() {
 		return client.getMovies(UrlManager.QUERY_HIGHEST_RATED);
+	}
+	
+	
+	@Override
+	public Single<MovieDetails> getSingleMovie(int movieId) {
+		return client.getSingleMovie(movieId);
 	}
 }

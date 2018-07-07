@@ -8,9 +8,9 @@ import com.example.android.popularmovies.model.datamodel.Movie;
 
 final class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 	
-	private final Movie movieId;
+	private final int movieId;
 	
-	ViewModelFactory(Movie movieId) {
+	ViewModelFactory(int movieId) {
 		this.movieId = movieId;
 	}
 	
