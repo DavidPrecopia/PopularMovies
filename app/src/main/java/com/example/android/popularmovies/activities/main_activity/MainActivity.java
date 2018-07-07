@@ -1,5 +1,6 @@
-package com.example.android.popularmovies.activities;
+package com.example.android.popularmovies.activities.main_activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
@@ -20,8 +21,6 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
-import com.example.android.popularmovies.activities.contracts_front.IMainPresenterContract;
-import com.example.android.popularmovies.activities.contracts_front.IMainViewContract;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
 import com.example.android.popularmovies.model.datamodel.Movie;
@@ -31,11 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity
-		implements IMainViewContract, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 	
-	private IMainPresenterContract presenter;
-	
+	private MainViewModel viewModel;
 	private ActivityMainBinding binding;
 	private MovieAdapter movieAdapter;
 	
@@ -52,34 +49,85 @@ public class MainActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		
-		recyclerView = binding.recyclerView;
-		swipeRefreshLayout = binding.swipeRefresh;
-		floatingActionMenu = binding.fabBase;
-		progressBar = binding.progressBar;
-		tvError = binding.tvError;
+		setUpView();
+		setUpViewModel();
 		
-		presenter = new MainPresenter(this, new NetworkUtil(getApplicationContext()));
-		presenter.start();
+		init();
 	}
 	
 	
-	@Override
+	private void setUpViewModel() {
+		viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+		observeViewModel();
+		observeError();
+	}
+	
+	private void observeViewModel() {
+		viewModel.getMovies().observe(this, movies -> {
+			movieAdapter.replaceData(movies);
+			hideError();
+			hideLoading();
+		});
+	}
+	
+	private void observeError() {
+		viewModel.getErrorMessage().observe(this, this::displayError);
+	}
+	
+	
+	private void init() {
+		displayLoading();
+		viewModel.getPopularMovies();
+		setActionBarTitle(getPopularTitle());
+	}
+	
+	
+	public void setActionBarTitle(String title) {
+		Objects.requireNonNull(getSupportActionBar()).setTitle(title);
+	}
+	
+	
+	private String getPopularTitle() {
+		return getString(R.string.fab_label_popular);
+	}
+	
+	private String getHighestRatedTitle() {
+		return getString(R.string.fab_label_highest_rated);
+	}
+	
+	
+	private void openDetailActivity(Movie movie) {
+		Intent intent = new Intent(this, DetailActivity.class);
+		intent.putExtra(DetailActivity.class.getSimpleName(), movie);
+		startActivity(intent);
+	}
+	
+	
 	public void setUpView() {
-		setToolbar();
+		getViewReferences();
+		setUpToolbar();
 		setUpRecyclerView();
 		setUpFloatingActionMenu();
 		setUpSwipeRefresh();
 	}
 	
-	private void setToolbar() {
+	private void getViewReferences() {
+		recyclerView = binding.recyclerView;
+		swipeRefreshLayout = binding.swipeRefresh;
+		floatingActionMenu = binding.fabBase;
+		progressBar = binding.progressBar;
+		tvError = binding.tvError;
+	}
+	
+	private void setUpToolbar() {
 		setSupportActionBar(binding.toolbarMainActivity);
-		Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.fab_label_popular);
 	}
 	
 	private void setUpRecyclerView() {
 		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount(), LinearLayoutManager.VERTICAL, false));
 		recyclerView.setHasFixedSize(true);
-		this.movieAdapter = new MovieAdapter(new ArrayList<>());
+		
+		movieAdapter = new MovieAdapter(new ArrayList<>());
 		recyclerView.setAdapter(movieAdapter);
 	}
 	
@@ -99,17 +147,24 @@ public class MainActivity extends AppCompatActivity
 	}
 	
 	private View.OnClickListener fabPopularListener() {
-		return v -> {
-			floatingActionMenu.close(false);
-			presenter.getPopularMovies();
+		return view -> {
+			viewModel.getPopularMovies();
+			setActionBarTitle(getPopularTitle());
+			fabListenerCommonSteps();
 		};
 	}
 	
 	private View.OnClickListener fabRatedListener() {
-		return v -> {
-			floatingActionMenu.close(false);
-			presenter.getHighestRatedMovies();
+		return view -> {
+			viewModel.getHighestRatedMovies();
+			setActionBarTitle(getHighestRatedTitle());
+			fabListenerCommonSteps();
 		};
+	}
+	
+	private void fabListenerCommonSteps() {
+		floatingActionMenu.close(false);
+		displayLoading();
 	}
 	
 	private void setUpSwipeRefresh() {
@@ -125,93 +180,30 @@ public class MainActivity extends AppCompatActivity
 	}
 	
 	
-	@Override
-	public void setTitle(String title) {
-		Objects.requireNonNull(getSupportActionBar()).setTitle(title);
+	private void displayLoading() {
+		showProgressBar();
+		disableRefreshing();
+		hideList();
+		hideFab();
 	}
 	
-	@Override
-	public String getPopularTitle() {
-		return getString(R.string.fab_label_popular);
+	private void hideLoading() {
+		hideProgressBar();
+		enableRefreshing();
+		showList();
+		showFab();
 	}
 	
-	@Override
-	public String getHighestRatedTitle() {
-		return getString(R.string.fab_label_highest_rated);
+	private void displayError(String message) {
+		hideProgressBar();
+		enableRefreshing();
+		hideList();
+		hideFab();
+		showErrorTextView(message);
 	}
 	
-	
-	@Override
-	public void showLoading() {
-		progressBar.setVisibility(View.VISIBLE);
-	}
-	
-	@Override
-	public void hideLoading() {
-		progressBar.setVisibility(View.INVISIBLE);
-	}
-	
-	@Override
-	public void enableRefreshing() {
-		swipeRefreshLayout.setVisibility(View.VISIBLE);
-		if (menuRefreshItem != null) {
-			menuRefreshItem.setVisible(true);
-		}
-	}
-	
-	@Override
-	public void disableRefreshing() {
-		swipeRefreshLayout.setVisibility(View.INVISIBLE);
-		if (menuRefreshItem != null) {
-			menuRefreshItem.setVisible(false);
-		}
-	}
-	
-	
-	@Override
-	public void showError(String message) {
-		tvError.setText(message);
-		tvError.setVisibility(View.VISIBLE);
-	}
-	
-	@Override
-	public void hideError() {
+	private void hideError() {
 		tvError.setVisibility(View.INVISIBLE);
-	}
-	
-	
-	@Override
-	public void showList() {
-		recyclerView.setVisibility(View.VISIBLE);
-	}
-	
-	@Override
-	public void hideList() {
-		recyclerView.setVisibility(View.INVISIBLE);
-	}
-	
-	@Override
-	public void showFab() {
-		floatingActionMenu.setVisibility(View.VISIBLE);
-	}
-	
-	@Override
-	public void hideFab() {
-		floatingActionMenu.setVisibility(View.INVISIBLE);
-	}
-	
-	
-	@Override
-	public void replaceData(List<Movie> newMovies) {
-		movieAdapter.replaceData(newMovies);
-	}
-	
-	
-	@Override
-	public void openSpecificMovie(Movie movie) {
-		Intent intent = new Intent(this, DetailActivity.class);
-		intent.putExtra(DetailActivity.class.getSimpleName(), movie);
-		startActivity(intent);
 	}
 	
 	
@@ -219,7 +211,7 @@ public class MainActivity extends AppCompatActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_item_refresh:
-				presenter.onRefresh();
+				onRefresh();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -228,21 +220,53 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
 	public void onRefresh() {
+		displayLoading();
 		swipeRefreshLayout.setRefreshing(false);
-		presenter.onRefresh();
+		viewModel.onRefresh();
 	}
 	
-	@Override
-	protected void onPause() {
-		presenter.stop();
-		super.onPause();
+	
+	private void showProgressBar() {
+		progressBar.setVisibility(View.VISIBLE);
 	}
 	
-	@Override
-	protected void onDestroy() {
-		presenter.destroy();
-		presenter = null;
-		super.onDestroy();
+	private void hideProgressBar() {
+		progressBar.setVisibility(View.INVISIBLE);
+	}
+	
+	private void enableRefreshing() {
+		swipeRefreshLayout.setVisibility(View.VISIBLE);
+		if (menuRefreshItem != null) {
+			menuRefreshItem.setVisible(true);
+		}
+	}
+	
+	private void disableRefreshing() {
+		swipeRefreshLayout.setVisibility(View.INVISIBLE);
+		if (menuRefreshItem != null) {
+			menuRefreshItem.setVisible(false);
+		}
+	}
+	
+	private void showList() {
+		recyclerView.setVisibility(View.VISIBLE);
+	}
+	
+	private void hideList() {
+		recyclerView.setVisibility(View.INVISIBLE);
+	}
+	
+	private void showFab() {
+		floatingActionMenu.setVisibility(View.VISIBLE);
+	}
+	
+	private void hideFab() {
+		floatingActionMenu.setVisibility(View.INVISIBLE);
+	}
+	
+	private void showErrorTextView(String message) {
+		tvError.setText(message);
+		tvError.setVisibility(View.VISIBLE);
 	}
 	
 	
@@ -264,7 +288,9 @@ public class MainActivity extends AppCompatActivity
 		
 		@Override
 		public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-			holder.bind(movies.get(holder.getAdapterPosition()));
+			ListItemBinding binding = holder.binding;
+			binding.setMovie(movies.get(holder.getAdapterPosition()));
+			binding.executePendingBindings();
 		}
 		
 		private void replaceData(List<Movie> newMovies) {
@@ -290,29 +316,9 @@ public class MainActivity extends AppCompatActivity
 				binding.getRoot().setOnClickListener(this);
 			}
 			
-			
-			private void bind(Movie movie) {
-				bindTitle(movie.getTitle());
-				bindPoster(movie.getPosterUrl());
-				binding.executePendingBindings();
-			}
-			
-			private void bindTitle(String title) {
-				binding.tvTitleMain.setText(title);
-			}
-			
-			private void bindPoster(String specificPosterUrl) {
-				GlideApp.with(MainActivity.this)
-						.load(UrlManager.POSTER_URL + specificPosterUrl)
-						.placeholder(R.drawable.black_placeholder)
-						.error(R.drawable.black_placeholder)
-						.into(binding.ivPosterListItem);
-			}
-			
-			
 			@Override
 			public void onClick(View v) {
-				presenter.onListItemClicked(
+				openDetailActivity(
 						movies.get(getAdapterPosition())
 				);
 			}

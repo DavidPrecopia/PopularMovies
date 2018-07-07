@@ -1,8 +1,13 @@
 package com.example.android.popularmovies.model.datamodel;
 
+import android.databinding.BindingAdapter;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
+import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.activities.ActivityUrlManager;
+import com.example.android.popularmovies.activities.GlideApp;
 import com.google.gson.annotations.SerializedName;
 
 public final class Movie implements Parcelable {
@@ -29,10 +34,24 @@ public final class Movie implements Parcelable {
 	public Movie(String title, float rating, String releaseDate, String description, String posterUrl, String backdropUrl) {
 		this.title = title;
 		this.rating = rating;
-		this.releaseDate = releaseDate;
+		this.releaseDate = formatReleaseDate(releaseDate);
 		this.description = description;
 		this.posterUrl = posterUrl;
 		this.backdropUrl = backdropUrl;
+	}
+	
+	/*
+		How the date is formatted: yyyy-MM-dd
+		Returns: dd-MM-yyyy
+	 */
+	private static String formatReleaseDate(String releaseDate) {
+		String[] dateArray = releaseDate.split("-");
+		// AS recommends concatenating a String instead of using StringBuilder
+		return dateArray[1]
+				+ "/"
+				+ dateArray[2]
+				+ "/"
+				+ dateArray[0];
 	}
 	
 	
@@ -61,6 +80,27 @@ public final class Movie implements Parcelable {
 	}
 	
 	
+	/**
+	 * PLACEHOLDER
+	 */
+	// TODO Check if causing memory leak
+	@BindingAdapter({"android:src"})
+	public static void getBackdropImage(ImageView view, String backdropUrl) {
+		GlideApp.with(view)
+				.load(getBackdropUrl(backdropUrl))
+				.placeholder(R.drawable.black_placeholder)
+				.error(R.drawable.black_placeholder)
+				.into(view);
+	}
+	
+	private static String getBackdropUrl(String backdropUrl) {
+		return ActivityUrlManager.BACKDROP_URL + backdropUrl;
+	}
+	
+	
+	/**
+	 * Parcelable
+	 */
 	public static final Creator<Movie> CREATOR = new Creator<Movie>() {
 		@Override
 		public Movie createFromParcel(Parcel in) {

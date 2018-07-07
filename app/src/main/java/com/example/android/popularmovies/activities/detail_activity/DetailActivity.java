@@ -24,31 +24,33 @@ public class DetailActivity extends AppCompatActivity {
 	}
 	
 	public void setUpView() {
-		setUpToolbar();
 		setUpViewModel();
 		setUpBinding();
+		setUpToolbar();
+	}
+	
+	private void setUpViewModel() {
+		ViewModelFactory factory = new ViewModelFactory(movieFromIntent());
+		viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
+	}
+	
+	private Movie movieFromIntent() {
+		return getIntent().getParcelableExtra(getClass().getSimpleName());
+	}
+	
+	// Will replace movieFromIntent()
+	private int getMovieId() {
+		return getIntent().getIntExtra(getClass().getSimpleName(), 0);
+	}
+	
+	// TODO Not sure if this is subscribing
+	private void setUpBinding() {
+		binding.setMovie(viewModel.getMovie().getValue());
+		binding.setLifecycleOwner(this);
 	}
 	
 	private void setUpToolbar() {
 		setSupportActionBar(binding.toolbarDetailActivity);
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-	}
-	
-	private void setUpViewModel() {
-		ViewModelFactory factory = new ViewModelFactory(getApplication(), /*getMovieId()*/ movieFromIntent());
-		viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
-	}
-	
-	private Movie movieFromIntent() {
-		return getIntent().getParcelableExtra(DetailActivity.class.getSimpleName());
-	}
-	
-	private int getMovieId() {
-		return getIntent().getIntExtra(getClass().getSimpleName(), 0);
-	}
-	
-	private void setUpBinding() {
-		binding.setViewModel(viewModel);
-		binding.setLifecycleOwner(this);
 	}
 }

@@ -1,7 +1,7 @@
 package com.example.android.popularmovies.activities;
 
-final public class UrlManager {
-	private UrlManager() {
+final public class ActivityUrlManager {
+	private ActivityUrlManager() {
 	}
 	
 	private static final String BASE_URL = "http://image.tmdb.org/";
