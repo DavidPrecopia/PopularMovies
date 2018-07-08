@@ -9,7 +9,7 @@ import com.example.android.popularmovies.activities.contracts_front.INetworkStat
 
 public final class NetworkStatus implements INetworkStatusContract {
 	
-	private final NetworkInfo networkInfo;
+	private final ConnectivityManager connectivityManager;
 	
 	private static NetworkStatus networkUtil;
 	
@@ -21,13 +21,12 @@ public final class NetworkStatus implements INetworkStatusContract {
 	}
 	
 	private NetworkStatus(Application context) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		assert connectivityManager != null;
-		networkInfo = connectivityManager.getActiveNetworkInfo();
+		connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 	
 	@Override
 	public boolean haveConnection() {
-		return networkInfo.isConnected();
+		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+		return networkInfo != null && networkInfo.isConnected();
 	}
 }

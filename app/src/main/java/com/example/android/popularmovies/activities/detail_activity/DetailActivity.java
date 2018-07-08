@@ -29,7 +29,7 @@ public class DetailActivity extends AppCompatActivity {
 	}
 	
 	private void setUpViewModel() {
-		ViewModelFactory factory = new ViewModelFactory(getMovieId());
+		ViewModelFactory factory = new ViewModelFactory(getApplication(), getMovieId());
 		viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
 		observeMovie();
 	}

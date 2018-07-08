@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.android.popularmovies.activities.NetworkStatus;
-import com.example.android.popularmovies.activities.contracts_front.INetworkStatusContract;
 import com.example.android.popularmovies.model.Model;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
@@ -30,7 +29,7 @@ final class MainViewModel extends AndroidViewModel {
 	private CompositeDisposable disposable;
 	
 	private IModelContract model;
-	private INetworkStatusContract networkStatus;
+//	private INetworkStatusContract networkStatus;
 	
 	// Used for refreshing
 	private int lastSelectedSortBy;
@@ -45,8 +44,8 @@ final class MainViewModel extends AndroidViewModel {
 		this.movies = new MutableLiveData<>();
 		this.errorMessage = new MutableLiveData<>();
 		this.disposable = new CompositeDisposable();
-		this.model = Model.getInstance();
-		this.networkStatus = NetworkStatus.getInstance(application);
+		this.model = Model.getInstance(application);
+//		this.networkStatus = NetworkStatus.getInstance(application);
 		
 		init();
 	}
@@ -70,10 +69,10 @@ final class MainViewModel extends AndroidViewModel {
 	void onRefresh() {
 		switch (lastSelectedSortBy) {
 			case POPULAR_SORT:
-				getMoviesFromModel(model.forceRefreshPopularMovies());
+				getMoviesFromModel(model.getPopularMovies());
 				break;
 			case HIGHEST_RATED_SORT:
-				getMoviesFromModel(model.forceRefreshHighestRatedMovies());
+				getMoviesFromModel(model.getHighestRatedMovies());
 				break;
 		}
 	}
@@ -83,11 +82,10 @@ final class MainViewModel extends AndroidViewModel {
 			showError(NO_NETWORK_ERROR_MESSAGE);
 			return;
 		}
-		disposable.add(
-				single
-						.subscribeOn(Schedulers.io())
-						.observeOn(AndroidSchedulers.mainThread())
-						.subscribeWith(getObserver())
+		disposable.add(single
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeWith(getObserver())
 		);
 	}
 	
@@ -123,7 +121,7 @@ final class MainViewModel extends AndroidViewModel {
 	
 	
 	private boolean noNetworkConnection() {
-		return ! networkStatus.haveConnection();
+		return ! NetworkStatus.getInstance(getApplication()).haveConnection();
 	}
 	
 	

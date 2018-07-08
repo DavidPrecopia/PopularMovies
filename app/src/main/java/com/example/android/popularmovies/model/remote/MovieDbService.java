@@ -9,6 +9,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 interface MovieDbService {
+	
 	@GET(UrlManager.SORT_RELATIVE_URL)
 	Single<MovieDbResponse> sortedMovies(@Query(UrlManager.SORT_BY_QUERY) String sortBy);
 	

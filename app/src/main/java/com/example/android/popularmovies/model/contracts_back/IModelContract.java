@@ -11,8 +11,5 @@ public interface IModelContract {
 	Single<List<Movie>> getPopularMovies();
 	Single<List<Movie>> getHighestRatedMovies();
 	
-	Single<List<Movie>> forceRefreshPopularMovies();
-	Single<List<Movie>> forceRefreshHighestRatedMovies();
-	
 	Single<MovieDetails> getSingleMovie(int movieId);
 }

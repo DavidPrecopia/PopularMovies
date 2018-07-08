@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void init() {
 		setUpView();
 		displayLoading();
-		setUpViewModel();
 		setActionBarTitle(getPopularTitle());
+		setUpViewModel();
 	}
 	
 	
