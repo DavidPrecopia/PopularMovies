@@ -12,4 +12,5 @@
 	<string name="fab_label_popular">@string/title_popular</string>
 	<string name="fab_label_highest_rated">@string/title_highest_rated</string>
 	<string name="fab_label_main">Sort By</string>
+	<string name="title_activity_favorites">FavoritesActivity</string>
 </resources>

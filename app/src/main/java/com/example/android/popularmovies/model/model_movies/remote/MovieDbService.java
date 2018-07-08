@@ -1,7 +1,7 @@
-package com.example.android.popularmovies.model.remote;
+package com.example.android.popularmovies.model.model_movies.remote;
 
-import com.example.android.popularmovies.model.datamodel.MovieDbResponse;
-import com.example.android.popularmovies.model.datamodel.MovieDetails;
+import com.example.android.popularmovies.model.model_movies.datamodel.MovieDbResponse;
+import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;

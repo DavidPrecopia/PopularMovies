@@ -23,7 +23,7 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemBinding;
-import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;

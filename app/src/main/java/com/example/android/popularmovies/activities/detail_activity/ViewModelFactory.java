@@ -12,7 +12,6 @@ final class ViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
 	
 	/**
 	 * Creates a {@code AndroidViewModelFactory}
-	 *
 	 * @param application an application to pass in {@link AndroidViewModel}
 	 */
 	ViewModelFactory(@NonNull Application application, int movieId) {

@@ -7,4 +7,5 @@
 	<dimen name="view_elevation">8dp</dimen>
 	
 	<dimen name="app_bar_height_detail_activity">300dp</dimen>
+	<dimen name="fab_margin">16dp</dimen>
 </resources>

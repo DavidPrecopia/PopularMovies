@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.model.remote;
+package com.example.android.popularmovies.model.model_movies.remote;
 
 import com.example.android.popularmovies.BuildConfig;
 

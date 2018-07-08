@@ -10,9 +10,9 @@ import android.util.Log;
 import com.example.android.popularmovies.activities.ErrorMessages;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
-import com.example.android.popularmovies.model.Model;
-import com.example.android.popularmovies.model.contracts_back.IModelContract;
-import com.example.android.popularmovies.model.datamodel.MovieDetails;
+import com.example.android.popularmovies.model.model_movies.ModelMovies;
+import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
+import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -25,12 +25,11 @@ final class DetailViewModel extends AndroidViewModel {
 	
 	private int movieId;
 	private MutableLiveData<MovieDetails> movieDetails;
-	
 	private MutableLiveData<String> errorMessage;
 	
 	private CompositeDisposable disposable;
 	
-	private IModelContract model;
+	private IModelMovieContract model;
 	private INetworkStatusContract networkStatus;
 	
 	DetailViewModel(@NonNull Application application, int movieId) {
@@ -42,7 +41,7 @@ final class DetailViewModel extends AndroidViewModel {
 		
 		this.disposable = new CompositeDisposable();
 
-		this.model = Model.getInstance(application);
+		this.model = ModelMovies.getInstance(application);
 		this.networkStatus = NetworkStatus.getInstance(application);
 		
 		init();

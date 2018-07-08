@@ -10,9 +10,9 @@ import android.util.Log;
 import com.example.android.popularmovies.activities.ErrorMessages;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
-import com.example.android.popularmovies.model.Model;
-import com.example.android.popularmovies.model.contracts_back.IModelContract;
-import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.model_movies.ModelMovies;
+import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
+import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ final class MainViewModel extends AndroidViewModel {
 	private MutableLiveData<String> errorMessage;
 	private CompositeDisposable disposable;
 	
-	private IModelContract model;
+	private IModelMovieContract model;
 	private INetworkStatusContract networkStatus;
 	
 	// Used for refreshing
@@ -43,7 +43,7 @@ final class MainViewModel extends AndroidViewModel {
 		this.movies = new MutableLiveData<>();
 		this.errorMessage = new MutableLiveData<>();
 		this.disposable = new CompositeDisposable();
-		this.model = Model.getInstance(application);
+		this.model = ModelMovies.getInstance(application);
 		this.networkStatus = NetworkStatus.getInstance(application);
 		
 		init();

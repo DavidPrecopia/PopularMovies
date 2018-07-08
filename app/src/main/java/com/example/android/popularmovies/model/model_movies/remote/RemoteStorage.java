@@ -1,12 +1,11 @@
-package com.example.android.popularmovies.model.remote;
+package com.example.android.popularmovies.model.model_movies.remote;
 
 import android.app.Application;
 import android.util.Log;
 
-import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
-import com.example.android.popularmovies.model.datamodel.Movie;
-import com.example.android.popularmovies.model.datamodel.MovieDbResponse;
-import com.example.android.popularmovies.model.datamodel.MovieDetails;
+import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
+import com.example.android.popularmovies.model.model_movies.datamodel.MovieDbResponse;
+import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
 
 import java.util.List;
 

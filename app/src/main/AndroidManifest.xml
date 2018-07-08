@@ -14,8 +14,8 @@
 		android:supportsRtl="false"
 		android:theme="@style/AppTheme"
 		tools:ignore="GoogleAppIndexingWarning">
-		
-		<activity android:name=".activities.main_activity.MainActivity"
+		<activity
+			android:name=".activities.main_activity.MainActivity"
 			android:launchMode="singleTop">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -23,10 +23,13 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
 		<activity
 			android:name=".activities.detail_activity.DetailActivity"
 			android:parentActivityName=".activities.main_activity.MainActivity" />
+		<activity
+			android:name=".activities.favorites_activity.FavoritesActivity"
+			android:label="@string/title_activity_favorites"
+			android:theme="@style/AppTheme"></activity>
 	</application>
 
 </manifest>

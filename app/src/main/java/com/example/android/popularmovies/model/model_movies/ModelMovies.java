@@ -1,35 +1,35 @@
-package com.example.android.popularmovies.model;
+package com.example.android.popularmovies.model.model_movies;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
 
-import com.example.android.popularmovies.model.contracts_back.IModelContract;
-import com.example.android.popularmovies.model.contracts_back.IRemoteStorage;
-import com.example.android.popularmovies.model.datamodel.Movie;
-import com.example.android.popularmovies.model.datamodel.MovieDetails;
-import com.example.android.popularmovies.model.remote.RemoteStorage;
+import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
+import com.example.android.popularmovies.model.model_movies.remote.IRemoteStorage;
+import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
+import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
+import com.example.android.popularmovies.model.model_movies.remote.RemoteStorage;
 
 import java.util.List;
 
 import io.reactivex.Single;
 
-public final class Model implements IModelContract {
+public final class ModelMovies implements IModelMovieContract {
 	
 	private final IRemoteStorage remoteStorage;
 	
 	private final Single<List<Movie>> popularFromRemote;
 	private final Single<List<Movie>> highestRatedFromRemote;
 	
-	private static Model model;
+	private static ModelMovies modelMovies;
 	
-	public static Model getInstance(@NonNull Application context) {
-		if (model == null) {
-			model = new Model(context);
+	public static ModelMovies getInstance(@NonNull Application context) {
+		if (modelMovies == null) {
+			modelMovies = new ModelMovies(context);
 		}
-		return model;
+		return modelMovies;
 	}
 	
-	private Model(Application context) {
+	private ModelMovies(Application context) {
 		remoteStorage = RemoteStorage.getInstance(context);
 		
 		popularFromRemote = remoteStorage.getPopularMovies();
