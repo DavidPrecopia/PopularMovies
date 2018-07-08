@@ -7,6 +7,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.android.popularmovies.activities.ErrorMessages;
+import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
+import com.example.android.popularmovies.activities.network_util.NetworkStatus;
 import com.example.android.popularmovies.model.Model;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.datamodel.MovieDetails;
@@ -20,24 +23,37 @@ final class DetailViewModel extends AndroidViewModel {
 	
 	private static final String LOG_TAG = DetailViewModel.class.getSimpleName();
 	
-	private MutableLiveData<MovieDetails> movieDetails;
 	private int movieId;
+	private MutableLiveData<MovieDetails> movieDetails;
+	
+	private MutableLiveData<String> errorMessage;
 	
 	private CompositeDisposable disposable;
 	
 	private IModelContract model;
+	private INetworkStatusContract networkStatus;
 	
 	DetailViewModel(@NonNull Application application, int movieId) {
 		super(application);
-		this.movieDetails = new MutableLiveData<>();
 		this.movieId = movieId;
+
+		this.movieDetails = new MutableLiveData<>();
+		this.errorMessage = new MutableLiveData<>();
+		
 		this.disposable = new CompositeDisposable();
+
 		this.model = Model.getInstance(application);
+		this.networkStatus = NetworkStatus.getInstance(application);
 		
 		init();
 	}
 	
 	private void init() {
+		if (noNetworkConnection()) {
+			errorMessage.setValue(ErrorMessages.NO_NETWORK_ERROR_MESSAGE);
+			return;
+		}
+		
 		disposable.add(
 				model.getSingleMovie(movieId)
 				.subscribeOn(Schedulers.io())
@@ -56,13 +72,23 @@ final class DetailViewModel extends AndroidViewModel {
 			@Override
 			public void onError(Throwable e) {
 				Log.e(LOG_TAG, e.getMessage());
+				errorMessage.setValue(ErrorMessages.GENERIC_ERROR_MESSAGE);
 			}
 		};
 	}
 	
 	
-	public LiveData<MovieDetails> getMovieDetails() {
+	LiveData<MovieDetails> getMovieDetails() {
 		return movieDetails;
+	}
+	
+	LiveData<String> getErrorMessage() {
+		return errorMessage;
+	}
+	
+	
+	private boolean noNetworkConnection() {
+		return ! networkStatus.haveConnection();
 	}
 	
 	

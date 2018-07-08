@@ -1,11 +1,9 @@
-package com.example.android.popularmovies.activities;
+package com.example.android.popularmovies.activities.network_util;
 
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import com.example.android.popularmovies.activities.contracts_front.INetworkStatusContract;
 
 public final class NetworkStatus implements INetworkStatusContract {
 	

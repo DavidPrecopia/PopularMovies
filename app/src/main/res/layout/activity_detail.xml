@@ -17,12 +17,12 @@
 		android:layout_height="match_parent">
 		
 		<android.support.design.widget.AppBarLayout
+			android:id="@+id/app_bar_layout"
 			android:layout_width="match_parent"
 			android:layout_height="@dimen/app_bar_height_detail_activity"
 			android:theme="@style/ToolbarTheme">
 			
 			<android.support.design.widget.CollapsingToolbarLayout
-				android:id="@+id/collapsing_toolbar_layout"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				app:contentScrim="@color/colorPrimary"
@@ -47,8 +47,8 @@
 			</android.support.design.widget.CollapsingToolbarLayout>
 		</android.support.design.widget.AppBarLayout>
 		
-		
 		<android.support.v4.widget.NestedScrollView
+			android:id="@+id/details"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_margin="@dimen/standard_margin"
@@ -96,5 +96,22 @@
 			
 			</android.support.constraint.ConstraintLayout>
 		</android.support.v4.widget.NestedScrollView>
+		
+		<ProgressBar
+			android:id="@+id/progress_bar"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center" />
+		
+		<TextView
+			android:id="@+id/tv_error"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:drawableTop="@drawable/ic_error_outline_50dp"
+			android:textAppearance="?android:textAppearanceMedium"
+			android:textColor="@android:color/white"
+			android:visibility="gone" />
+		
 	</android.support.design.widget.CoordinatorLayout>
 </layout>

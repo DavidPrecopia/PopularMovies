@@ -7,7 +7,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.android.popularmovies.activities.NetworkStatus;
+import com.example.android.popularmovies.activities.ErrorMessages;
+import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
+import com.example.android.popularmovies.activities.network_util.NetworkStatus;
 import com.example.android.popularmovies.model.Model;
 import com.example.android.popularmovies.model.contracts_back.IModelContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
@@ -29,15 +31,12 @@ final class MainViewModel extends AndroidViewModel {
 	private CompositeDisposable disposable;
 	
 	private IModelContract model;
-//	private INetworkStatusContract networkStatus;
+	private INetworkStatusContract networkStatus;
 	
 	// Used for refreshing
 	private int lastSelectedSortBy;
 	private static final int POPULAR_SORT = 100;
 	private static final int HIGHEST_RATED_SORT = 200;
-	
-	private static final String NO_NETWORK_ERROR_MESSAGE = "No internet connection";
-	private static final String GENERIC_ERROR_MESSAGE = "Encounter an error";
 	
 	MainViewModel(@NonNull Application application) {
 		super(application);
@@ -45,7 +44,7 @@ final class MainViewModel extends AndroidViewModel {
 		this.errorMessage = new MutableLiveData<>();
 		this.disposable = new CompositeDisposable();
 		this.model = Model.getInstance(application);
-//		this.networkStatus = NetworkStatus.getInstance(application);
+		this.networkStatus = NetworkStatus.getInstance(application);
 		
 		init();
 	}
@@ -79,7 +78,7 @@ final class MainViewModel extends AndroidViewModel {
 	
 	private void getMoviesFromModel(final Single<List<Movie>> single) {
 		if (noNetworkConnection()) {
-			showError(NO_NETWORK_ERROR_MESSAGE);
+			showError(ErrorMessages.NO_NETWORK_ERROR_MESSAGE);
 			return;
 		}
 		disposable.add(single
@@ -105,7 +104,7 @@ final class MainViewModel extends AndroidViewModel {
 			@Override
 			public void onError(Throwable e) {
 				Log.d(LOG_TAG, e.getMessage());
-				showError(GENERIC_ERROR_MESSAGE);
+				showError(ErrorMessages.GENERIC_ERROR_MESSAGE);
 			}
 		};
 	}
@@ -121,7 +120,7 @@ final class MainViewModel extends AndroidViewModel {
 	
 	
 	private boolean noNetworkConnection() {
-		return ! NetworkStatus.getInstance(getApplication()).haveConnection();
+		return ! networkStatus.haveConnection();
 	}
 	
 	

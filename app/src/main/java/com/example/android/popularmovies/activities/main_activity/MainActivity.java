@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void setUpToolbar() {
-		setSupportActionBar(binding.toolbarMainActivity);
+		setSupportActionBar(binding.toolbar);
 	}
 	
 	private void setUpRecyclerView() {
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void hideError() {
-		tvError.setVisibility(View.INVISIBLE);
+		tvError.setVisibility(View.GONE);
 	}
 	
 	private void enableRefreshing() {
