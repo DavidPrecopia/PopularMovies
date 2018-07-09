@@ -27,7 +27,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior">
-			
+			<!--Need padding at start and end to center the list_items-->
 			<android.support.v7.widget.RecyclerView
 				android:id="@+id/recycler_view"
 				android:layout_width="match_parent"
@@ -46,13 +46,8 @@
 		
 		<TextView
 			android:id="@+id/tv_error"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:drawableTop="@drawable/ic_error_outline_50dp"
-			android:textAppearance="?android:textAppearanceMedium"
-			android:textColor="@android:color/white"
-			android:visibility="gone" />
+			style="@style/ErrorTextView"
+			android:layout_gravity="center" />
 		
 		<!--
 			Width and height are set to match_parent so

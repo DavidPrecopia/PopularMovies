@@ -10,5 +10,5 @@ public interface IModelFavoritesContract {
 	LiveData<List<FavoriteMovie>> getFavorites();
 	boolean isFavorite(int movieId);
 	void addMovie(FavoriteMovie favoriteMovie);
-	void removeMovie(int movieId);
+	void deleteMovie(FavoriteMovie favoriteMovie);
 }

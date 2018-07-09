@@ -21,8 +21,6 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
-import com.example.android.popularmovies.activities.network_util.GlideApp;
-import com.example.android.popularmovies.activities.network_util.UrlManager;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemCardViewBinding;
 import com.example.android.popularmovies.databinding.ListItemMainBinding;
@@ -319,17 +317,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 			
 			private void bind(Movie movie) {
 				binding.tvTitleMain.setText(movie.getTitle());
-				setPosterImage(movie);
+//				setPosterImage(movie);
 				binding.executePendingBindings();
 			}
 			
-			private void setPosterImage(Movie movie) {
-				GlideApp.with(getApplication())
-						.load(UrlManager.POSTER_URL + movie.getPosterUrl())
-						.placeholder(R.drawable.black_placeholder)
-						.error(R.drawable.black_placeholder)
-						.into(binding.ivPosterListItem);
-			}
+//			private void setPosterImage(Movie movie) {
+//				GlideApp.with(getApplication())
+//						.load(UrlManager.POSTER_URL + movie.getPosterUrl())
+//						.placeholder(R.drawable.black_placeholder)
+//						.error(R.drawable.black_placeholder)
+//						.into(binding.ivPosterListItem);
+//			}
 			
 			
 			@Override
