@@ -11,7 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.activities.network_util.GlideApp;
+import com.example.android.popularmovies.activities.network_util.UrlManager;
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
+import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
 
 import java.util.Objects;
 
@@ -59,11 +62,25 @@ public class DetailActivity extends AppCompatActivity {
 	
 	private void observeMovie() {
 		viewModel.getMovieDetails().observe(this, movieDetails -> {
-			binding.setMovie(movieDetails);
+			bindMovie(movieDetails);
 			hideError();
 			stopLoading();
 		});
 	}
+	
+	private void bindMovie(MovieDetails movieDetails) {
+		binding.setMovie(movieDetails);
+		bindBackdropImage(movieDetails.getBackdropUrl());
+	}
+	
+	public void bindBackdropImage(String backdropUrl) {
+		GlideApp.with(getApplication())
+				.load(UrlManager.BACKDROP_URL + backdropUrl)
+				.placeholder(R.drawable.black_placeholder)
+				.error(R.drawable.black_placeholder)
+				.into(binding.ivPosterDetailActivity);
+	}
+	
 	
 	private void observeErrorMessage() {
 		viewModel.getErrorMessage().observe(this, this::displayError);

@@ -21,8 +21,11 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
+import com.example.android.popularmovies.activities.network_util.GlideApp;
+import com.example.android.popularmovies.activities.network_util.UrlManager;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
-import com.example.android.popularmovies.databinding.ListItemBinding;
+import com.example.android.popularmovies.databinding.ListItemCardViewBinding;
+import com.example.android.popularmovies.databinding.ListItemMainBinding;
 import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -281,15 +284,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		@Override
 		public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 			return new MovieViewHolder(
-					ListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false)
+					ListItemMainBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false)
 			);
 		}
 		
 		@Override
 		public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-			ListItemBinding binding = holder.binding;
-			binding.setMovie(movies.get(holder.getAdapterPosition()));
-			binding.executePendingBindings();
+			holder.bind(movies.get(holder.getAdapterPosition()));
 		}
 		
 		private void replaceData(List<Movie> newMovies) {
@@ -307,13 +308,29 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		
 		class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 			
-			private final ListItemBinding binding;
+			private final ListItemCardViewBinding binding;
 			
-			MovieViewHolder(ListItemBinding binding) {
+			MovieViewHolder(ListItemMainBinding binding) {
 				super(binding.getRoot());
-				this.binding = binding;
+				this.binding = binding.cardView;
 				binding.getRoot().setOnClickListener(this);
 			}
+			
+			
+			private void bind(Movie movie) {
+				binding.tvTitleMain.setText(movie.getTitle());
+				setPosterImage(movie);
+				binding.executePendingBindings();
+			}
+			
+			private void setPosterImage(Movie movie) {
+				GlideApp.with(getApplication())
+						.load(UrlManager.POSTER_URL + movie.getPosterUrl())
+						.placeholder(R.drawable.black_placeholder)
+						.error(R.drawable.black_placeholder)
+						.into(binding.ivPosterListItem);
+			}
+			
 			
 			@Override
 			public void onClick(View v) {

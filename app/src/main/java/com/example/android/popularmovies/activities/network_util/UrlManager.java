@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.model.extra;
+package com.example.android.popularmovies.activities.network_util;
 
 public final class UrlManager {
 	private UrlManager() {

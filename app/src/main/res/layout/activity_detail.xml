@@ -35,7 +35,6 @@
 					android:layout_height="match_parent"
 					android:contentDescription="@string/iv_poster_description"
 					android:scaleType="centerCrop"
-					android:src="@{movie.backdropUrl}"
 					app:layout_collapseMode="parallax" />
 				
 				<android.support.v7.widget.Toolbar

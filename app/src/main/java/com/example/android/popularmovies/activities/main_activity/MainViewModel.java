@@ -10,8 +10,8 @@ import android.util.Log;
 import com.example.android.popularmovies.activities.ErrorMessages;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
-import com.example.android.popularmovies.model.model_movies.ModelMovies;
 import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
+import com.example.android.popularmovies.model.model_movies.ModelMovies;
 import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
 
 import java.util.List;
@@ -77,7 +77,7 @@ final class MainViewModel extends AndroidViewModel {
 	}
 	
 	private void getMoviesFromModel(final Single<List<Movie>> single) {
-		if (noNetworkConnection()) {
+		if (networkStatus.noConnection()) {
 			showError(ErrorMessages.NO_NETWORK_ERROR_MESSAGE);
 			return;
 		}
@@ -116,11 +116,6 @@ final class MainViewModel extends AndroidViewModel {
 	
 	LiveData<String> getErrorMessage() {
 		return errorMessage;
-	}
-	
-	
-	private boolean noNetworkConnection() {
-		return ! networkStatus.haveConnection();
 	}
 	
 	

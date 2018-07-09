@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.model.extra;
+package com.example.android.popularmovies.activities.network_util;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;

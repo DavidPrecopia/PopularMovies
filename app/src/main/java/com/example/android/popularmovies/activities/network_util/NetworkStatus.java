@@ -23,8 +23,8 @@ public final class NetworkStatus implements INetworkStatusContract {
 	}
 	
 	@Override
-	public boolean haveConnection() {
+	public boolean noConnection() {
 		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-		return networkInfo != null && networkInfo.isConnected();
+		return networkInfo == null;
 	}
 }

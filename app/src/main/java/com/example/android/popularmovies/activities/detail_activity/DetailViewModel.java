@@ -10,8 +10,8 @@ import android.util.Log;
 import com.example.android.popularmovies.activities.ErrorMessages;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
-import com.example.android.popularmovies.model.model_movies.ModelMovies;
 import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
+import com.example.android.popularmovies.model.model_movies.ModelMovies;
 import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,7 +48,7 @@ final class DetailViewModel extends AndroidViewModel {
 	}
 	
 	private void init() {
-		if (noNetworkConnection()) {
+		if (networkStatus.noConnection()) {
 			errorMessage.setValue(ErrorMessages.NO_NETWORK_ERROR_MESSAGE);
 			return;
 		}
@@ -84,12 +84,6 @@ final class DetailViewModel extends AndroidViewModel {
 	LiveData<String> getErrorMessage() {
 		return errorMessage;
 	}
-	
-	
-	private boolean noNetworkConnection() {
-		return ! networkStatus.haveConnection();
-	}
-	
 	
 	@Override
 	protected void onCleared() {

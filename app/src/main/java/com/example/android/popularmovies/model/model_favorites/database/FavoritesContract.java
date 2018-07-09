@@ -5,6 +5,7 @@ final class FavoritesContract {
 	}
 	
 	static final String TABLE_NAME = "favorite_movies";
+	
 	static final String MOVIE_ID_COLUMN = "movie_id";
 	static final String TITLE_COLUMN = "title";
 	static final String POSTER_URL_COLUMN = "poster_url";
