@@ -191,8 +191,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		progressBar.setVisibility(View.INVISIBLE);
 		enableRefreshing();
 		recyclerView.setVisibility(View.VISIBLE);
-		floatingActionMenu.setVisibility(View.INVISIBLE);
+		floatingActionMenu.setVisibility(View.VISIBLE);
 	}
+	
 	
 	private void displayError(String message) {
 		progressBar.setVisibility(View.INVISIBLE);
@@ -207,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void hideError() {
 		tvError.setVisibility(View.GONE);
 	}
+	
 	
 	private void enableRefreshing() {
 		swipeRefreshLayout.setVisibility(View.VISIBLE);

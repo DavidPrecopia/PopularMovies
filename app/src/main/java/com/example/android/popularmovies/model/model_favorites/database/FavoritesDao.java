@@ -14,15 +14,21 @@ import io.reactivex.Flowable;
 
 @Dao
 public interface FavoritesDao {
-	@Query("SELECT * FROM " + FavoritesContract.TABLE_NAME)
+	@Query("SELECT " +
+			FavoritesContract.MOVIE_ID_COLUMN + "," +
+			FavoritesContract.TITLE_COLUMN + "," +
+			FavoritesContract.POSTER_URL_COLUMN +
+			" FROM " +
+			FavoritesContract.TABLE_NAME
+	)
 	Flowable<List<Movie>> getFavorites();
 	
 	@Query("SELECT * FROM " + FavoritesContract.TABLE_NAME + " WHERE " + FavoritesContract.MOVIE_ID_COLUMN + " = :movieId")
 	int isFavorite(int movieId);
 	
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	void addMovie(Movie movie);
+	void addMovie(FavoriteMovie favoriteMovie);
 	
 	@Delete
-	void deleteMovie(Movie movie);
+	void deleteMovie(FavoriteMovie favoriteMovie);
 }

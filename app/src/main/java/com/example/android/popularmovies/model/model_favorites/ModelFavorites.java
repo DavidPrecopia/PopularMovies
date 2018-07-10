@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.android.popularmovies.model.contracts_model.IModelFavoritesContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.model_favorites.database.FavoriteMovie;
 import com.example.android.popularmovies.model.model_favorites.database.FavoritesDao;
 import com.example.android.popularmovies.model.model_favorites.database.FavoritesDatabase;
 
@@ -41,12 +42,12 @@ public final class ModelFavorites implements IModelFavoritesContract {
 	
 	
 	@Override
-	public void addMovie(Movie movie) {
-		dao.addMovie(movie);
+	public void addMovie(FavoriteMovie favoriteMovie) {
+		dao.addMovie(favoriteMovie);
 	}
 	
 	@Override
-	public void deleteMovie(Movie movie) {
-		dao.deleteMovie(movie);
+	public void deleteMovie(FavoriteMovie favoriteMovie) {
+		dao.deleteMovie(favoriteMovie);
 	}
 }

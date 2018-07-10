@@ -1,8 +1,6 @@
 package com.example.android.popularmovies.model.datamodel;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 
@@ -10,11 +8,10 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.model_favorites.database.FavoritesContract;
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = FavoritesContract.TABLE_NAME)
+/**
+ * ColumnInfo annotations used to de-serialize from database
+ */
 public final class Movie {
-	
-	@PrimaryKey(autoGenerate = true)
-	private int id;
 	
 	@SerializedName("id")
 	@ColumnInfo(name = FavoritesContract.MOVIE_ID_COLUMN)
@@ -28,17 +25,12 @@ public final class Movie {
 	@ColumnInfo(name = FavoritesContract.POSTER_URL_COLUMN)
 	private final String posterUrl;
 	
-	public Movie(int id, int movieId, String title, String posterUrl) {
-		this.id = id;
+	public Movie(int movieId, String title, String posterUrl) {
 		this.movieId = movieId;
 		this.title = title;
 		this.posterUrl = posterUrl;
 	}
 	
-	
-	public int getId() {
-		return id;
-	}
 	
 	public int getMovieId() {
 		return movieId;
