@@ -11,8 +11,8 @@ import com.example.android.popularmovies.activities.ErrorMessages;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
 import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
+import com.example.android.popularmovies.model.datamodel.MovieDetails;
 import com.example.android.popularmovies.model.model_movies.ModelMovies;
-import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;

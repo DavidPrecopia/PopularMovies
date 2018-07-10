@@ -1,4 +1,6 @@
-package com.example.android.popularmovies.model.model_movies.datamodel;
+package com.example.android.popularmovies.model.model_movies.remote;
+
+import com.example.android.popularmovies.model.datamodel.Movie;
 
 import java.util.ArrayList;
 import java.util.List;

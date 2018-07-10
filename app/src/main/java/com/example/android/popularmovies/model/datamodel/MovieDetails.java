@@ -1,5 +1,9 @@
-package com.example.android.popularmovies.model.model_movies.datamodel;
+package com.example.android.popularmovies.model.datamodel;
 
+import android.databinding.BindingAdapter;
+import android.widget.ImageView;
+
+import com.example.android.popularmovies.R;
 import com.google.gson.annotations.SerializedName;
 
 public final class MovieDetails {
@@ -61,5 +65,15 @@ public final class MovieDetails {
 	
 	public String getBackdropUrl() {
 		return backdropUrl;
+	}
+	
+	
+	@BindingAdapter({"android:src"})
+	public static void bindBackdropImage(ImageView imageView, String backdropUrl) {
+		GlideApp.with(imageView)
+				.load(UrlManager.BACKDROP_URL + backdropUrl)
+				.placeholder(R.drawable.black_placeholder)
+				.error(R.drawable.black_placeholder)
+				.into(imageView);
 	}
 }

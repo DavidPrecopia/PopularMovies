@@ -1,11 +1,9 @@
 package com.example.android.popularmovies.model.model_movies.remote;
 
 import android.app.Application;
-import android.util.Log;
 
-import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
-import com.example.android.popularmovies.model.model_movies.datamodel.MovieDbResponse;
-import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
+import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.datamodel.MovieDetails;
 
 import java.util.List;
 
@@ -17,8 +15,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RemoteStorage implements IRemoteStorage {
-	
-	private static final String LOG_TAG = RemoteStorage.class.getSimpleName();
 	
 	private final MovieDbService movieDbService;
 	
@@ -67,7 +63,6 @@ public final class RemoteStorage implements IRemoteStorage {
 	}
 	
 	private Single<List<Movie>> getMovies(String sortBy) {
-		Log.d(LOG_TAG, "getMovies");
 		return movieDbService.sortedMovies(sortBy)
 				.map(MovieDbResponse::getMoviesList);
 	}

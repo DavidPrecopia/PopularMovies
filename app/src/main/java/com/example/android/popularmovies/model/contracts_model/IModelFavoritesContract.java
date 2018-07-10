@@ -1,14 +1,14 @@
 package com.example.android.popularmovies.model.contracts_model;
 
-import android.arch.lifecycle.LiveData;
-
-import com.example.android.popularmovies.model.model_favorites.database.FavoriteMovie;
+import com.example.android.popularmovies.model.datamodel.Movie;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 public interface IModelFavoritesContract {
-	LiveData<List<FavoriteMovie>> getFavorites();
+	Flowable<List<Movie>> getFavorites();
 	boolean isFavorite(int movieId);
-	void addMovie(FavoriteMovie favoriteMovie);
-	void deleteMovie(FavoriteMovie favoriteMovie);
+	void addMovie(Movie movie);
+	void deleteMovie(Movie movie);
 }

@@ -11,8 +11,8 @@ import com.example.android.popularmovies.activities.ErrorMessages;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
 import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
+import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.model_movies.ModelMovies;
-import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
 
 import java.util.List;
 
@@ -89,10 +89,6 @@ final class MainViewModel extends AndroidViewModel {
 	}
 	
 	
-	private void showError(String errorMessage) {
-		this.errorMessage.setValue(errorMessage);
-	}
-	
 	
 	private DisposableSingleObserver<List<Movie>> getObserver() {
 		return new DisposableSingleObserver<List<Movie>>() {
@@ -116,6 +112,10 @@ final class MainViewModel extends AndroidViewModel {
 	
 	LiveData<String> getErrorMessage() {
 		return errorMessage;
+	}
+	
+	private void showError(String errorMessage) {
+		this.errorMessage.setValue(errorMessage);
 	}
 	
 	

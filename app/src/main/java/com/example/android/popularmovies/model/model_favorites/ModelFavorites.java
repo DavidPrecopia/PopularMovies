@@ -1,14 +1,15 @@
 package com.example.android.popularmovies.model.model_favorites;
 
 import android.app.Application;
-import android.arch.lifecycle.LiveData;
 
 import com.example.android.popularmovies.model.contracts_model.IModelFavoritesContract;
-import com.example.android.popularmovies.model.model_favorites.database.FavoriteMovie;
+import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.model_favorites.database.FavoritesDao;
 import com.example.android.popularmovies.model.model_favorites.database.FavoritesDatabase;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
 
 public final class ModelFavorites implements IModelFavoritesContract {
 	
@@ -29,7 +30,7 @@ public final class ModelFavorites implements IModelFavoritesContract {
 	
 	
 	@Override
-	public LiveData<List<FavoriteMovie>> getFavorites() {
+	public Flowable<List<Movie>> getFavorites() {
 		return dao.getFavorites();
 	}
 	
@@ -40,12 +41,12 @@ public final class ModelFavorites implements IModelFavoritesContract {
 	
 	
 	@Override
-	public void addMovie(FavoriteMovie favoriteMovie) {
-		dao.addMovie(favoriteMovie);
+	public void addMovie(Movie movie) {
+		dao.addMovie(movie);
 	}
 	
 	@Override
-	public void deleteMovie(FavoriteMovie favoriteMovie) {
-		dao.deleteMovie(favoriteMovie);
+	public void deleteMovie(Movie movie) {
+		dao.deleteMovie(movie);
 	}
 }

@@ -1,7 +1,7 @@
 package com.example.android.popularmovies.model.contracts_model;
 
-import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
-import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
+import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.datamodel.MovieDetails;
 
 import java.util.List;
 

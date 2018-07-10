@@ -117,11 +117,9 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="75" />
-                            <entry key="outputName" value="ic_round_error_outline" />
+                            <entry key="outputName" value="ic_person_24px" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\David\Downloads\round-error_outline-24px.svg" />
-                            <entry key="width" value="75" />
+                            <entry key="sourceFile" value="C:\Users\David\Downloads\round-person-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>

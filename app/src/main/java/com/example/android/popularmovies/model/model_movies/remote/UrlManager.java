@@ -7,11 +7,14 @@ final class UrlManager {
 	}
 	
 	static final String BASE_URL = "https://api.themoviedb.org/";
+
+	
 	/**
 	 * API key hidden in local files.
 	 * Instructions: https://medium.com/code-better/hiding-api-keys-from-your-android-repository-b23f5598b906
 	 */
 	private static final String API_KEY = "?api_key=" + BuildConfig.ApiKey;
+
 	
 	/**
 	 * Sorted list of movies
@@ -23,6 +26,7 @@ final class UrlManager {
 	private static final String SORT_ORDER = ".desc";
 	static final String QUERY_POPULAR = "popularity" + SORT_ORDER;
 	static final String QUERY_HIGHEST_RATED = "vote_count" + SORT_ORDER;
+	
 	
 	/**
 	 * Single movie

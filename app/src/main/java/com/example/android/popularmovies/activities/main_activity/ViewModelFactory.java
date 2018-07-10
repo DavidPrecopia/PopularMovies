@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.activities.detail_activity;
+package com.example.android.popularmovies.activities.main_activity;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -9,21 +9,20 @@ import android.support.annotation.NonNull;
 final class ViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
 	
 	private final Application application;
-	private final int movieId;
 	
 	/**
 	 * Creates a {@code AndroidViewModelFactory}
+	 *
 	 * @param application an application to pass in {@link AndroidViewModel}
 	 */
-	ViewModelFactory(@NonNull Application application, int movieId) {
+	public ViewModelFactory(@NonNull Application application) {
 		super(application);
 		this.application = application;
-		this.movieId = movieId;
 	}
 	
 	@NonNull
 	@Override
 	public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-		return (T) new DetailViewModel(application, movieId);
+		return (T) new MainViewModel(application);
 	}
 }

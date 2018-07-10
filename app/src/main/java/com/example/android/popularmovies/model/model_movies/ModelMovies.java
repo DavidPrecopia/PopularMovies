@@ -4,9 +4,9 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 
 import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
+import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.datamodel.MovieDetails;
 import com.example.android.popularmovies.model.model_movies.remote.IRemoteStorage;
-import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
-import com.example.android.popularmovies.model.model_movies.datamodel.MovieDetails;
 import com.example.android.popularmovies.model.model_movies.remote.RemoteStorage;
 
 import java.util.List;

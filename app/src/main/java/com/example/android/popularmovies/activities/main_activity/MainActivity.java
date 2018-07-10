@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,10 +20,10 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
+import com.example.android.popularmovies.activities.favorites_activity.FavoritesActivity;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
 import com.example.android.popularmovies.databinding.ListItemCardViewBinding;
-import com.example.android.popularmovies.databinding.ListItemMainBinding;
-import com.example.android.popularmovies.model.model_movies.datamodel.Movie;
+import com.example.android.popularmovies.model.datamodel.Movie;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
@@ -49,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+		
 		init();
 	}
 	
@@ -62,12 +62,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	
 	private void setUpViewModel() {
-		viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-		observeViewModel();
+		ViewModelFactory factory = new ViewModelFactory(getApplication());
+		viewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
+		observeMovies();
 		observeError();
 	}
 	
-	private void observeViewModel() {
+	private void observeMovies() {
 		viewModel.getMovies().observe(this, movies -> {
 			movieAdapter.replaceData(movies);
 			hideError();
@@ -78,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void observeError() {
 		viewModel.getErrorMessage().observe(this, this::displayError);
 	}
-	
 	
 	
 	private void setActionBarTitle(String title) {
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		setUpToolbar();
 		setUpRecyclerView();
 		setUpFloatingActionMenu();
-		setUpSwipeRefresh();
+		swipeRefreshLayout.setOnRefreshListener(this);
 	}
 	
 	private void getViewReferences() {
@@ -123,9 +123,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void setUpRecyclerView() {
-		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount(), LinearLayoutManager.VERTICAL, false));
+		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount()));
 		recyclerView.setHasFixedSize(true);
-		
 		movieAdapter = new MovieAdapter(new ArrayList<>());
 		recyclerView.setAdapter(movieAdapter);
 	}
@@ -141,8 +140,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void setUpFloatingActionMenu() {
 		floatingActionMenu.setIconAnimated(false);
 		floatingActionMenu.setClosedOnTouchOutside(true);
+		// PLACEHOLDER
+		binding.fabStartFavoriteActivity.setOnClickListener(fabOpenFavoritesActivity());
 		binding.fabSortPopular.setOnClickListener(fabPopularListener());
 		binding.fabSortRated.setOnClickListener(fabRatedListener());
+	}
+	
+	private View.OnClickListener fabOpenFavoritesActivity() {
+		return view -> startActivity(new Intent(this, FavoritesActivity.class));
 	}
 	
 	private View.OnClickListener fabPopularListener() {
@@ -166,10 +171,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		displayLoading();
 	}
 	
-	private void setUpSwipeRefresh() {
-		swipeRefreshLayout.setOnRefreshListener(this);
-	}
-	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -180,25 +181,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	
 	private void displayLoading() {
-		showProgressBar();
+		progressBar.setVisibility(View.VISIBLE);
 		disableRefreshing();
-		hideList();
-		hideFab();
+		recyclerView.setVisibility(View.INVISIBLE);
+		floatingActionMenu.setVisibility(View.INVISIBLE);
 	}
 	
 	private void hideLoading() {
-		hideProgressBar();
+		progressBar.setVisibility(View.INVISIBLE);
 		enableRefreshing();
-		showList();
-		showFab();
+		recyclerView.setVisibility(View.VISIBLE);
+		floatingActionMenu.setVisibility(View.INVISIBLE);
 	}
 	
 	private void displayError(String message) {
-		hideProgressBar();
+		progressBar.setVisibility(View.INVISIBLE);
 		enableRefreshing();
-		hideList();
-		hideFab();
-		showErrorTextView(message);
+		recyclerView.setVisibility(View.INVISIBLE);
+		floatingActionMenu.setVisibility(View.INVISIBLE);
+		
+		tvError.setText(message);
+		tvError.setVisibility(View.VISIBLE);
 	}
 	
 	private void hideError() {
@@ -239,42 +242,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	
-	private void showProgressBar() {
-		progressBar.setVisibility(View.VISIBLE);
-	}
-	
-	private void hideProgressBar() {
-		progressBar.setVisibility(View.INVISIBLE);
-	}
-	
-	
-	private void showList() {
-		recyclerView.setVisibility(View.VISIBLE);
-	}
-	
-	private void hideList() {
-		recyclerView.setVisibility(View.INVISIBLE);
-	}
-	
-	private void showFab() {
-		floatingActionMenu.setVisibility(View.VISIBLE);
-	}
-	
-	private void hideFab() {
-		floatingActionMenu.setVisibility(View.INVISIBLE);
-	}
-	
-	private void showErrorTextView(String message) {
-		tvError.setText(message);
-		tvError.setVisibility(View.VISIBLE);
-	}
-	
-	
 	private class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 		
 		private final List<Movie> movies;
 		
-		MovieAdapter(List<Movie> movies) {
+		private MovieAdapter(List<Movie> movies) {
 			this.movies = new ArrayList<>(movies);
 		}
 		
@@ -282,13 +254,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		@Override
 		public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 			return new MovieViewHolder(
-					ListItemMainBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false)
+					ListItemCardViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false)
 			);
 		}
 		
 		@Override
 		public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-			holder.bind(movies.get(holder.getAdapterPosition()));
+			ListItemCardViewBinding binding = holder.binding;
+			binding.setMovie(movies.get(holder.getAdapterPosition()));
+			binding.executePendingBindings();
 		}
 		
 		private void replaceData(List<Movie> newMovies) {
@@ -304,36 +278,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		}
 		
 		
-		class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+		final class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 			
 			private final ListItemCardViewBinding binding;
 			
-			MovieViewHolder(ListItemMainBinding binding) {
+			private MovieViewHolder(ListItemCardViewBinding binding) {
 				super(binding.getRoot());
-				this.binding = binding.cardView;
+				this.binding = binding;
 				binding.getRoot().setOnClickListener(this);
 			}
-			
-			
-			private void bind(Movie movie) {
-				binding.tvTitleMain.setText(movie.getTitle());
-//				setPosterImage(movie);
-				binding.executePendingBindings();
-			}
-			
-//			private void setPosterImage(Movie movie) {
-//				GlideApp.with(getApplication())
-//						.load(UrlManager.POSTER_URL + movie.getPosterUrl())
-//						.placeholder(R.drawable.black_placeholder)
-//						.error(R.drawable.black_placeholder)
-//						.into(binding.ivPosterListItem);
-//			}
-			
 			
 			@Override
 			public void onClick(View v) {
 				openDetailActivity(
-						movies.get(getAdapterPosition()).getId()
+						movies.get(getAdapterPosition()).getMovieId()
 				);
 			}
 		}
