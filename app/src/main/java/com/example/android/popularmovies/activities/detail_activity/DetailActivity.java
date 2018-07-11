@@ -47,7 +47,7 @@ public class DetailActivity extends AppCompatActivity {
 	}
 	
 	private void setUpViewModel() {
-		ViewModelFactory factory = new ViewModelFactory(getApplication(), getMovieId());
+		DetailViewModelFactory factory = new DetailViewModelFactory(getApplication(), getMovieId());
 		viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
 		observeMovieDetails();
 		observeErrorMessage();

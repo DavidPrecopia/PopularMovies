@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
-final class ViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
+final class MainViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
 	
 	private final Application application;
 	
@@ -15,7 +15,7 @@ final class ViewModelFactory extends ViewModelProvider.AndroidViewModelFactory {
 	 *
 	 * @param application an application to pass in {@link AndroidViewModel}
 	 */
-	public ViewModelFactory(@NonNull Application application) {
+	MainViewModelFactory(@NonNull Application application) {
 		super(application);
 		this.application = application;
 	}

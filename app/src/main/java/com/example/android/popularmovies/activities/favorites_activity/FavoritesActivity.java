@@ -6,23 +6,26 @@ import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.activities.MovieAdapter;
 import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
 import com.example.android.popularmovies.databinding.ActivityFavoritesBinding;
 
-public class FavoritesActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class FavoritesActivity extends AppCompatActivity implements MovieAdapter.ViewHolderClickListener {
 	
 	private ActivityFavoritesBinding binding;
 	private FavoriteViewModel viewModel;
 	
 	private RecyclerView recyclerView;
-	// TODO RecyclerView adapter
-//	private FavoritesAdapter favoritesAdapter;
+	private MovieAdapter movieAdapter;
 	
 	private ProgressBar progressBar;
 	private TextView errorTextView;
@@ -43,18 +46,20 @@ public class FavoritesActivity extends AppCompatActivity {
 	
 	
 	private void setUpViewModel() {
-		viewModel = ViewModelProviders.of(this).get(FavoriteViewModel.class);
+		FavoritesViewModelFactory factory = new FavoritesViewModelFactory(getApplication());
+		viewModel = ViewModelProviders.of(this, factory).get(FavoriteViewModel.class);
 		observeMovies();
 		observeErrorMessage();
 	}
 	
-	// TODO Observer movies
+	
 	private void observeMovies() {
-//		viewModel.getFavoriteMovies().observe(this, favoriteMovies -> {
-//			favoritesAdapter.replaceData(favoriteMovies);
-//			hideError();
-//			hideLoading();
-//		});
+		viewModel.getFavoriteMovies().observe(this, favoriteMovies -> {
+			movieAdapter.replaceData(favoriteMovies);
+			hideError();
+			hideLoading();
+			recyclerView.smoothScrollToPosition(0);
+		});
 	}
 	
 	private void observeErrorMessage() {
@@ -62,7 +67,8 @@ public class FavoritesActivity extends AppCompatActivity {
 	}
 	
 	
-	private void openDetailActivity(int movieId) {
+	@Override
+	public void onViewHolderClick(int movieId) {
 		Intent intent = new Intent(this, DetailActivity.class);
 		intent.putExtra(DetailActivity.class.getSimpleName(), movieId);
 		startActivity(intent);
@@ -108,12 +114,11 @@ public class FavoritesActivity extends AppCompatActivity {
 		setSupportActionBar(binding.toolbar);
 	}
 	
-	// TODO Set up RecyclerView
 	private void setUpRecyclerView() {
-//		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount()));
-//		recyclerView.setHasFixedSize(true);
-//		favoritesAdapter = new FavoritesAdapter(null);
-//		recyclerView.setAdapter(favoritesAdapter);
+		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount()));
+		recyclerView.setHasFixedSize(true);
+		movieAdapter = new MovieAdapter(new ArrayList<>(), this);
+		recyclerView.setAdapter(movieAdapter);
 	}
 	
 	private int gridLayoutSpanCount() {

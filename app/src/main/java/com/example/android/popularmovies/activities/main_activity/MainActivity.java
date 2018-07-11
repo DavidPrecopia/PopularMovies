@@ -5,32 +5,28 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.activities.MovieAdapter;
 import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
 import com.example.android.popularmovies.activities.favorites_activity.FavoritesActivity;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
-import com.example.android.popularmovies.databinding.ListItemCardViewBinding;
-import com.example.android.popularmovies.model.datamodel.Movie;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity
+		implements SwipeRefreshLayout.OnRefreshListener, MovieAdapter.ViewHolderClickListener {
 	
 	private MainViewModel viewModel;
 	private ActivityMainBinding binding;
@@ -62,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	
 	private void setUpViewModel() {
-		ViewModelFactory factory = new ViewModelFactory(getApplication());
+		MainViewModelFactory factory = new MainViewModelFactory(getApplication());
 		viewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
 		observeMovies();
 		observeError();
@@ -73,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 			movieAdapter.replaceData(movies);
 			hideError();
 			hideLoading();
+			recyclerView.smoothScrollToPosition(0);
 		});
 	}
 	
@@ -95,7 +92,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	
-	private void openDetailActivity(int movieId) {
+	@Override
+	public void onViewHolderClick(int movieId) {
 		Intent intent = new Intent(this, DetailActivity.class);
 		intent.putExtra(DetailActivity.class.getSimpleName(), movieId);
 		startActivity(intent);
@@ -125,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void setUpRecyclerView() {
 		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount()));
 		recyclerView.setHasFixedSize(true);
-		movieAdapter = new MovieAdapter(new ArrayList<>());
+		this.movieAdapter = new MovieAdapter(new ArrayList<>(), this);
 		recyclerView.setAdapter(movieAdapter);
 	}
 	
@@ -241,61 +239,5 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		displayLoading();
 		swipeRefreshLayout.setRefreshing(false);
 		viewModel.onRefresh();
-	}
-	
-	
-	private class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-		
-		private final List<Movie> movies;
-		
-		private MovieAdapter(List<Movie> movies) {
-			this.movies = new ArrayList<>(movies);
-		}
-		
-		@NonNull
-		@Override
-		public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-			return new MovieViewHolder(
-					ListItemCardViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false)
-			);
-		}
-		
-		@Override
-		public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-			ListItemCardViewBinding binding = holder.binding;
-			binding.setMovie(movies.get(holder.getAdapterPosition()));
-			binding.executePendingBindings();
-		}
-		
-		private void replaceData(List<Movie> newMovies) {
-			this.movies.clear();
-			this.movies.addAll(newMovies);
-			notifyDataSetChanged();
-			recyclerView.smoothScrollToPosition(0);
-		}
-		
-		@Override
-		public int getItemCount() {
-			return movies.size();
-		}
-		
-		
-		final class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-			
-			private final ListItemCardViewBinding binding;
-			
-			private MovieViewHolder(ListItemCardViewBinding binding) {
-				super(binding.getRoot());
-				this.binding = binding;
-				binding.getRoot().setOnClickListener(this);
-			}
-			
-			@Override
-			public void onClick(View v) {
-				openDetailActivity(
-						movies.get(getAdapterPosition()).getMovieId()
-				);
-			}
-		}
 	}
 }
