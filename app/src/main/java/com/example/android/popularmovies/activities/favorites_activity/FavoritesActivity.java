@@ -16,10 +16,17 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.MovieAdapter;
 import com.example.android.popularmovies.activities.detail_activity.DetailActivity;
 import com.example.android.popularmovies.databinding.ActivityFavoritesBinding;
+import com.example.android.popularmovies.model.datamodel.Movie;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class FavoritesActivity extends AppCompatActivity implements MovieAdapter.ViewHolderClickListener {
+	
+	private static final String LOG_TAG = FavoritesActivity.class.getSimpleName();
+	
+	private static final String NO_FAVORITES_MESSAGE = "No favorites selected";
 	
 	private ActivityFavoritesBinding binding;
 	private FavoriteViewModel viewModel;
@@ -54,12 +61,17 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	
 	
 	private void observeMovies() {
-		viewModel.getFavoriteMovies().observe(this, favoriteMovies -> {
-			movieAdapter.replaceData(favoriteMovies);
-			hideError();
-			hideLoading();
-			recyclerView.smoothScrollToPosition(0);
-		});
+		viewModel.getFavoriteMovies().observe(this, this::replaceData);
+	}
+	
+	private void replaceData(final List<Movie> favoriteMovies) {
+		if (favoriteMovies == null || favoriteMovies.isEmpty()) {
+			displayError(NO_FAVORITES_MESSAGE);
+		}
+		movieAdapter.replaceData(favoriteMovies);
+		hideError();
+		hideLoading();
+		recyclerView.smoothScrollToPosition(0);
 	}
 	
 	private void observeErrorMessage() {
@@ -77,18 +89,19 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	
 	private void displayLoading() {
 		hideError();
-		recyclerView.setVisibility(View.INVISIBLE);
-		progressBar.setVisibility(View.VISIBLE);
+		listVisibility(View.INVISIBLE);
+		progressBarVisibility(View.VISIBLE);
 	}
 	
 	private void hideLoading() {
-		progressBar.setVisibility(View.INVISIBLE);
-		recyclerView.setVisibility(View.VISIBLE);
+		progressBarVisibility(View.INVISIBLE);
+		listVisibility(View.VISIBLE);
 	}
 	
 	
 	private void displayError(String errorMessage) {
-		recyclerView.setVisibility(View.INVISIBLE);
+		progressBarVisibility(View.INVISIBLE);
+		listVisibility(View.INVISIBLE);
 		errorTextView.setText(errorMessage);
 		errorTextView.setVisibility(View.VISIBLE);
 	}
@@ -112,6 +125,7 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	
 	private void setUpToolbar() {
 		setSupportActionBar(binding.toolbar);
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 	}
 	
 	private void setUpRecyclerView() {
@@ -122,10 +136,19 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	}
 	
 	private int gridLayoutSpanCount() {
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			return 4;
-		} else {
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 			return 2;
+		} else {
+			return 4;
 		}
+	}
+	
+	
+	private void listVisibility(int visibility) {
+		recyclerView.setVisibility(visibility);
+	}
+	
+	private void progressBarVisibility(int visibility) {
+		progressBar.setVisibility(visibility);
 	}
 }

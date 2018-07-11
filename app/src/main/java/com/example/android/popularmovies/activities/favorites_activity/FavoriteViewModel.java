@@ -49,7 +49,6 @@ final class FavoriteViewModel extends AndroidViewModel {
 		);
 	}
 	
-	// TODO If database is empty, nothing happens
 	private DisposableSubscriber<List<Movie>> getSubscriber() {
 		return new DisposableSubscriber<List<Movie>>() {
 			@Override

@@ -14,6 +14,8 @@ import io.reactivex.Flowable;
 
 public final class ModelFavorites implements IModelFavoritesContract {
 	
+	private static final String LOG_TAG = ModelFavorites.class.getSimpleName();
+	
 	private final FavoritesDao dao;
 	
 	private static ModelFavorites modelFavorites;
