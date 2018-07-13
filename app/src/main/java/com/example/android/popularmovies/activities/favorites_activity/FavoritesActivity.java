@@ -67,6 +67,7 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	private void replaceData(final List<Movie> favoriteMovies) {
 		if (favoriteMovies == null || favoriteMovies.isEmpty()) {
 			displayError(NO_FAVORITES_MESSAGE);
+			return;
 		}
 		movieAdapter.replaceData(favoriteMovies);
 		hideError();
@@ -102,8 +103,8 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	private void displayError(String errorMessage) {
 		progressBarVisibility(View.INVISIBLE);
 		listVisibility(View.INVISIBLE);
-		errorTextView.setText(errorMessage);
 		errorTextView.setVisibility(View.VISIBLE);
+		errorTextView.setText(errorMessage);
 	}
 	
 	private void hideError() {
