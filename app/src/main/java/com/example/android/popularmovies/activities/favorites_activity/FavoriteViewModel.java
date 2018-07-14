@@ -7,7 +7,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.android.popularmovies.activities.ErrorMessages;
+import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.contracts_model.IModelFavoritesContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
 import com.example.android.popularmovies.model.model_favorites.ModelFavorites;
@@ -59,7 +59,7 @@ final class FavoriteViewModel extends AndroidViewModel {
 			@Override
 			public void onError(Throwable e) {
 				Log.e(LOG_TAG, e.getMessage());
-				errorMessage.setValue(ErrorMessages.GENERIC_ERROR_MESSAGE);
+				errorMessage.setValue(getApplication().getString(R.string.error_generic_error));
 			}
 			
 			@Override

@@ -78,8 +78,7 @@ public class DetailActivity extends AppCompatActivity {
 	private void playTrailer() {
 		Intent intent = new Intent(Intent.ACTION_VIEW, getTrailerUri());
 		if (intent.resolveActivity(getPackageManager()) == null) {
-			// TODO Put real error message
-			Toast.makeText(this, "PLACEHOLDER", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.error_cannot_open_trailer, Toast.LENGTH_SHORT).show();
 		}
 		startActivity(intent);
 	}

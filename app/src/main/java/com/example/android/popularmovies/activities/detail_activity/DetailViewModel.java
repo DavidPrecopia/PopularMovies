@@ -7,7 +7,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.android.popularmovies.activities.ErrorMessages;
+import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
 import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
@@ -49,7 +49,7 @@ final class DetailViewModel extends AndroidViewModel {
 	
 	private void init() {
 		if (networkStatus.noConnection()) {
-			errorMessage.setValue(ErrorMessages.NO_NETWORK_ERROR_MESSAGE);
+			errorMessage.setValue(getApplication().getString(R.string.error_no_network));
 			return;
 		}
 		
@@ -71,7 +71,7 @@ final class DetailViewModel extends AndroidViewModel {
 			@Override
 			public void onError(Throwable e) {
 				Log.e(LOG_TAG, e.getMessage());
-				errorMessage.setValue(ErrorMessages.GENERIC_ERROR_MESSAGE);
+				errorMessage.setValue(getApplication().getString(R.string.error_generic_error));
 			}
 		};
 	}

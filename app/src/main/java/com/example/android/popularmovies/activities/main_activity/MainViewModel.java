@@ -7,7 +7,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.android.popularmovies.activities.ErrorMessages;
+import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
 import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
@@ -78,7 +78,7 @@ final class MainViewModel extends AndroidViewModel {
 	
 	private void getMoviesFromModel(final Single<List<Movie>> single) {
 		if (networkStatus.noConnection()) {
-			showError(ErrorMessages.NO_NETWORK_ERROR_MESSAGE);
+			showError(getApplication().getString(R.string.error_no_network));
 			return;
 		}
 		disposable.add(single
@@ -100,7 +100,7 @@ final class MainViewModel extends AndroidViewModel {
 			@Override
 			public void onError(Throwable e) {
 				Log.d(LOG_TAG, e.getMessage());
-				showError(ErrorMessages.GENERIC_ERROR_MESSAGE);
+				showError(getApplication().getString(R.string.error_generic_error));
 			}
 		};
 	}

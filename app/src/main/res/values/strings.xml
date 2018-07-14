@@ -5,6 +5,7 @@
 	<string name="title_highest_rated">Highest Rated</string>
 	<string name="title_activity_favorites">Favorites</string>
 	
+	
 	<!--MainActivity-->
 	<string name="menu_refresh_title">Refresh</string>
 	<string name="iv_poster_description">Movie poster</string>
@@ -18,4 +19,13 @@
 	<!--DetailActivity-->
 	<string name="open_trailer_label">Play trailer</string>
 	<string name="menu_favorite_title">Mark as Favorite</string>
+	<string name="error_cannot_open_trailer">Cannot open YouTube</string>
+
+	<!--FavoriteActivity-->
+	<string name="error_no_favorite_movies">No favorites selected</string>
+	
+	
+	<!--Error messages-->
+	<string name="error_no_network">No internet connection</string>
+	<string name="error_generic_error">Encounter an error</string>
 </resources>

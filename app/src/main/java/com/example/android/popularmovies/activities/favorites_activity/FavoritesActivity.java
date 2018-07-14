@@ -26,8 +26,6 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	
 	private static final String LOG_TAG = FavoritesActivity.class.getSimpleName();
 	
-	private static final String NO_FAVORITES_MESSAGE = "No favorites selected";
-	
 	private ActivityFavoritesBinding binding;
 	private FavoriteViewModel viewModel;
 	
@@ -65,7 +63,7 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	
 	private void replaceData(final List<Movie> favoriteMovies) {
 		if (favoriteMovies == null || favoriteMovies.isEmpty()) {
-			displayError(NO_FAVORITES_MESSAGE);
+			displayError(getString(R.string.error_no_favorite_movies));
 			return;
 		}
 		movieAdapter.replaceData(favoriteMovies);
