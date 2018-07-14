@@ -6,7 +6,13 @@ import android.widget.ImageView;
 import com.example.android.popularmovies.R;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public final class MovieDetails {
+	
+	private static final String LOG_TAG = MovieDetails.class.getSimpleName();
 	
 	@SerializedName("original_title")
 	private final String title;
@@ -23,27 +29,21 @@ public final class MovieDetails {
 	@SerializedName("backdrop_path")
 	private final String backdropUrl;
 	
+	@SerializedName("videos")
+	private final Trailer trailer;
 	
-	public MovieDetails(String title, float rating, String releaseDate, String description, String backdropUrl) {
+	@SerializedName("reviews")
+	private final MovieReviews movieReviews;
+	
+	
+	MovieDetails(String title, float rating, String releaseDate, String description, String backdropUrl, Trailer trailer, MovieReviews movieReviews) {
 		this.title = title;
 		this.rating = rating;
-		this.releaseDate = formatReleaseDate(releaseDate);
+		this.releaseDate = releaseDate;
 		this.description = description;
 		this.backdropUrl = backdropUrl;
-	}
-	
-	/*
-		How the date is formatted: yyyy-MM-dd
-		Returns: dd-MM-yyyy
-	 */
-	private static String formatReleaseDate(String releaseDate) {
-		String[] dateArray = releaseDate.split("-");
-		// AS recommends concatenating a String instead of using StringBuilder
-		return dateArray[1]
-				+ "/"
-				+ dateArray[2]
-				+ "/"
-				+ dateArray[0];
+		this.trailer = trailer;
+		this.movieReviews = movieReviews;
 	}
 	
 	
@@ -55,8 +55,18 @@ public final class MovieDetails {
 		return rating;
 	}
 	
+	/**
+	 * How the date is formatted: yyyy-MM-dd
+	 * Returns: dd/MM/yyyy
+	 */
 	public String getReleaseDate() {
-		return releaseDate;
+		String[] dateArray = this.releaseDate.split("-");
+		// AS recommends concatenating a String instead of using StringBuilder
+		return dateArray[1]
+				+ "/"
+				+ dateArray[2]
+				+ "/"
+				+ dateArray[0];
 	}
 	
 	public String getDescription() {
@@ -67,6 +77,14 @@ public final class MovieDetails {
 		return backdropUrl;
 	}
 	
+	public String getYouTubeTrailerId() {
+		return trailer.results[0].key;
+	}
+	
+	public List<Review> getReviews() {
+		return new ArrayList<>(Arrays.asList(movieReviews.reviews));
+	}
+	
 	
 	@BindingAdapter({"android:src"})
 	public static void bindBackdropImage(ImageView imageView, String backdropUrl) {
@@ -75,5 +93,57 @@ public final class MovieDetails {
 				.placeholder(R.drawable.black_placeholder)
 				.error(R.drawable.black_placeholder)
 				.into(imageView);
+	}
+	
+	
+	/**
+	 * Trailer
+	 */
+	private class Trailer {
+		private final Videos[] results;
+		
+		Trailer(Videos[] results) {
+			this.results = results;
+		}
+		
+		private class Videos {
+			private final String key;
+			
+			Videos(String key) {
+				this.key = key;
+			}
+		}
+	}
+	
+	
+	/**
+	 * Reviews
+	 */
+	private class MovieReviews {
+		
+		@SerializedName("results")
+		private final Review[] reviews;
+		
+		private MovieReviews(Review[] reviews) {
+			this.reviews = reviews;
+		}
+	}
+	
+	public class Review {
+		private final String author;
+		private final String content;
+		
+		private Review(String author, String content) {
+			this.author = author;
+			this.content = content;
+		}
+		
+		public String getAuthor() {
+			return author;
+		}
+		
+		public String getContent() {
+			return content;
+		}
 	}
 }

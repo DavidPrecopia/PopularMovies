@@ -117,9 +117,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_person_24px" />
+                            <entry key="height" value="18" />
+                            <entry key="outputName" value="ic_star_empty_18px" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\David\Downloads\round-person-24px.svg" />
+                            <entry key="sourceFile" value="C:\Users\David\Downloads\star_empty-24px.svg" />
+                            <entry key="width" value="18" />
                           </map>
                         </option>
                       </PersistentState>

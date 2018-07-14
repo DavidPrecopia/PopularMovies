@@ -5,7 +5,8 @@
 	
 	<dimen name="card_view_corner_radius">16dp</dimen>
 	<dimen name="view_elevation">8dp</dimen>
-	
-	<dimen name="app_bar_height_detail_activity">300dp</dimen>
 	<dimen name="fab_margin">16dp</dimen>
+	<dimen name="tv_drawable_padding">4dp</dimen>
+	<dimen name="app_bar_height_detail_activity">300dp</dimen>
+	
 </resources>

@@ -30,6 +30,7 @@
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:drawableTop">@drawable/ic_error_outline_50dp</item>
+		<item name="android:drawablePadding">@dimen/tv_drawable_padding</item>
 		<item name="android:textAppearance">?android:textAppearanceMedium</item>
 		<item name="android:textColor">@android:color/white</item>
 		<item name="android:visibility">gone</item>

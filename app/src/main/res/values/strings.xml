@@ -9,9 +9,13 @@
 	<string name="menu_refresh_title">Refresh</string>
 	<string name="iv_poster_description">Movie poster</string>
 	
-	<!--Floating Action Menu-->
+	<!--Floating Action Menu in MainActivity-->
 	<string name="fam_label_main">Sort By</string>
 	<string name="fab_label_favorites">Your Favorites</string>
 	<string name="fab_label_popular">@string/title_popular</string>
 	<string name="fab_label_highest_rated">@string/title_highest_rated</string>
+	
+	<!--DetailActivity-->
+	<string name="open_trailer_label">Play trailer</string>
+	<string name="menu_favorite_title">Mark as Favorite</string>
 </resources>
