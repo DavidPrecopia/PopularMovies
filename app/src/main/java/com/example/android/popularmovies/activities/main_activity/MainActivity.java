@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity
 	private RecyclerView recyclerView;
 	private MovieAdapter movieAdapter;
 	
+	private FrameLayout everything;
+	
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private FloatingActionMenu floatingActionMenu;
 	private ProgressBar progressBar;
@@ -45,7 +48,6 @@ public class MainActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-		
 		init();
 	}
 	
@@ -122,25 +124,22 @@ public class MainActivity extends AppCompatActivity
 	
 	private void displayLoading() {
 		hideError();
-		disableRefreshing();
-		recyclerView.setVisibility(View.INVISIBLE);
-		floatingActionMenu.setVisibility(View.INVISIBLE);
-		progressBar.setVisibility(View.VISIBLE);
+		actionOverflowRefresh(false);
+		everythingVisibility(View.INVISIBLE);
+		progressBarVisibility(View.VISIBLE);
 	}
 	
 	private void hideLoading() {
-		progressBar.setVisibility(View.INVISIBLE);
-		recyclerView.setVisibility(View.VISIBLE);
-		floatingActionMenu.setVisibility(View.VISIBLE);
-		enableRefreshing();
+		progressBarVisibility(View.INVISIBLE);
+		everythingVisibility(View.VISIBLE);
+		actionOverflowRefresh(true);
 	}
 	
 	
 	private void displayError(String message) {
 		progressBar.setVisibility(View.INVISIBLE);
-		recyclerView.setVisibility(View.INVISIBLE);
-		floatingActionMenu.setVisibility(View.INVISIBLE);
-		enableRefreshing();
+		everythingVisibility(View.INVISIBLE);
+		actionOverflowRefresh(true);
 		tvError.setText(message);
 		tvError.setVisibility(View.VISIBLE);
 	}
@@ -150,30 +149,23 @@ public class MainActivity extends AppCompatActivity
 	}
 	
 	
-	private void enableRefreshing() {
-		swipeRefreshLayout.setVisibility(View.VISIBLE);
+	private void actionOverflowRefresh(boolean enabled) {
 		if (menuRefreshItem != null) {
-			menuRefreshItem.setVisible(true);
-		}
-	}
-	
-	private void disableRefreshing() {
-		swipeRefreshLayout.setVisibility(View.INVISIBLE);
-		if (menuRefreshItem != null) {
-			menuRefreshItem.setVisible(false);
+			menuRefreshItem.setVisible(enabled);
 		}
 	}
 	
 	
 	private void setUpView() {
-		getViewReferences();
+		setViewReferences();
 		setUpToolbar();
 		setUpRecyclerView();
 		setUpFloatingActionMenu();
 		swipeRefreshLayout.setOnRefreshListener(this);
 	}
 	
-	private void getViewReferences() {
+	private void setViewReferences() {
+		everything = binding.everything;
 		recyclerView = binding.recyclerView;
 		swipeRefreshLayout = binding.swipeRefresh;
 		floatingActionMenu = binding.fabBase;
@@ -217,16 +209,16 @@ public class MainActivity extends AppCompatActivity
 	
 	private View.OnClickListener fabPopularListener() {
 		return view -> {
-			viewModel.getPopularMovies();
 			setActionBarTitle(getPopularTitle());
+			viewModel.getPopularMovies();
 			fabListenerCommonSteps();
 		};
 	}
 	
 	private View.OnClickListener fabRatedListener() {
 		return view -> {
-			viewModel.getHighestRatedMovies();
 			setActionBarTitle(getHighestRatedTitle());
+			viewModel.getHighestRatedMovies();
 			fabListenerCommonSteps();
 		};
 	}
@@ -234,6 +226,15 @@ public class MainActivity extends AppCompatActivity
 	private void fabListenerCommonSteps() {
 		floatingActionMenu.close(false);
 		displayLoading();
+	}
+	
+	
+	private void everythingVisibility(int visibility) {
+		everything.setVisibility(visibility);
+	}
+	
+	private void progressBarVisibility(int visibility) {
+		progressBar.setVisibility(visibility);
 	}
 	
 	

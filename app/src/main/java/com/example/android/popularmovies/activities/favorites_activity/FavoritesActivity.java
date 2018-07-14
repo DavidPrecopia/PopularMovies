@@ -41,7 +41,6 @@ public class FavoritesActivity extends AppCompatActivity implements MovieAdapter
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_favorites);
-		
 		init();
 	}
 	

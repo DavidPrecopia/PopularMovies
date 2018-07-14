@@ -22,17 +22,78 @@
 		</android.support.design.widget.AppBarLayout>
 		
 		
-		<android.support.v4.widget.SwipeRefreshLayout
-			android:id="@+id/swipe_refresh"
+		<FrameLayout
+			android:id="@+id/everything"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			app:layout_behavior="@string/appbar_scrolling_view_behavior">
+			android:layout_height="match_parent">
 			
-			<android.support.v7.widget.RecyclerView
-				android:id="@+id/recycler_view"
-				style="@style/RecyclerViewStyle"
-				app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-		</android.support.v4.widget.SwipeRefreshLayout>
+			<android.support.v4.widget.SwipeRefreshLayout
+				android:id="@+id/swipe_refresh"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				app:layout_behavior="@string/appbar_scrolling_view_behavior">
+				
+				<android.support.v7.widget.RecyclerView
+					android:id="@+id/recycler_view"
+					style="@style/RecyclerViewStyle"
+					app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+			</android.support.v4.widget.SwipeRefreshLayout>
+			
+			<!--
+				Width and height are set to match_parent so the
+				method setClosedOnTouchOutside(boolean) works.
+				The FloatingActionMenu needs to detect the touch.
+				The aforesaid method is in the parent Java class
+			-->
+			<!--Cannon put `app:` into a Style-->
+			<com.github.clans.fab.FloatingActionMenu
+				android:id="@+id/fab_base"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_gravity="bottom|end"
+				android:contentDescription="@string/fam_label_main"
+				android:elevation="@dimen/view_elevation"
+				android:padding="@dimen/standard_margin"
+				app:menu_backgroundColor="@color/famFadedBackground"
+				app:menu_colorNormal="@color/colorAccent"
+				app:menu_fab_label="@string/fam_label_main"
+				app:menu_fab_size="normal"
+				app:menu_icon="@drawable/ic_sort_24px"
+				app:menu_openDirection="up"
+				app:menu_showShadow="true">
+				
+				<!--Placeholder until I learn Fragments and ViewPager-->
+				<com.github.clans.fab.FloatingActionButton
+					android:id="@+id/fab_start_favorite_activity"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_person_24px"
+					app:fab_colorNormal="@color/colorAccent"
+					app:fab_label="@string/fab_label_favorites"
+					app:fab_showShadow="true"
+					app:fab_size="mini"/>
+				
+				<com.github.clans.fab.FloatingActionButton
+					android:id="@+id/fab_sort_popular"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_star_24px"
+					app:fab_colorNormal="@color/colorAccent"
+					app:fab_label="@string/fab_label_popular"
+					app:fab_showShadow="true"
+					app:fab_size="mini" />
+				
+				<com.github.clans.fab.FloatingActionButton
+					android:id="@+id/fab_sort_rated"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:src="@drawable/ic_thumb_up_18px"
+					app:fab_colorNormal="@color/colorAccent"
+					app:fab_label="@string/fab_label_highest_rated"
+					app:fab_showShadow="true"
+					app:fab_size="mini" />
+			</com.github.clans.fab.FloatingActionMenu>
+		</FrameLayout>
 		
 		
 		<ProgressBar
@@ -45,60 +106,6 @@
 			style="@style/ErrorTextView"
 			android:layout_gravity="center" />
 		
-		<!--
-			Width and height are set to match_parent so
-			setClosedOnTouchOutside(boolean) works.
-			The FloatingActionMenu needs to detect the touch.
-			The aforesaid method is in the parent Java class
-		-->
-		<!--Cannon put `app:` into a Style-->
-		<com.github.clans.fab.FloatingActionMenu
-			android:id="@+id/fab_base"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:layout_gravity="bottom|end"
-			android:contentDescription="@string/fam_label_main"
-			android:elevation="@dimen/view_elevation"
-			android:padding="@dimen/standard_margin"
-			app:menu_backgroundColor="@color/famFadedBackground"
-			app:menu_colorNormal="@color/colorAccent"
-			app:menu_fab_label="@string/fam_label_main"
-			app:menu_fab_size="normal"
-			app:menu_icon="@drawable/ic_sort_24px"
-			app:menu_openDirection="up"
-			app:menu_showShadow="true">
-			
-			<!--Placeholder until I learn Fragments and ViewPager-->
-			<com.github.clans.fab.FloatingActionButton
-				android:id="@+id/fab_start_favorite_activity"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/ic_person_24px"
-				app:fab_colorNormal="@color/colorAccent"
-				app:fab_label="@string/fab_label_favorites"
-				app:fab_showShadow="true"
-				app:fab_size="mini"/>
-			
-			<com.github.clans.fab.FloatingActionButton
-				android:id="@+id/fab_sort_popular"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/ic_star_24px"
-				app:fab_colorNormal="@color/colorAccent"
-				app:fab_label="@string/fab_label_popular"
-				app:fab_showShadow="true"
-				app:fab_size="mini" />
-			
-			<com.github.clans.fab.FloatingActionButton
-				android:id="@+id/fab_sort_rated"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/ic_thumb_up_18px"
-				app:fab_colorNormal="@color/colorAccent"
-				app:fab_label="@string/fab_label_highest_rated"
-				app:fab_showShadow="true"
-				app:fab_size="mini" />
-			
-		</com.github.clans.fab.FloatingActionMenu>
+		
 	</android.support.design.widget.CoordinatorLayout>
 </layout>
