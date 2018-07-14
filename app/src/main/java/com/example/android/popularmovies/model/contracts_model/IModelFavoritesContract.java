@@ -6,10 +6,11 @@ import com.example.android.popularmovies.model.model_favorites.database.Favorite
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 public interface IModelFavoritesContract {
 	Flowable<List<Movie>> getFavorites();
-	boolean isFavorite(int movieId);
+	Single<Boolean> isFavorite(int movieId);
 	
 	void addMovie(FavoriteMovie favoriteMovie);
 	void deleteMovie(FavoriteMovie favoriteMovie);

@@ -10,10 +10,11 @@ import android.util.Log;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
-import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
 import com.example.android.popularmovies.model.datamodel.MovieDetails;
+import com.example.android.popularmovies.model.model_favorites.ModelFavorites;
 import com.example.android.popularmovies.model.model_movies.ModelMovies;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -23,25 +24,26 @@ final class DetailViewModel extends AndroidViewModel {
 	
 	private static final String LOG_TAG = DetailViewModel.class.getSimpleName();
 	
-	private int movieId;
-	private MutableLiveData<MovieDetails> movieDetails;
-	private MutableLiveData<String> errorMessage;
+	private final MutableLiveData<MovieDetails> movieDetails;
+	private final MutableLiveData<Boolean> isFavorite;
+	private final MutableLiveData<String> errorMessage;
 	
-	private CompositeDisposable disposable;
+	private final CompositeDisposable disposable;
+	private final Single<MovieInformation> zippedSingle;
 	
-	private IModelMovieContract model;
-	private INetworkStatusContract networkStatus;
+	private final INetworkStatusContract networkStatus;
 	
 	DetailViewModel(@NonNull Application application, int movieId) {
 		super(application);
-		this.movieId = movieId;
-
 		this.movieDetails = new MutableLiveData<>();
+		this.isFavorite = new MutableLiveData<>();
 		this.errorMessage = new MutableLiveData<>();
-		
 		this.disposable = new CompositeDisposable();
-
-		this.model = ModelMovies.getInstance(application);
+		zippedSingle = Single.zip(
+				ModelMovies.getInstance(application).getSingleMovie(movieId),
+				ModelFavorites.getInstance(application).isFavorite(movieId),
+				MovieInformation::new
+		);
 		this.networkStatus = NetworkStatus.getInstance(application);
 		
 		init();
@@ -52,20 +54,19 @@ final class DetailViewModel extends AndroidViewModel {
 			errorMessage.setValue(getApplication().getString(R.string.error_no_network));
 			return;
 		}
-		
-		disposable.add(
-				model.getSingleMovie(movieId)
+		disposable.add(zippedSingle
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeWith(getObserver())
+				.subscribeWith(observer())
 		);
 	}
 	
-	private DisposableSingleObserver<MovieDetails> getObserver() {
-		return new DisposableSingleObserver<MovieDetails>() {
+	private DisposableSingleObserver<MovieInformation> observer() {
+		return new DisposableSingleObserver<MovieInformation>() {
 			@Override
-			public void onSuccess(MovieDetails movieDetails) {
-				DetailViewModel.this.movieDetails.setValue(movieDetails);
+			public void onSuccess(MovieInformation movieInformation) {
+				DetailViewModel.this.movieDetails.setValue(movieInformation.getMovieDetails());
+				DetailViewModel.this.isFavorite.setValue(movieInformation.isFavorite());
 			}
 			
 			@Override
@@ -81,14 +82,18 @@ final class DetailViewModel extends AndroidViewModel {
 		return movieDetails;
 	}
 	
+	LiveData<Boolean> getIsFavorite() {
+		return isFavorite;
+	}
+	
 	LiveData<String> getErrorMessage() {
 		return errorMessage;
 	}
 	
+	
 	@Override
 	protected void onCleared() {
 		disposable.clear();
-		model = null;
 		super.onCleared();
 	}
 }

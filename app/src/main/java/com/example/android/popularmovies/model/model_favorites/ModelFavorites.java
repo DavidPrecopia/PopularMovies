@@ -11,6 +11,7 @@ import com.example.android.popularmovies.model.model_favorites.database.Favorite
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 public final class ModelFavorites implements IModelFavoritesContract {
 	
@@ -38,8 +39,8 @@ public final class ModelFavorites implements IModelFavoritesContract {
 	}
 	
 	@Override
-	public boolean isFavorite(int movieId) {
-		return dao.isFavorite(movieId) != - 1;
+	public Single<Boolean> isFavorite(int movieId) {
+		return Single.fromCallable(() -> dao.isFavorite(movieId) != - 1);
 	}
 	
 	

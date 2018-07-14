@@ -21,7 +21,7 @@ public final class FavoriteMovie {
 	private final String posterUrl;
 	
 	
-	FavoriteMovie(int id, int movieId, String title, String posterUrl) {
+	public FavoriteMovie(int id, int movieId, String title, String posterUrl) {
 		this.id = id;
 		this.movieId = movieId;
 		this.title = title;
