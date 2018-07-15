@@ -31,8 +31,7 @@
 			android:parentActivityName=".activities.main_activity.MainActivity" />
 		
 		<activity
-			android:name=".activities.detail_activity.DetailActivity"
-			android:parentActivityName=".activities.main_activity.MainActivity" />
+			android:name=".activities.detail_activity.DetailActivity" />
 	</application>
 
 </manifest>

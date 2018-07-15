@@ -105,17 +105,17 @@ final class DetailViewModel extends AndroidViewModel {
 						.subscribeWith(completableObserver())
 		);
 	}
-	// TODO Fill-in methods
+	
 	private DisposableCompletableObserver completableObserver() {
 		return new DisposableCompletableObserver() {
 			@Override
 			public void onComplete() {
-				Log.i(LOG_TAG, "onComplete");
+				Log.i(LOG_TAG, "DisposableCompletableObserver - onComplete");
 			}
 			
 			@Override
 			public void onError(Throwable e) {
-				Log.i(LOG_TAG, "onError");
+				Log.e(LOG_TAG, e.getMessage());
 			}
 		};
 	}
