@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,8 +33,6 @@ public class MainActivity extends AppCompatActivity
 	
 	private RecyclerView recyclerView;
 	private MovieAdapter movieAdapter;
-	
-	private FrameLayout everything;
 	
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private FloatingActionMenu floatingActionMenu;
@@ -165,7 +162,6 @@ public class MainActivity extends AppCompatActivity
 	}
 	
 	private void setViewReferences() {
-		everything = binding.everything;
 		recyclerView = binding.recyclerView;
 		swipeRefreshLayout = binding.swipeRefresh;
 		floatingActionMenu = binding.fabBase;
@@ -230,7 +226,9 @@ public class MainActivity extends AppCompatActivity
 	
 	
 	private void everythingVisibility(int visibility) {
-		everything.setVisibility(visibility);
+		swipeRefreshLayout.setVisibility(visibility);
+		recyclerView.setVisibility(visibility);
+		floatingActionMenu.setVisibility(visibility);
 	}
 	
 	private void progressBarVisibility(int visibility) {

@@ -53,6 +53,7 @@ final class FavoriteViewModel extends AndroidViewModel {
 		return new DisposableSubscriber<List<Movie>>() {
 			@Override
 			public void onNext(List<Movie> favoriteMovies) {
+				Log.d(LOG_TAG, "onNext");
 				FavoriteViewModel.this.favoriteMovies.setValue(favoriteMovies);
 			}
 			

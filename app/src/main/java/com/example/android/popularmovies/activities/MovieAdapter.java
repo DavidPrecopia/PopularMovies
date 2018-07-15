@@ -40,7 +40,7 @@ public final class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieV
 	public void replaceData(List<Movie> newMovies) {
 		this.movies.clear();
 		this.movies.addAll(newMovies);
-		notifyDataSetChanged();
+		this.notifyDataSetChanged();
 	}
 	
 	@Override

@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import com.example.android.popularmovies.model.datamodel.MovieDetails;
+
 @Entity(tableName = FavoritesContract.TABLE_NAME)
 public final class FavoriteMovie {
 	
@@ -29,10 +31,10 @@ public final class FavoriteMovie {
 	}
 	
 	@Ignore
-	public FavoriteMovie(int movieId, String title, String posterUrl) {
-		this.movieId = movieId;
-		this.title = title;
-		this.posterUrl = posterUrl;
+	public FavoriteMovie(MovieDetails movieDetails) {
+		this.movieId = movieDetails.getMovieId();
+		this.title = movieDetails.getTitle();
+		this.posterUrl = movieDetails.getPosterUrl();
 	}
 	
 	

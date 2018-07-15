@@ -14,6 +14,9 @@ public final class MovieDetails {
 	
 	private static final String LOG_TAG = MovieDetails.class.getSimpleName();
 	
+	@SerializedName("id")
+	private final int movieId;
+	
 	@SerializedName("original_title")
 	private final String title;
 	
@@ -26,6 +29,9 @@ public final class MovieDetails {
 	@SerializedName("overview")
 	private final String description;
 	
+	@SerializedName("poster_path")
+	private final String posterUrl;
+	
 	@SerializedName("backdrop_path")
 	private final String backdropUrl;
 	
@@ -36,16 +42,22 @@ public final class MovieDetails {
 	private final MovieReviews movieReviews;
 	
 	
-	MovieDetails(String title, float rating, String releaseDate, String description, String backdropUrl, Trailer trailer, MovieReviews movieReviews) {
+	MovieDetails(int movieId, String title, float rating, String releaseDate, String description, String posterUrl, String backdropUrl, Trailer trailer, MovieReviews movieReviews) {
+		this.movieId = movieId;
 		this.title = title;
 		this.rating = rating;
 		this.releaseDate = releaseDate;
 		this.description = description;
+		this.posterUrl = posterUrl;
 		this.backdropUrl = backdropUrl;
 		this.trailer = trailer;
 		this.movieReviews = movieReviews;
 	}
 	
+	
+	public int getMovieId() {
+		return movieId;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -71,6 +83,10 @@ public final class MovieDetails {
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getPosterUrl() {
+		return posterUrl;
 	}
 	
 	public String getBackdropUrl() {

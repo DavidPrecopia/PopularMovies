@@ -10,6 +10,7 @@ import com.example.android.popularmovies.model.model_favorites.database.Favorite
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
@@ -45,12 +46,12 @@ public final class ModelFavorites implements IModelFavoritesContract {
 	
 	
 	@Override
-	public void addMovie(FavoriteMovie favoriteMovie) {
-		dao.addMovie(favoriteMovie);
+	public Completable addMovie(FavoriteMovie favoriteMovie) {
+		return Completable.fromCallable(() -> dao.addMovie(favoriteMovie) > 0);
 	}
 	
 	@Override
-	public void deleteMovie(FavoriteMovie favoriteMovie) {
-		dao.deleteMovie(favoriteMovie);
+	public Completable deleteMovie(int movieId) {
+		return Completable.fromCallable(() -> dao.deleteMovie(movieId) > 0);
 	}
 }

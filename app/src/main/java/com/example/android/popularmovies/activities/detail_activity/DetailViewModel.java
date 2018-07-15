@@ -13,11 +13,15 @@ import com.example.android.popularmovies.activities.network_util.NetworkStatus;
 import com.example.android.popularmovies.model.contracts_model.IModelFavoritesContract;
 import com.example.android.popularmovies.model.datamodel.MovieDetails;
 import com.example.android.popularmovies.model.model_favorites.ModelFavorites;
+import com.example.android.popularmovies.model.model_favorites.database.FavoriteMovie;
 import com.example.android.popularmovies.model.model_movies.ModelMovies;
+
+import java.util.Objects;
 
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -61,11 +65,11 @@ final class DetailViewModel extends AndroidViewModel {
 		disposable.add(zippedSingle
 				.subscribeOn(Schedulers.io())
 		 		.observeOn(AndroidSchedulers.mainThread())
-				.subscribeWith(observer())
+				.subscribeWith(singleObserver())
 		);
 	}
 	
-	private DisposableSingleObserver<MovieInformation> observer() {
+	private DisposableSingleObserver<MovieInformation> singleObserver() {
 		return new DisposableSingleObserver<MovieInformation>() {
 			@Override
 			public void onSuccess(MovieInformation movieInformation) {
@@ -84,12 +88,36 @@ final class DetailViewModel extends AndroidViewModel {
 	
 	void addToFavorites() {
 		isFavorite.setValue(true);
-		
+		disposable.add(
+				modelFavorites.addMovie(new FavoriteMovie(Objects.requireNonNull(movieDetails.getValue())))
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeWith(completableObserver())
+		);
 	}
 	
 	void deleteFromFavorites() {
 		isFavorite.setValue(false);
-		
+		disposable.add(
+				modelFavorites.deleteMovie(Objects.requireNonNull(movieDetails.getValue()).getMovieId())
+						.subscribeOn(Schedulers.io())
+						.observeOn(AndroidSchedulers.mainThread())
+						.subscribeWith(completableObserver())
+		);
+	}
+	// TODO Fill-in methods
+	private DisposableCompletableObserver completableObserver() {
+		return new DisposableCompletableObserver() {
+			@Override
+			public void onComplete() {
+				Log.i(LOG_TAG, "onComplete");
+			}
+			
+			@Override
+			public void onError(Throwable e) {
+				Log.i(LOG_TAG, "onError");
+			}
+		};
 	}
 	
 	

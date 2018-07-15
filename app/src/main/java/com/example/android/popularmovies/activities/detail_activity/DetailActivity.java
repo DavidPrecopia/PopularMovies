@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -142,15 +141,12 @@ public class DetailActivity extends AppCompatActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.d(LOG_TAG, "onOptionsItemSelect");
 		switch (item.getItemId()) {
 			case R.id.menu_item_favorite:
-				if (viewModel.getIsFavorite() != null) {
-					if (viewModel.getIsFavorite().getValue()) {
-						deleteFromFavorites();
-					} else {
-						addToFavorites();
-					}
+				if (Objects.requireNonNull(viewModel.getIsFavorite().getValue())) {
+					deleteFromFavorites();
+				} else {
+					addToFavorites();
 				}
 				return true;
 			default:

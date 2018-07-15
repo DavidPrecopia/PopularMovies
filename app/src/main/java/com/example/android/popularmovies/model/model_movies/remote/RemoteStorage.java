@@ -41,12 +41,7 @@ public final class RemoteStorage implements IRemoteStorage {
 	
 	private OkHttpClient okHttpClient(Application context) {
 		Cache cache = new Cache(context.getCacheDir(), 10 * 1024 * 1024);
-		
-//		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-//		logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-		
 		return new OkHttpClient.Builder()
-//				.addInterceptor(logging)
 				.cache(cache)
 				.build();
 	}
