@@ -20,6 +20,8 @@
 	<string name="open_trailer_label">Play trailer</string>
 	<string name="menu_favorite_title">Mark as Favorite</string>
 	<string name="error_cannot_open_trailer">Cannot open YouTube</string>
+	<string name="toast_msg_favorite_added">Added to favorites</string>
+	<string name="toast_msg_favorite_removed">Removed from favorites</string>
 
 	<!--FavoriteActivity-->
 	<string name="error_no_favorite_movies">No favorites selected</string>

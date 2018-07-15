@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
+import com.example.android.popularmovies.model.contracts_model.IModelFavoritesContract;
 import com.example.android.popularmovies.model.datamodel.MovieDetails;
 import com.example.android.popularmovies.model.model_favorites.ModelFavorites;
 import com.example.android.popularmovies.model.model_movies.ModelMovies;
@@ -31,6 +32,8 @@ final class DetailViewModel extends AndroidViewModel {
 	private final CompositeDisposable disposable;
 	private final Single<MovieInformation> zippedSingle;
 	
+	private final IModelFavoritesContract modelFavorites;
+	
 	private final INetworkStatusContract networkStatus;
 	
 	DetailViewModel(@NonNull Application application, int movieId) {
@@ -38,10 +41,11 @@ final class DetailViewModel extends AndroidViewModel {
 		this.movieDetails = new MutableLiveData<>();
 		this.isFavorite = new MutableLiveData<>();
 		this.errorMessage = new MutableLiveData<>();
+		this.modelFavorites = ModelFavorites.getInstance(application);
 		this.disposable = new CompositeDisposable();
 		zippedSingle = Single.zip(
 				ModelMovies.getInstance(application).getSingleMovie(movieId),
-				ModelFavorites.getInstance(application).isFavorite(movieId),
+				modelFavorites.isFavorite(movieId),
 				MovieInformation::new
 		);
 		this.networkStatus = NetworkStatus.getInstance(application);
@@ -56,7 +60,7 @@ final class DetailViewModel extends AndroidViewModel {
 		}
 		disposable.add(zippedSingle
 				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
+		 		.observeOn(AndroidSchedulers.mainThread())
 				.subscribeWith(observer())
 		);
 	}
@@ -75,6 +79,17 @@ final class DetailViewModel extends AndroidViewModel {
 				errorMessage.setValue(getApplication().getString(R.string.error_generic_error));
 			}
 		};
+	}
+	
+	
+	void addToFavorites() {
+		isFavorite.setValue(true);
+		
+	}
+	
+	void deleteFromFavorites() {
+		isFavorite.setValue(false);
+		
 	}
 	
 	

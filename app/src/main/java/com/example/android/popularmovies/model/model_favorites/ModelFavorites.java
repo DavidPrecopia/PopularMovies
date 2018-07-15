@@ -40,7 +40,7 @@ public final class ModelFavorites implements IModelFavoritesContract {
 	
 	@Override
 	public Single<Boolean> isFavorite(int movieId) {
-		return Single.fromCallable(() -> dao.isFavorite(movieId) != - 1);
+		return Single.fromCallable(() -> dao.isFavorite(movieId) > 0);
 	}
 	
 	

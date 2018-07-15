@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
 	private ProgressBar progressBar;
 	private TextView tvError;
 	
-	private MenuItem menuRefreshItem;
+	private MenuItem refreshMenuItem;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +150,8 @@ public class MainActivity extends AppCompatActivity
 	
 	
 	private void actionOverflowRefresh(boolean enabled) {
-		if (menuRefreshItem != null) {
-			menuRefreshItem.setVisible(enabled);
+		if (refreshMenuItem != null) {
+			refreshMenuItem.setVisible(enabled);
 		}
 	}
 	
@@ -240,8 +240,8 @@ public class MainActivity extends AppCompatActivity
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menuRefreshItem = menu.findItem(R.menu.menu_refresh);
-		getMenuInflater().inflate(R.menu.menu_refresh, menu);
+		getMenuInflater().inflate(R.menu.menu_main, menu);
+		refreshMenuItem = menu.findItem(R.id.menu_item_refresh);
 		return true;
 	}
 }

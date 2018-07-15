@@ -25,7 +25,8 @@
 		<FrameLayout
 			android:id="@+id/everything"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior">
 			
 			<android.support.v4.widget.SwipeRefreshLayout
 				android:id="@+id/swipe_refresh"
@@ -45,7 +46,7 @@
 				The FloatingActionMenu needs to detect the touch.
 				The aforesaid method is in the parent Java class
 			-->
-			<!--Cannon put `app:` into a Style-->
+			<!--Cannon put `app:` into a style-->
 			<com.github.clans.fab.FloatingActionMenu
 				android:id="@+id/fab_base"
 				android:layout_width="match_parent"

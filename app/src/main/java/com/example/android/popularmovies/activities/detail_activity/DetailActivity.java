@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +23,8 @@ import java.util.Objects;
 
 public class DetailActivity extends AppCompatActivity {
 	
+	private static final String LOG_TAG = DetailActivity.class.getSimpleName();
+	
 	private DetailViewModel viewModel;
 	private ActivityDetailBinding binding;
 	
@@ -28,6 +32,8 @@ public class DetailActivity extends AppCompatActivity {
 	private TextView tvError;
 	private AppBarLayout title;
 	private NestedScrollView details;
+	
+	private MenuItem favoriteMenuItem;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,7 @@ public class DetailActivity extends AppCompatActivity {
 		DetailViewModelFactory factory = new DetailViewModelFactory(getApplication(), getMovieId());
 		viewModel = ViewModelProviders.of(this, factory).get(DetailViewModel.class);
 		observeMovieDetails();
+		observeIsFavorite();
 		observeErrorMessage();
 	}
 	
@@ -69,6 +76,11 @@ public class DetailActivity extends AppCompatActivity {
 			stopLoading();
 		});
 	}
+	
+	private void observeIsFavorite() {
+		viewModel.getIsFavorite().observe(this, this::setFavoriteIcon);
+	}
+	
 	
 	private void observeErrorMessage() {
 		viewModel.getErrorMessage().observe(this, this::displayError);
@@ -123,7 +135,53 @@ public class DetailActivity extends AppCompatActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_favorite, menu);
+		getMenuInflater().inflate(R.menu.menu_detail, menu);
+		favoriteMenuItem = menu.findItem(R.id.menu_item_favorite);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d(LOG_TAG, "onOptionsItemSelect");
+		switch (item.getItemId()) {
+			case R.id.menu_item_favorite:
+				if (viewModel.getIsFavorite() != null) {
+					if (viewModel.getIsFavorite().getValue()) {
+						deleteFromFavorites();
+					} else {
+						addToFavorites();
+					}
+				}
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	
+	private void addToFavorites() {
+		viewModel.addToFavorites();
+		toastMessage(getString(R.string.toast_msg_favorite_added));
+	}
+	
+	private void deleteFromFavorites() {
+		viewModel.deleteFromFavorites();
+		toastMessage(getString(R.string.toast_msg_favorite_removed));
+	}
+	
+	private void toastMessage(String message) {
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+	}
+	
+	private void setFavoriteIcon(boolean isFavorite) {
+		if (favoriteMenuItem == null) {
+			return;
+		}
+		
+		if (isFavorite) {
+			favoriteMenuItem.setIcon(R.drawable.ic_star_filled_24px);
+		} else {
+			favoriteMenuItem.setIcon(R.drawable.ic_star_empty_24px);
+		}
 	}
 }
