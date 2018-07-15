@@ -20,6 +20,8 @@ import com.example.android.popularmovies.databinding.ActivityDetailBinding;
 
 import java.util.Objects;
 
+import es.dmoral.toasty.Toasty;
+
 public class DetailActivity extends AppCompatActivity {
 	
 	private static final String LOG_TAG = DetailActivity.class.getSimpleName();
@@ -159,17 +161,14 @@ public class DetailActivity extends AppCompatActivity {
 	
 	private void addToFavorites() {
 		viewModel.addToFavorites();
-		toastMessage(getString(R.string.toast_msg_favorite_added));
+		Toasty.success(this, getString(R.string.toast_msg_favorite_added)).show();
 	}
 	
 	private void deleteFromFavorites() {
 		viewModel.deleteFromFavorites();
-		toastMessage(getString(R.string.toast_msg_favorite_removed));
+		Toasty.info(this, getString(R.string.toast_msg_favorite_removed)).show();
 	}
 	
-	private void toastMessage(String message) {
-		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-	}
 	
 	private void setFavoriteIcon(boolean isFavorite) {
 		if (favoriteMenuItem == null) {
