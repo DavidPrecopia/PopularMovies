@@ -11,22 +11,7 @@ Created for Udacity's Android Developer Nanodegree.
 
 **ICONS**
 
-App's icon
-
-- https://material.io/tools/icons/?icon=local_movies&style=round
-
-FAB
-
-- Sort
-  - https://material.io/tools/icons/?icon=sort&style=round
-- Star
-  - https://material.io/tools/icons/?icon=star_rate&style=round
-- Thumbs Up
-  - https://material.io/tools/icons/?icon=thumb_up&style=round
-
-Error Outline
-
-- https://material.io/tools/icons/?icon=error_outline&style=round
+- https://material.io/tools/icons/?style=baseline
 
 **LIBRARIES**
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	
+	<android.support.constraint.ConstraintLayout
+		android:id="@+id/expandable_header_root"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		
+		<ImageView
+			android:id="@+id/image_view"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:contentDescription="@string/iv_reviews_content_description"
+			android:src="@drawable/ic_arrow_down_24px" />
+		
+		<TextView
+			android:id="@+id/tv_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="4dp"
+			android:text="@string/reviews_title"
+			android:textAppearance="?android:textAppearanceListItem"
+			android:textColor="@android:color/white"
+			app:layout_constraintStart_toEndOf="@+id/image_view" />
+	
+	</android.support.constraint.ConstraintLayout>
+</layout>
