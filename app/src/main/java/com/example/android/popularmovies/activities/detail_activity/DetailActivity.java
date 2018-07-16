@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +19,11 @@ import android.widget.Toast;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
+import com.example.android.popularmovies.model.datamodel.Review;
+import com.xwray.groupie.ExpandableGroup;
+import com.xwray.groupie.GroupAdapter;
 
+import java.util.List;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
@@ -33,6 +39,7 @@ public class DetailActivity extends AppCompatActivity {
 	private TextView tvError;
 	private AppBarLayout title;
 	private NestedScrollView details;
+	private RecyclerView recyclerView;
 	
 	private MenuItem favoriteMenuItem;
 	
@@ -45,18 +52,12 @@ public class DetailActivity extends AppCompatActivity {
 	
 	private void init() {
 		setViewReferences();
-		binding.tvOpenTrailer.setOnClickListener(view -> playTrailer());
 		displayLoading();
+		binding.tvOpenTrailer.setOnClickListener(view -> playTrailer());
 		setUpToolbar();
 		setUpViewModel();
 	}
 	
-	private void setViewReferences() {
-		progressBar = binding.progressBar;
-		tvError = binding.tvError;
-		title = binding.appBarLayout;
-		details = binding.details;
-	}
 	
 	private void setUpViewModel() {
 		DetailViewModelFactory factory = new DetailViewModelFactory(getApplication(), getMovieId());
@@ -73,13 +74,28 @@ public class DetailActivity extends AppCompatActivity {
 	private void observeMovieDetails() {
 		viewModel.getMovieDetails().observe(this, movieDetails -> {
 			binding.setMovie(movieDetails);
+			// TODO Inefficient - no need to re-create everything on changes
+			setUpReviews();
 			hideError();
 			stopLoading();
 		});
 	}
 	
+	
 	private void observeIsFavorite() {
 		viewModel.getIsFavorite().observe(this, this::setFavoriteIcon);
+	}
+	
+	private void setFavoriteIcon(boolean isFavorite) {
+		if (favoriteMenuItem == null) {
+			return;
+		}
+		
+		if (isFavorite) {
+			favoriteMenuItem.setIcon(R.drawable.ic_star_filled_24px);
+		} else {
+			favoriteMenuItem.setIcon(R.drawable.ic_star_empty_24px);
+		}
 	}
 	
 	
@@ -102,9 +118,33 @@ public class DetailActivity extends AppCompatActivity {
 	}
 	
 	
-	private void setUpToolbar() {
-		setSupportActionBar(binding.toolbarDetailActivity);
-		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+			case R.id.menu_item_favorite:
+				if (Objects.requireNonNull(viewModel.getIsFavorite().getValue())) {
+					deleteFromFavorites();
+				} else {
+					addToFavorites();
+				}
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	
+	private void addToFavorites() {
+		viewModel.addToFavorites();
+		Toasty.success(this, getString(R.string.toast_msg_favorite_added)).show();
+	}
+	
+	private void deleteFromFavorites() {
+		viewModel.deleteFromFavorites();
+		Toasty.info(this, getString(R.string.toast_msg_favorite_removed)).show();
 	}
 	
 	
@@ -134,6 +174,19 @@ public class DetailActivity extends AppCompatActivity {
 	}
 	
 	
+	private void setViewReferences() {
+		recyclerView = binding.recyclerView;
+		progressBar = binding.progressBar;
+		tvError = binding.tvError;
+		title = binding.appBarLayout;
+		details = binding.details;
+	}
+	
+	private void setUpToolbar() {
+		setSupportActionBar(binding.toolbarDetailActivity);
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_detail, menu);
@@ -141,44 +194,20 @@ public class DetailActivity extends AppCompatActivity {
 		return true;
 	}
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				finish();
-			case R.id.menu_item_favorite:
-				if (Objects.requireNonNull(viewModel.getIsFavorite().getValue())) {
-					deleteFromFavorites();
-				} else {
-					addToFavorites();
-				}
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
 	
-	
-	private void addToFavorites() {
-		viewModel.addToFavorites();
-		Toasty.success(this, getString(R.string.toast_msg_favorite_added)).show();
-	}
-	
-	private void deleteFromFavorites() {
-		viewModel.deleteFromFavorites();
-		Toasty.info(this, getString(R.string.toast_msg_favorite_removed)).show();
-	}
-	
-	
-	private void setFavoriteIcon(boolean isFavorite) {
-		if (favoriteMenuItem == null) {
-			return;
+	private void setUpReviews() {
+		recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+		
+		GroupAdapter groupAdapter = new GroupAdapter();
+		
+		ExpandableGroup expandableGroup = new ExpandableGroup(new ExpandableHeaderItem(), false);
+		List<Review> reviewsList = Objects.requireNonNull(viewModel.getMovieDetails().getValue()).getReviews();
+		for (Review review : reviewsList) {
+			expandableGroup.add(new ReviewItem(review));
 		}
 		
-		if (isFavorite) {
-			favoriteMenuItem.setIcon(R.drawable.ic_star_filled_24px);
-		} else {
-			favoriteMenuItem.setIcon(R.drawable.ic_star_empty_24px);
-		}
+		groupAdapter.add(expandableGroup);
+		
+		recyclerView.setAdapter(groupAdapter);
 	}
 }

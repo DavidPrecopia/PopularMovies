@@ -17,7 +17,7 @@
 	
 	<!--DetailActivity-->
 	<string name="open_trailer_label">Play trailer</string>
-	<string name="menu_favorite_title">Mark as Favorite</string>
+	<string name="menu_item_favorite_title">Mark as Favorite</string>
 	<string name="error_cannot_open_trailer">Cannot open YouTube</string>
 	<string name="reviews_title">Reviews</string>
 	<string name="iv_reviews_content_description">Status of expandable reviews</string>

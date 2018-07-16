@@ -55,7 +55,7 @@
 			
 			<android.support.constraint.ConstraintLayout
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="match_parent">
 				
 				<RatingBar
 					android:id="@+id/user_rating"
@@ -114,21 +114,25 @@
 					android:text="@{movie.description}"
 					android:textAppearance="?android:textAppearanceListItem"
 					android:textColor="@android:color/white"
-					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintEnd_toEndOf="parent"
 					app:layout_constraintHorizontal_bias="0.0"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toBottomOf="@+id/release_date" />
-			
+				
+				<android.support.v7.widget.RecyclerView
+					android:id="@+id/recycler_view"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:layout_marginBottom="@dimen/standard_margin"
+					android:layout_marginEnd="@dimen/standard_margin"
+					android:layout_marginStart="@dimen/standard_margin"
+					android:layout_marginTop="@dimen/half_standard_margin"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toBottomOf="@+id/description" />
 			</android.support.constraint.ConstraintLayout>
-			
-			<android.support.v7.widget.RecyclerView
-				android:id="@+id/recycler_view"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
-		
 		</android.support.v4.widget.NestedScrollView>
-		
 		
 		<ProgressBar
 			android:id="@+id/progress_bar"
@@ -139,7 +143,6 @@
 			android:id="@+id/tv_error"
 			style="@style/ErrorTextView"
 			android:layout_gravity="center" />
-	
 	
 	</android.support.design.widget.CoordinatorLayout>
 </layout>

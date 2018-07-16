@@ -11,8 +11,7 @@ final class ReviewItem extends BindableItem<ListItemReviewBinding> {
 	
 	private final Review review;
 	
-	ReviewItem(long id, Review review) {
-		super(id);
+	ReviewItem(Review review) {
 		this.review = review;
 	}
 	
