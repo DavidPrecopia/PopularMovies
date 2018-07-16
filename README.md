@@ -9,16 +9,18 @@ Created for Udacity's Android Developer Nanodegree.
 
 # Resources
 
-**ICONS**
+**Icons**
 
 - https://material.io/tools/icons/?style=baseline
 
-**LIBRARIES**
+**Libraries**
 
-- Floating Action Button by Dmytro Tarianyk
+- Groupie
+  - https://github.com/lisawray/groupie
+- Floating Action Button
   - https://github.com/Clans/FloatingActionButton
-- Retrofit
-- Gson
-- RxAndroid
-- RxJava
+- Toasty
+  - https://github.com/GrenderG/Toasty
+- Retrofit with Gson
+- RxJava with RxAndroid
 - Glide
