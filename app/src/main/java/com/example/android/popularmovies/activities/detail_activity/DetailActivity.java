@@ -39,7 +39,8 @@ public class DetailActivity extends AppCompatActivity {
 	private TextView tvError;
 	private AppBarLayout title;
 	private NestedScrollView details;
-	private RecyclerView recyclerView;
+	
+	private GroupAdapter groupAdapter;
 	
 	private MenuItem favoriteMenuItem;
 	
@@ -54,6 +55,7 @@ public class DetailActivity extends AppCompatActivity {
 		setViewReferences();
 		displayLoading();
 		binding.tvOpenTrailer.setOnClickListener(view -> playTrailer());
+		setUpRecyclerView();
 		setUpToolbar();
 		setUpViewModel();
 	}
@@ -74,11 +76,18 @@ public class DetailActivity extends AppCompatActivity {
 	private void observeMovieDetails() {
 		viewModel.getMovieDetails().observe(this, movieDetails -> {
 			binding.setMovie(movieDetails);
-			// TODO Inefficient - no need to re-create everything on changes
-			setUpReviews();
+			bindReviews(Objects.requireNonNull(movieDetails).getReviews());
 			hideError();
 			stopLoading();
 		});
+	}
+	
+	private void bindReviews(final List<Review> reviewList) {
+		ExpandableGroup expandableGroup = new ExpandableGroup(new ExpandableHeaderItem(), false);
+		for (Review review : reviewList) {
+			expandableGroup.add(new ReviewItem(review));
+		}
+		groupAdapter.add(expandableGroup);
 	}
 	
 	
@@ -175,7 +184,6 @@ public class DetailActivity extends AppCompatActivity {
 	
 	
 	private void setViewReferences() {
-		recyclerView = binding.recyclerView;
 		progressBar = binding.progressBar;
 		tvError = binding.tvError;
 		title = binding.appBarLayout;
@@ -187,27 +195,17 @@ public class DetailActivity extends AppCompatActivity {
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 	}
 	
+	private void setUpRecyclerView() {
+		RecyclerView recyclerView = binding.recyclerView;
+		recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+		this.groupAdapter = new GroupAdapter();
+		recyclerView.setAdapter(groupAdapter);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_detail, menu);
 		favoriteMenuItem = menu.findItem(R.id.menu_item_favorite);
 		return true;
-	}
-	
-	
-	private void setUpReviews() {
-		recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-		
-		GroupAdapter groupAdapter = new GroupAdapter();
-		
-		ExpandableGroup expandableGroup = new ExpandableGroup(new ExpandableHeaderItem(), false);
-		List<Review> reviewsList = Objects.requireNonNull(viewModel.getMovieDetails().getValue()).getReviews();
-		for (Review review : reviewsList) {
-			expandableGroup.add(new ReviewItem(review));
-		}
-		
-		groupAdapter.add(expandableGroup);
-		
-		recyclerView.setAdapter(groupAdapter);
 	}
 }
