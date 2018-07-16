@@ -13,6 +13,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+//        Used by Toasty
         maven { url "https://jitpack.io" }
     }
 }

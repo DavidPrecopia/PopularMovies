@@ -11,14 +11,13 @@
 	<style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 	
 	
-	<!--Need padding at start and end to center the list_items-->
-	<style name="RecyclerViewStyle">
+	<!--Need padding at start and end to center the list items-->
+	<style name="RecyclerViewMovies">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
 		<item name="android:paddingStart">@dimen/half_standard_margin</item>
 		<item name="android:paddingEnd">@dimen/half_standard_margin</item>
 	</style>
-	
 	
 	<style name="ProgressBarStyle">
 		<item name="android:layout_width">wrap_content</item>
@@ -34,5 +33,19 @@
 		<item name="android:textAppearance">?android:textAppearanceMedium</item>
 		<item name="android:textColor">@android:color/white</item>
 		<item name="android:visibility">gone</item>
+	</style>
+	
+	<style name="FloatingActionButton">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">wrap_content</item>
+		<item name="fab_colorNormal">@color/colorAccent</item>
+		<item name="fab_showShadow">true</item>
+		<item name="fab_size">mini</item>
+	</style>
+	
+	<style name="CardViewListItem">
+		<item name="cardBackgroundColor">@color/colorPrimary</item>
+		<item name="cardCornerRadius">@dimen/card_view_corner_radius</item>
+		<item name="cardElevation">@dimen/view_elevation</item>
 	</style>
 </resources>

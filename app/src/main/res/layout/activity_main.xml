@@ -30,7 +30,7 @@
 			
 			<android.support.v7.widget.RecyclerView
 				android:id="@+id/recycler_view"
-				style="@style/RecyclerViewStyle"
+				style="@style/RecyclerViewMovies"
 				app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 		</android.support.v4.widget.SwipeRefreshLayout>
 		
@@ -40,7 +40,6 @@
 			The FloatingActionMenu needs to detect the touch.
 			The aforesaid method is in the parent Java class
 		-->
-		<!--Cannon put `app:` into a style-->
 		<com.github.clans.fab.FloatingActionMenu
 			android:id="@+id/fab_base"
 			android:layout_width="match_parent"
@@ -60,33 +59,21 @@
 			<!--Placeholder until I learn Fragments and ViewPager-->
 			<com.github.clans.fab.FloatingActionButton
 				android:id="@+id/fab_start_favorite_activity"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				style="@style/FloatingActionButton"
 				android:src="@drawable/ic_person_24px"
-				app:fab_colorNormal="@color/colorAccent"
-				app:fab_label="@string/fab_label_favorites"
-				app:fab_showShadow="true"
-				app:fab_size="mini" />
+				app:fab_label="@string/fab_label_favorites" />
 			
 			<com.github.clans.fab.FloatingActionButton
 				android:id="@+id/fab_sort_popular"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				style="@style/FloatingActionButton"
 				android:src="@drawable/ic_star_24px"
-				app:fab_colorNormal="@color/colorAccent"
-				app:fab_label="@string/fab_label_popular"
-				app:fab_showShadow="true"
-				app:fab_size="mini" />
+				app:fab_label="@string/fab_label_popular" />
 			
 			<com.github.clans.fab.FloatingActionButton
 				android:id="@+id/fab_sort_rated"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				style="@style/FloatingActionButton"
 				android:src="@drawable/ic_thumb_up_18px"
-				app:fab_colorNormal="@color/colorAccent"
-				app:fab_label="@string/fab_label_highest_rated"
-				app:fab_showShadow="true"
-				app:fab_size="mini" />
+				app:fab_label="@string/fab_label_highest_rated" />
 		</com.github.clans.fab.FloatingActionMenu>
 		
 		

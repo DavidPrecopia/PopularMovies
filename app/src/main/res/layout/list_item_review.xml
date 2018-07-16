@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+	
+	<data>
+		
+		<variable
+			name="review"
+			type="com.example.android.popularmovies.model.datamodel.Review" />
+	</data>
+	
+	<android.support.v7.widget.CardView
+		android:id="@+id/card_view"
+		style="@style/CardViewListItem"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/half_standard_margin"
+		android:layout_marginEnd="@dimen/standard_margin"
+		android:layout_marginStart="@dimen/standard_margin"
+		android:layout_marginTop="@dimen/half_standard_margin">
+		
+		<android.support.constraint.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			
+			<TextView
+				android:id="@+id/tv_content"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="@dimen/standard_margin"
+				android:layout_marginStart="@dimen/standard_margin"
+				android:layout_marginTop="@dimen/half_standard_margin"
+				android:text="@{review.content}"
+				android:textAppearance="?android:textAppearanceListItem"
+				android:textColor="@android:color/white"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				tools:text="This is a review for a movie on The MovieDb for an app written for Udacity's Android Developer Nanodegree Program." />
+			
+			<TextView
+				android:id="@+id/tv_author"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/half_standard_margin"
+				android:layout_marginEnd="@dimen/standard_margin"
+				android:layout_marginStart="@dimen/standard_margin"
+				android:layout_marginTop="@dimen/half_standard_margin"
+				android:ellipsize="end"
+				android:maxLines="1"
+				android:text="@{review.author}"
+				android:textAppearance="?android:textAppearanceListItemSecondary"
+				android:textColor="@android:color/white"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="0.0"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/tv_content"
+				tools:text="Leon Kennedy" />
+		</android.support.constraint.ConstraintLayout>
+	</android.support.v7.widget.CardView>
+</layout>

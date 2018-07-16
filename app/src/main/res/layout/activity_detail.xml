@@ -62,8 +62,8 @@
 					style="?android:attr/ratingBarStyleSmall"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginStart="16dp"
-					android:layout_marginTop="16dp"
+					android:layout_marginStart="@dimen/standard_margin"
+					android:layout_marginTop="@dimen/standard_margin"
 					android:isIndicator="true"
 					android:numStars="10"
 					android:rating="@{movie.rating}"
@@ -76,11 +76,12 @@
 					android:id="@+id/tv_open_trailer"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginStart="8dp"
-					android:padding="@dimen/standard_margin"
+					android:layout_marginStart="@dimen/half_standard_margin"
 					android:drawablePadding="@dimen/tv_drawable_padding"
 					android:drawableStart="@drawable/ic_play_circle_outline_18px"
+					android:padding="@dimen/standard_margin"
 					android:text="@string/open_trailer_label"
+					android:textAppearance="?android:textAppearanceListItemSecondary"
 					android:textColor="@android:color/white"
 					app:layout_constraintBottom_toTopOf="@+id/description"
 					app:layout_constraintEnd_toEndOf="parent"
@@ -93,9 +94,10 @@
 					android:id="@+id/release_date"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginStart="16dp"
-					android:layout_marginTop="8dp"
+					android:layout_marginStart="@dimen/standard_margin"
+					android:layout_marginTop="@dimen/half_standard_margin"
 					android:text="@{movie.releaseDate}"
+					android:textAppearance="?android:textAppearanceListItemSecondary"
 					android:textColor="@android:color/white"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toBottomOf="@+id/user_rating"
@@ -105,11 +107,12 @@
 					android:id="@+id/description"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="16dp"
-					android:layout_marginEnd="16dp"
-					android:layout_marginStart="16dp"
-					android:layout_marginTop="8dp"
+					android:layout_marginBottom="@dimen/standard_margin"
+					android:layout_marginEnd="@dimen/standard_margin"
+					android:layout_marginStart="@dimen/standard_margin"
+					android:layout_marginTop="@dimen/half_standard_margin"
 					android:text="@{movie.description}"
+					android:textAppearance="?android:textAppearanceListItem"
 					android:textColor="@android:color/white"
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintEnd_toEndOf="parent"
@@ -118,6 +121,12 @@
 					app:layout_constraintTop_toBottomOf="@+id/release_date" />
 			
 			</android.support.constraint.ConstraintLayout>
+			
+			<android.support.v7.widget.RecyclerView
+				android:id="@+id/recycler_view"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
+		
 		</android.support.v4.widget.NestedScrollView>
 		
 		

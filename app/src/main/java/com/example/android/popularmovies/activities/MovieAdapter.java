@@ -14,11 +14,11 @@ import java.util.List;
 
 public final class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 	
-	private final List<Movie> movies;
+	private final List<Movie> moviesList;
 	private final ViewHolderClickListener viewHolderClickListener;
 	
 	public MovieAdapter(List<Movie> movies, ViewHolderClickListener viewHolderClickListener) {
-		this.movies = new ArrayList<>(movies);
+		this.moviesList = new ArrayList<>(movies);
 		this.viewHolderClickListener = viewHolderClickListener;
 	}
 	
@@ -33,19 +33,19 @@ public final class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieV
 	@Override
 	public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
 		ListItemCardViewBinding binding = holder.binding;
-		binding.setMovie(movies.get(holder.getAdapterPosition()));
+		binding.setMovie(moviesList.get(holder.getAdapterPosition()));
 		binding.executePendingBindings();
 	}
 	
 	public void replaceData(List<Movie> newMovies) {
-		this.movies.clear();
-		this.movies.addAll(newMovies);
+		this.moviesList.clear();
+		this.moviesList.addAll(newMovies);
 		this.notifyDataSetChanged();
 	}
 	
 	@Override
 	public int getItemCount() {
-		return movies.size();
+		return moviesList.size();
 	}
 	
 	
@@ -62,7 +62,7 @@ public final class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieV
 		@Override
 		public void onClick(View v) {
 			viewHolderClickListener.onViewHolderClick(
-					movies.get(getAdapterPosition()).getMovieId()
+					moviesList.get(getAdapterPosition()).getMovieId()
 			);
 		}
 	}
