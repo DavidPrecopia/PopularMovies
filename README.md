@@ -24,3 +24,8 @@ Created for Udacity's Android Developer Nanodegree.
 - Retrofit with Gson
 - RxJava with RxAndroid
 - Glide
+
+# Extra
+
+- The API key hidden in local files.
+  - Instructions: https://medium.com/code-better/hiding-api-keys-from-your-android-repository-b23f5598b906
