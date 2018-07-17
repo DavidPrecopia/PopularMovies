@@ -42,7 +42,7 @@ public final class MovieDetails {
 	private final MovieReviews movieReviews;
 	
 	
-	MovieDetails(int movieId, String title, float rating, String releaseDate, String description, String posterUrl, String backdropUrl, Trailer trailer, MovieReviews movieReviews) {
+	private MovieDetails(int movieId, String title, float rating, String releaseDate, String description, String posterUrl, String backdropUrl, Trailer trailer, MovieReviews movieReviews) {
 		this.movieId = movieId;
 		this.title = title;
 		this.rating = rating;
@@ -112,33 +112,26 @@ public final class MovieDetails {
 	}
 	
 	
-	/**
-	 * Trailer
-	 */
 	private class Trailer {
-		private final Videos[] results;
+		private Videos[] results;
 		
-		Trailer(Videos[] results) {
+		private Trailer(Videos[] results) {
 			this.results = results;
 		}
 		
 		private class Videos {
-			private final String key;
+			private String key;
 			
-			Videos(String key) {
+			private Videos(String key) {
 				this.key = key;
 			}
 		}
 	}
 	
 	
-	/**
-	 * Reviews
-	 */
 	private class MovieReviews {
-		
 		@SerializedName("results")
-		private final Review[] reviews;
+		private Review[] reviews;
 		
 		private MovieReviews(Review[] reviews) {
 			this.reviews = reviews;

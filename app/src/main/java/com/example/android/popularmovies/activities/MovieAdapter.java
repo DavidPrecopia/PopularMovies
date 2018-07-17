@@ -51,7 +51,7 @@ public final class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieV
 	
 	final class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		
-		private ListItemCardViewBinding binding;
+		private final ListItemCardViewBinding binding;
 		
 		MovieViewHolder(ListItemCardViewBinding binding) {
 			super(binding.getRoot());

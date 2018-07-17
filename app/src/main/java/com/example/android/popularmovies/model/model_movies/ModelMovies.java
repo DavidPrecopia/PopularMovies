@@ -31,7 +31,6 @@ public final class ModelMovies implements IModelMovieContract {
 	
 	private ModelMovies(Application context) {
 		remoteStorage = RemoteStorage.getInstance(context);
-		
 		popularFromRemote = remoteStorage.getPopularMovies();
 		highestRatedFromRemote = remoteStorage.getHighestRatedMovies();
 	}

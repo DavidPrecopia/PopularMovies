@@ -26,12 +26,12 @@ final class MainViewModel extends AndroidViewModel {
 	
 	private static final String LOG_TAG = MainViewModel.class.getSimpleName();
 	
-	private MutableLiveData<List<Movie>> movies;
-	private MutableLiveData<String> errorMessage;
-	private CompositeDisposable disposable;
+	private final MutableLiveData<List<Movie>> movies;
+	private final MutableLiveData<String> errorMessage;
+	private final CompositeDisposable disposable;
 	
-	private IModelMovieContract model;
-	private INetworkStatusContract networkStatus;
+	private final IModelMovieContract model;
+	private final INetworkStatusContract networkStatus;
 	
 	// Used for refreshing
 	private int lastSelectedSortBy;
@@ -122,7 +122,6 @@ final class MainViewModel extends AndroidViewModel {
 	@Override
 	protected void onCleared() {
 		disposable.clear();
-		model = null;
 		super.onCleared();
 	}
 }
