@@ -113,14 +113,14 @@ public final class MovieDetails {
 	
 	
 	private class Trailer {
-		private Videos[] results;
+		private final Videos[] results;
 		
 		private Trailer(Videos[] results) {
 			this.results = results;
 		}
 		
 		private class Videos {
-			private String key;
+			private final String key;
 			
 			private Videos(String key) {
 				this.key = key;
@@ -131,7 +131,7 @@ public final class MovieDetails {
 	
 	private class MovieReviews {
 		@SerializedName("results")
-		private Review[] reviews;
+		private final Review[] reviews;
 		
 		private MovieReviews(Review[] reviews) {
 			this.reviews = reviews;

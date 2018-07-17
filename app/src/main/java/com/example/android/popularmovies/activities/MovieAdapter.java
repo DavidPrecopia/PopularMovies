@@ -38,9 +38,9 @@ public final class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieV
 	}
 	
 	public void replaceData(List<Movie> newMovies) {
-		this.moviesList.clear();
-		this.moviesList.addAll(newMovies);
-		this.notifyDataSetChanged();
+		moviesList.clear();
+		moviesList.addAll(newMovies);
+		notifyDataSetChanged();
 	}
 	
 	@Override

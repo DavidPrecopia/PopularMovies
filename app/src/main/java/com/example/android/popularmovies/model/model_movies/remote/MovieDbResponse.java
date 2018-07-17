@@ -9,7 +9,11 @@ import java.util.List;
  */
 final class MovieDbResponse {
 	
-	private List<Movie> results;
+	private final List<Movie> results;
+	
+	private MovieDbResponse(List<Movie> results) {
+		this.results = results;
+	}
 	
 	List<Movie> getMoviesList() {
 		return results;
