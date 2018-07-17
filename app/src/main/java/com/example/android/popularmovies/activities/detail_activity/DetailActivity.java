@@ -96,14 +96,13 @@ public class DetailActivity extends AppCompatActivity {
 	}
 	
 	private void setFavoriteIcon(boolean isFavorite) {
-		if (favoriteMenuItem == null) {
-			return;
-		}
-		
-		if (isFavorite) {
-			favoriteMenuItem.setIcon(R.drawable.ic_star_filled_24px);
-		} else {
-			favoriteMenuItem.setIcon(R.drawable.ic_star_empty_24px);
+		if (favoriteMenuItem != null) {
+			if (isFavorite) {
+				favoriteMenuItem.setIcon(R.drawable.ic_star_filled_24px);
+			} else {
+				favoriteMenuItem.setIcon(R.drawable.ic_star_empty_24px);
+			}
+			favoriteMenuItem.setVisible(true);
 		}
 	}
 	
@@ -206,6 +205,14 @@ public class DetailActivity extends AppCompatActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_detail, menu);
 		favoriteMenuItem = menu.findItem(R.id.menu_item_favorite);
+		menuInflationSetFavoriteIcon();
 		return true;
+	}
+	
+	private void menuInflationSetFavoriteIcon() {
+		Boolean isFavorite = viewModel.getIsFavorite().getValue();
+		if (isFavorite != null) {
+			setFavoriteIcon(isFavorite);
+		}
 	}
 }

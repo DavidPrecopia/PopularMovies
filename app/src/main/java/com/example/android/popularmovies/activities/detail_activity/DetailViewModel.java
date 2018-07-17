@@ -73,8 +73,8 @@ final class DetailViewModel extends AndroidViewModel {
 		return new DisposableSingleObserver<MovieInformation>() {
 			@Override
 			public void onSuccess(MovieInformation movieInformation) {
-				DetailViewModel.this.movieDetails.setValue(movieInformation.getMovieDetails());
 				DetailViewModel.this.isFavorite.setValue(movieInformation.isFavorite());
+				DetailViewModel.this.movieDetails.setValue(movieInformation.getMovieDetails());
 			}
 			
 			@Override
