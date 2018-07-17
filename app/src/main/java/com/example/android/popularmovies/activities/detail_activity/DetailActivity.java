@@ -83,11 +83,19 @@ public class DetailActivity extends AppCompatActivity {
 	}
 	
 	private void bindReviews(final List<Review> reviewList) {
-		ExpandableGroup expandableGroup = new ExpandableGroup(new ExpandableHeaderItem(), false);
+		ExpandableGroup expandableGroup = new ExpandableGroup(
+				new ExpandableHeaderItem(getReviewsTitle(reviewList.isEmpty())), false
+		);
 		for (Review review : reviewList) {
 			expandableGroup.add(new ReviewItem(review));
 		}
 		groupAdapter.add(expandableGroup);
+	}
+	
+	private String getReviewsTitle(boolean noReviews) {
+		return getString(
+				noReviews ? R.string.title_no_reviews : R.string.title_reviews
+		);
 	}
 	
 	

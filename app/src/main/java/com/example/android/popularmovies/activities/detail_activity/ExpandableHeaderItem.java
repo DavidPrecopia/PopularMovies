@@ -11,6 +11,12 @@ import com.xwray.groupie.databinding.BindableItem;
 final class ExpandableHeaderItem extends BindableItem<ExpandableHeaderBinding> implements ExpandableItem {
 	
 	private ExpandableGroup expandableGroup;
+	private final String title;
+	
+	ExpandableHeaderItem(String title) {
+		this.title = title;
+	}
+	
 	
 	@Override
 	public void setExpandableGroup(@NonNull ExpandableGroup onToggleListener) {
@@ -19,6 +25,7 @@ final class ExpandableHeaderItem extends BindableItem<ExpandableHeaderBinding> i
 	
 	@Override
 	public void bind(@NonNull ExpandableHeaderBinding viewBinding, int position) {
+		viewBinding.tvTitle.setText(title);
 		bindImage(viewBinding);
 		viewBinding.expandableHeaderRoot.setOnClickListener(view -> {
 			expandableGroup.onToggleExpanded();
