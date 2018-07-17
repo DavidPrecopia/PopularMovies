@@ -49,12 +49,12 @@ public final class RemoteStorage implements IRemoteStorage {
 	
 	@Override
 	public Single<List<Movie>> getPopularMovies() {
-		return getMovies(UrlManager.QUERY_POPULAR);
+		return getMovies(UrlManager.POPULAR_SORT);
 	}
 	
 	@Override
 	public Single<List<Movie>> getHighestRatedMovies() {
-		return getMovies(UrlManager.QUERY_HIGHEST_RATED);
+		return getMovies(UrlManager.HIGHEST_RATED_SORT);
 	}
 	
 	private Single<List<Movie>> getMovies(String sortBy) {
