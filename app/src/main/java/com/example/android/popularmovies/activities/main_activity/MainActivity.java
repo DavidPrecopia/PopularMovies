@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	
-	public void openDetailActivity(int movieId) {
+	private void openDetailActivity(int movieId) {
 		Intent intent = new Intent(this, DetailActivity.class);
 		intent.putExtra(DetailActivity.class.getSimpleName(), movieId);
 		startActivity(intent);
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	private void hideLoading() {
 		progressBarVisibility(View.INVISIBLE);
-		recyclerView.setVisibility(View.VISIBLE);
+		listVisibility(View.VISIBLE);
 		famVisibility(View.VISIBLE);
 		enableRefreshing(true);
 	}
@@ -271,6 +271,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void fabListenerCommonSteps() {
 		floatingActionMenu.close(false);
 		displayLoading();
+		recyclerView.smoothScrollToPosition(0);
 	}
 	
 	
