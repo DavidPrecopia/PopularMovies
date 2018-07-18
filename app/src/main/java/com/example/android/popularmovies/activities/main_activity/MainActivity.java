@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		}
 		if (favoritesLastSelected) {
 			movieAdapter.replaceData(favoriteMovies);
+			onChangedCommonSteps();
 		}
-		onChangedCommonSteps();
 	}
 	
 	private void onChangedCommonSteps() {
