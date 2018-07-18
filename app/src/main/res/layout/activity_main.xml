@@ -56,7 +56,6 @@
 			app:menu_openDirection="up"
 			app:menu_showShadow="true">
 			
-			<!--Placeholder until I learn Fragments and ViewPager-->
 			<com.github.clans.fab.FloatingActionButton
 				android:id="@+id/fab_start_favorite_activity"
 				style="@style/FloatingActionButton"

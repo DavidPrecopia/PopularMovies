@@ -10,8 +10,10 @@ import android.util.Log;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.activities.network_util.INetworkStatusContract;
 import com.example.android.popularmovies.activities.network_util.NetworkStatus;
+import com.example.android.popularmovies.model.contracts_model.IModelFavoritesContract;
 import com.example.android.popularmovies.model.contracts_model.IModelMovieContract;
 import com.example.android.popularmovies.model.datamodel.Movie;
+import com.example.android.popularmovies.model.model_favorites.ModelFavorites;
 import com.example.android.popularmovies.model.model_movies.ModelMovies;
 
 import java.util.List;
@@ -21,19 +23,22 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
 
 final class MainViewModel extends AndroidViewModel {
 	
 	private static final String LOG_TAG = MainViewModel.class.getSimpleName();
 	
 	private final MutableLiveData<List<Movie>> movies;
+	private final MutableLiveData<List<Movie>> favoriteMovies;
 	private final MutableLiveData<String> errorMessage;
 	private final CompositeDisposable disposable;
 	
-	private final IModelMovieContract model;
+	private final IModelMovieContract modelMovies;
+	private final IModelFavoritesContract modelFavorites;
 	private final INetworkStatusContract networkStatus;
 	
-	// Used for refreshing
+	// Used for refreshing the list of Movies
 	private int lastSelectedSortBy;
 	private static final int POPULAR_SORT = 100;
 	private static final int HIGHEST_RATED_SORT = 200;
@@ -41,37 +46,39 @@ final class MainViewModel extends AndroidViewModel {
 	MainViewModel(@NonNull Application application) {
 		super(application);
 		this.movies = new MutableLiveData<>();
+		this.favoriteMovies = new MutableLiveData<>();
 		this.errorMessage = new MutableLiveData<>();
 		this.disposable = new CompositeDisposable();
-		this.model = ModelMovies.getInstance(application);
+		this.modelMovies = ModelMovies.getInstance(application);
+		this.modelFavorites = ModelFavorites.getInstance(application);
 		this.networkStatus = NetworkStatus.getInstance(application);
-		
 		init();
 	}
 	
 	
 	private void init() {
 		getPopularMovies();
+		getFavorites();
 	}
 	
 	
 	void getPopularMovies() {
 		lastSelectedSortBy = POPULAR_SORT;
-		getMoviesFromModel(model.getPopularMovies());
+		getMoviesFromModel(modelMovies.getPopularMovies());
 	}
 	
 	void getHighestRatedMovies() {
 		lastSelectedSortBy = HIGHEST_RATED_SORT;
-		getMoviesFromModel(model.getHighestRatedMovies());
+		getMoviesFromModel(modelMovies.getHighestRatedMovies());
 	}
 	
 	void onRefresh() {
 		switch (lastSelectedSortBy) {
 			case POPULAR_SORT:
-				getMoviesFromModel(model.getPopularMovies());
+				getMoviesFromModel(modelMovies.getPopularMovies());
 				break;
 			case HIGHEST_RATED_SORT:
-				getMoviesFromModel(model.getHighestRatedMovies());
+				getMoviesFromModel(modelMovies.getHighestRatedMovies());
 				break;
 		}
 	}
@@ -84,13 +91,11 @@ final class MainViewModel extends AndroidViewModel {
 		disposable.add(single
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeWith(getObserver())
+				.subscribeWith(moviesObserver())
 		);
 	}
 	
-	
-	
-	private DisposableSingleObserver<List<Movie>> getObserver() {
+	private DisposableSingleObserver<List<Movie>> moviesObserver() {
 		return new DisposableSingleObserver<List<Movie>>() {
 			@Override
 			public void onSuccess(List<Movie> movies) {
@@ -106,16 +111,50 @@ final class MainViewModel extends AndroidViewModel {
 	}
 	
 	
+	private void getFavorites() {
+		disposable.add(modelFavorites.getFavorites()
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeWith(favoriteMoviesSubscriber())
+		);
+	}
+	
+	private DisposableSubscriber<List<Movie>> favoriteMoviesSubscriber() {
+		return new DisposableSubscriber<List<Movie>>() {
+			@Override
+			public void onNext(List<Movie> favoriteMovies) {
+				MainViewModel.this.favoriteMovies.setValue(favoriteMovies);
+			}
+			
+			@Override
+			public void onError(Throwable e) {
+				Log.e(LOG_TAG, e.getMessage());
+				errorMessage.setValue(getApplication().getString(R.string.error_generic_error));
+			}
+			
+			@Override
+			public void onComplete() {
+				// N/A
+			}
+		};
+	}
+	
+	
+	private void showError(String errorMessage) {
+		this.errorMessage.setValue(errorMessage);
+	}
+	
+	
 	LiveData<List<Movie>> getMovies() {
 		return movies;
 	}
 	
-	LiveData<String> getErrorMessage() {
-		return errorMessage;
+	LiveData<List<Movie>> getFavoriteMovies() {
+		return favoriteMovies;
 	}
 	
-	private void showError(String errorMessage) {
-		this.errorMessage.setValue(errorMessage);
+	LiveData<String> getErrorMessage() {
+		return errorMessage;
 	}
 	
 	

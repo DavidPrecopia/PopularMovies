@@ -26,12 +26,8 @@
 		</activity>
 		
 		<activity
-			android:name=".activities.favorites_activity.FavoritesActivity"
-			android:launchMode="singleTop"
+			android:name=".activities.detail_activity.DetailActivity"
 			android:parentActivityName=".activities.main_activity.MainActivity" />
-		
-		<activity
-			android:name=".activities.detail_activity.DetailActivity" />
 	</application>
 
 </manifest>
