@@ -2,21 +2,20 @@
 	<string name="app_name">PopularMovies</string>
 	<string name="title_popular">Popular</string>
 	<string name="title_highest_rated">Highest Rated</string>
-	<string name="title_activity_favorites">Favorites</string>
+	<string name="title_favorites">Your Favorites</string>
 	
 	
 	<!--MainActivity-->
 	<string name="menu_refresh_title">Refresh</string>
 	<string name="iv_poster_description">Movie poster</string>
+	<string name="error_no_favorite_movies">No favorites selected</string>
+	<string name="recycler_view_saved_state_key">LAYOUT_KEY</string>
 	
 	<!--Floating Action Menu in MainActivity-->
 	<string name="fam_label_main">Sort By</string>
-	<string name="fab_label_favorites">Your Favorites</string>
+	<string name="fab_label_favorites">@string/title_favorites</string>
 	<string name="fab_label_popular">@string/title_popular</string>
 	<string name="fab_label_highest_rated">@string/title_highest_rated</string>
-	
-	<!--Favorite Movies-->
-	<string name="error_no_favorite_movies">No favorites selected</string>
 	
 	
 	<!--DetailActivity-->

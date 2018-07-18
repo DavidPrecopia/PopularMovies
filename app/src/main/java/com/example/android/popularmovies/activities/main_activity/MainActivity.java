@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private RecyclerView recyclerView;
 	private MovieAdapter movieAdapter;
 
-	// TODO add comment
 	private boolean favoritesLastSelected;
 	
 	private SwipeRefreshLayout swipeRefreshLayout;
@@ -47,10 +47,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	private MenuItem refreshMenuItem;
 	
+	private Parcelable layoutState;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+		
+		if (savedInstanceState != null) {
+			layoutState = savedInstanceState.getParcelable(getString(R.string.recycler_view_saved_state_key));
+		}
+		
 		init();
 	}
 	
@@ -94,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void onChangedCommonSteps() {
-		recyclerView.smoothScrollToPosition(0);
 		hideError();
 		hideLoading();
 	}
@@ -144,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private String getFavoritesTitle() {
-		return getString(R.string.title_activity_favorites);
+		return getString(R.string.title_favorites);
 	}
 	
 	
@@ -198,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void setViewReferences() {
-		recyclerView = binding.recyclerView;
 		swipeRefreshLayout = binding.swipeRefresh;
 		floatingActionMenu = binding.fabBase;
 		progressBar = binding.progressBar;
@@ -210,7 +215,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void setUpRecyclerView() {
+		recyclerView = binding.recyclerView;
 		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount()));
+		if (layoutState != null) {
+			recyclerView.getLayoutManager().onRestoreInstanceState(layoutState);
+		}
 		recyclerView.setHasFixedSize(true);
 		this.movieAdapter = new MovieAdapter(new ArrayList<>());
 		recyclerView.setAdapter(movieAdapter);
@@ -277,6 +286,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		recyclerView.setVisibility(visibility);
 	}
 	
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putParcelable(getString(R.string.recycler_view_saved_state_key), recyclerView.getLayoutManager().onSaveInstanceState());
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
