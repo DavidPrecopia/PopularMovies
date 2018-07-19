@@ -94,7 +94,7 @@ public class DetailActivity extends AppCompatActivity {
 	
 	private String getReviewsTitle(boolean noReviews) {
 		return getString(
-				noReviews ? R.string.title_no_reviews : R.string.title_reviews
+				noReviews ? R.string.error_no_reviews : R.string.title_reviews
 		);
 	}
 	
