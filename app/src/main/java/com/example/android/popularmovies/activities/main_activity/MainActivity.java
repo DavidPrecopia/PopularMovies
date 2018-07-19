@@ -57,29 +57,30 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-		
-		if (savedInstanceState != null) {
-			layoutManagerSavedState = savedInstanceState.getParcelable(getString(R.string.key_layout_manager_saved_state));
-			lastSelectedSort = savedInstanceState.getInt(getString(R.string.key_last_selected_sort));
-		}
-		
-		init(savedInstanceState != null);
+		init(savedInstanceState);
 	}
 	
 	
-	private void init(boolean restoreState) {
+	private void init(Bundle savedInstanceState) {
 		setUpView();
 		displayLoading();
 		setUpViewModel();
-		if (restoreState) {
-			resortTitle();
-			restoreRecyclerView();
-		} else {
+		observeViewModel();
+		if (savedInstanceState == null) {
 			lastSelectedSort = POPULAR;
 			viewModel.getPopularMovies();
+		} else {
+			getSavedValues(savedInstanceState);
+			resortTitle();
+			restoreRecyclerView();
 		}
 	}
 	
+	
+	private void getSavedValues(Bundle savedInstanceState) {
+		layoutManagerSavedState = savedInstanceState.getParcelable(getString(R.string.key_layout_manager_saved_state));
+		lastSelectedSort = savedInstanceState.getInt(getString(R.string.key_last_selected_sort));
+	}
 	
 	private void resortTitle() {
 		String title;
@@ -99,6 +100,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		setActionBarTitle(title);
 	}
 	
+	/**
+	 * In case the ViewModel was destroyed due to
+	 * known issue with rotation (https://issuetracker.google.com/issues/72690424#comment10)
+	 * or running out of memory
+	 */
 	private void restoreRecyclerView() {
 		if (viewModel.getMovies().getValue() == null) {
 			switch (lastSelectedSort) {
@@ -110,10 +116,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 					break;
 			}
 		}
+		recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
 	}
+	
 	
 	private void setUpViewModel() {
 		viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+	}
+	
+	private void observeViewModel() {
 		observeMovies();
 		observeFavorites();
 		observeError();
@@ -143,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void onChangedCommonSteps() {
-		recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
 		hideError();
 		hideLoading();
 	}
