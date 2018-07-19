@@ -57,7 +57,7 @@ final class MainViewModel extends AndroidViewModel {
 	
 	
 	private void init() {
-		getPopularMovies();
+		// Start observing the Favorites database
 		getFavorites();
 	}
 	

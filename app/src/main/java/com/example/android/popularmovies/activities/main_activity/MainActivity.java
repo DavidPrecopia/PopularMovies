@@ -37,8 +37,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	private RecyclerView recyclerView;
 	private MovieAdapter movieAdapter;
-
-	private boolean favoritesLastSelected;
+	private Parcelable layoutManagerSavedState;
+	
+	private int lastSelectedSort;
+	private static final int POPULAR = 100;
+	private static final int HIGHEST_RATED = 200;
+	private static final int FAVORITES = 300;
 	
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private FloatingActionMenu floatingActionMenu;
@@ -47,28 +51,51 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	private MenuItem refreshMenuItem;
 	
-	private Parcelable layoutState;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		
 		if (savedInstanceState != null) {
-			layoutState = savedInstanceState.getParcelable(getString(R.string.recycler_view_saved_state_key));
+			layoutManagerSavedState = savedInstanceState.getParcelable(getString(R.string.key_layout_manager_saved_state));
+			lastSelectedSort = savedInstanceState.getInt(getString(R.string.key_last_selected_sort));
 		}
 		
-		init();
+		init(savedInstanceState != null);
 	}
 	
 	
-	private void init() {
+	private void init(boolean restoreState) {
 		setUpView();
 		displayLoading();
-		setActionBarTitle(getPopularTitle());
 		setUpViewModel();
+		if (restoreState) {
+			resortState();
+		} else {
+			viewModel.getPopularMovies();
+		}
 	}
 	
+	
+	private void resortState() {
+		String title;
+		switch (lastSelectedSort) {
+			case POPULAR:
+				viewModel.getPopularMovies();
+				title = getPopularTitle();
+				break;
+			case HIGHEST_RATED:
+				viewModel.getHighestRatedMovies();
+				title = getHighestRatedTitle();
+				break;
+			case FAVORITES:
+				title = getFavoritesTitle();
+				break;
+			default:
+				throw new IllegalArgumentException("Unknown \"last selected sort\" value");
+		}
+		setActionBarTitle(title);
+	}
 	
 	private void setUpViewModel() {
 		MainViewModelFactory factory = new MainViewModelFactory(getApplication());
@@ -90,14 +117,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void processFavorites(final List<Movie> favoriteMovies) {
+		if (lastSelectedSort != FAVORITES) {
+			return;
+		}
 		if (favoriteMovies == null || favoriteMovies.isEmpty()) {
 			displayError(getString(R.string.error_no_favorite_movies));
 			return;
 		}
-		if (favoritesLastSelected) {
-			movieAdapter.replaceData(favoriteMovies);
-			onChangedCommonSteps();
-		}
+		movieAdapter.replaceData(favoriteMovies);
+		onChangedCommonSteps();
 	}
 	
 	private void onChangedCommonSteps() {
@@ -217,8 +245,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void setUpRecyclerView() {
 		recyclerView = binding.recyclerView;
 		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount()));
-		if (layoutState != null) {
-			recyclerView.getLayoutManager().onRestoreInstanceState(layoutState);
+		if (layoutManagerSavedState != null) {
+			recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
 		}
 		recyclerView.setHasFixedSize(true);
 		this.movieAdapter = new MovieAdapter(new ArrayList<>());
@@ -245,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		return view -> {
 			setActionBarTitle(getFavoritesTitle());
 			fabListenerCommonSteps();
-			favoritesLastSelected = true;
+			lastSelectedSort = FAVORITES;
 			processFavorites(viewModel.getFavoriteMovies().getValue());
 		};
 	}
@@ -253,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private View.OnClickListener fabPopularListener() {
 		return view -> {
 			setActionBarTitle(getPopularTitle());
-			favoritesLastSelected = false;
+			lastSelectedSort = POPULAR;
 			viewModel.getPopularMovies();
 			fabListenerCommonSteps();
 		};
@@ -262,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private View.OnClickListener fabRatedListener() {
 		return view -> {
 			setActionBarTitle(getHighestRatedTitle());
-			favoritesLastSelected = false;
+			lastSelectedSort = HIGHEST_RATED;
 			viewModel.getHighestRatedMovies();
 			fabListenerCommonSteps();
 		};
@@ -291,7 +319,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putParcelable(getString(R.string.recycler_view_saved_state_key), recyclerView.getLayoutManager().onSaveInstanceState());
+		outState.putParcelable(getString(R.string.key_layout_manager_saved_state), recyclerView.getLayoutManager().onSaveInstanceState());
+		outState.putInt(getString(R.string.key_last_selected_sort), lastSelectedSort);
 	}
 	
 	@Override

@@ -9,7 +9,8 @@
 	<string name="menu_refresh_title">Refresh</string>
 	<string name="iv_poster_description">Movie poster</string>
 	<string name="error_no_favorite_movies">No favorites selected</string>
-	<string name="recycler_view_saved_state_key">LAYOUT_KEY</string>
+	<string name="key_layout_manager_saved_state">LAYOUT_KEY</string>
+	<string name="key_last_selected_sort">LAST_SELECTED_SORT</string>
 	
 	<!--Floating Action Menu in MainActivity-->
 	<string name="fam_label_main">Sort By</string>
