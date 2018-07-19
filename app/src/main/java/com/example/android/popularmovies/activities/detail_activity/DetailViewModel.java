@@ -54,6 +54,8 @@ final class DetailViewModel extends AndroidViewModel {
 		);
 		this.networkStatus = NetworkStatus.getInstance(application);
 		
+		Log.d(LOG_TAG, "ViewModel constructor");
+		
 		init();
 	}
 	
@@ -138,5 +140,6 @@ final class DetailViewModel extends AndroidViewModel {
 	protected void onCleared() {
 		disposable.clear();
 		super.onCleared();
+		Log.d(LOG_TAG, "onCleared");
 	}
 }

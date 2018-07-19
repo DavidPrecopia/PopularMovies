@@ -57,7 +57,7 @@
 			app:menu_showShadow="true">
 			
 			<com.github.clans.fab.FloatingActionButton
-				android:id="@+id/fab_start_favorite_activity"
+				android:id="@+id/fab_sort_favorite_activity"
 				style="@style/FloatingActionButton"
 				android:src="@drawable/ic_person_24px"
 				app:fab_label="@string/fab_label_favorites" />

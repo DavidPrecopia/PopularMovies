@@ -32,6 +32,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 	
+	private static final String LOG_TAG = MainActivity.class.getSimpleName();
+	
 	private MainViewModel viewModel;
 	private ActivityMainBinding binding;
 	
@@ -70,22 +72,22 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		displayLoading();
 		setUpViewModel();
 		if (restoreState) {
-			resortState();
+			resortTitle();
+			restoreRecyclerView();
 		} else {
+			lastSelectedSort = POPULAR;
 			viewModel.getPopularMovies();
 		}
 	}
 	
 	
-	private void resortState() {
+	private void resortTitle() {
 		String title;
 		switch (lastSelectedSort) {
 			case POPULAR:
-				viewModel.getPopularMovies();
 				title = getPopularTitle();
 				break;
 			case HIGHEST_RATED:
-				viewModel.getHighestRatedMovies();
 				title = getHighestRatedTitle();
 				break;
 			case FAVORITES:
@@ -97,9 +99,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		setActionBarTitle(title);
 	}
 	
+	private void restoreRecyclerView() {
+		if (viewModel.getMovies().getValue() == null) {
+			switch (lastSelectedSort) {
+				case POPULAR:
+					viewModel.getPopularMovies();
+					break;
+				case HIGHEST_RATED:
+					viewModel.getHighestRatedMovies();
+					break;
+			}
+		}
+	}
+	
 	private void setUpViewModel() {
-		MainViewModelFactory factory = new MainViewModelFactory(getApplication());
-		viewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
+		viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 		observeMovies();
 		observeFavorites();
 		observeError();
@@ -129,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void onChangedCommonSteps() {
+		recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
 		hideError();
 		hideLoading();
 	}
@@ -136,14 +151,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void observeError() {
 		viewModel.getErrorMessage().observe(this, this::displayError);
 	}
-	
-	
-	private void openDetailActivity(int movieId) {
-		Intent intent = new Intent(this, DetailActivity.class);
-		intent.putExtra(DetailActivity.class.getSimpleName(), movieId);
-		startActivity(intent);
-	}
-	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -245,9 +252,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void setUpRecyclerView() {
 		recyclerView = binding.recyclerView;
 		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount()));
-		if (layoutManagerSavedState != null) {
-			recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
-		}
 		recyclerView.setHasFixedSize(true);
 		this.movieAdapter = new MovieAdapter(new ArrayList<>());
 		recyclerView.setAdapter(movieAdapter);
@@ -264,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void setUpFloatingActionMenu() {
 		floatingActionMenu.setIconAnimated(false);
 		floatingActionMenu.setClosedOnTouchOutside(true);
-		binding.fabStartFavoriteActivity.setOnClickListener(fabFavoritesListener());
+		binding.fabSortFavoriteActivity.setOnClickListener(fabFavoritesListener());
 		binding.fabSortPopular.setOnClickListener(fabPopularListener());
 		binding.fabSortRated.setOnClickListener(fabRatedListener());
 	}
@@ -272,8 +276,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private View.OnClickListener fabFavoritesListener() {
 		return view -> {
 			setActionBarTitle(getFavoritesTitle());
-			fabListenerCommonSteps();
 			lastSelectedSort = FAVORITES;
+			fabListenerCommonSteps();
 			processFavorites(viewModel.getFavoriteMovies().getValue());
 		};
 	}
@@ -323,6 +327,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		outState.putInt(getString(R.string.key_last_selected_sort), lastSelectedSort);
 	}
 	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -330,6 +335,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		return true;
 	}
 	
+	
+	private void openDetailActivity(int movieId) {
+		Intent intent = new Intent(this, DetailActivity.class);
+		intent.putExtra(DetailActivity.class.getSimpleName(), movieId);
+		startActivity(intent);
+	}
 	
 	public final class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 		

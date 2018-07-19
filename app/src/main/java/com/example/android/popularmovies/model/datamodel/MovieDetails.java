@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.model.datamodel;
 
 import android.databinding.BindingAdapter;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.android.popularmovies.R;
@@ -49,7 +50,8 @@ public final class MovieDetails {
 		this.releaseDate = releaseDate;
 		this.description = description;
 		this.posterUrl = posterUrl;
-		this.backdropUrl = backdropUrl;
+		this.backdropUrl = backdropUrl.trim();
+		Log.d("LOG_TAG0", backdropUrl);
 		this.trailer = trailer;
 		this.movieReviews = movieReviews;
 	}

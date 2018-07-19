@@ -9,7 +9,7 @@ import com.example.android.popularmovies.model.model_favorites.database.Favorite
 import com.google.gson.annotations.SerializedName;
 
 /**
- * ColumnInfo annotations used to de-serialize from database
+ * ColumnInfo annotations used to de-serialize from the database
  */
 public final class Movie {
 	
@@ -28,7 +28,7 @@ public final class Movie {
 	public Movie(int movieId, String title, String posterUrl) {
 		this.movieId = movieId;
 		this.title = title;
-		this.posterUrl = posterUrl;
+		this.posterUrl = posterUrl.trim();
 	}
 	
 	

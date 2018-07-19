@@ -124,8 +124,9 @@ public class DetailActivity extends AppCompatActivity {
 		Intent intent = new Intent(Intent.ACTION_VIEW, getTrailerUri());
 		if (intent.resolveActivity(getPackageManager()) == null) {
 			Toast.makeText(this, R.string.error_cannot_open_trailer, Toast.LENGTH_SHORT).show();
+		} else {
+			startActivity(intent);
 		}
-		startActivity(intent);
 	}
 	
 	private Uri getTrailerUri() {

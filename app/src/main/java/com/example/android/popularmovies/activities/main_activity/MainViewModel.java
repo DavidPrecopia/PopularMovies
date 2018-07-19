@@ -52,13 +52,16 @@ final class MainViewModel extends AndroidViewModel {
 		this.modelMovies = ModelMovies.getInstance(application);
 		this.modelFavorites = ModelFavorites.getInstance(application);
 		this.networkStatus = NetworkStatus.getInstance(application);
+		
+		Log.d(LOG_TAG, "ViewModel constructor");
+		
 		init();
 	}
 	
 	
 	private void init() {
 		// Start observing the Favorites database
-		getFavorites();
+		observeFavorites();
 	}
 	
 	
@@ -111,7 +114,7 @@ final class MainViewModel extends AndroidViewModel {
 	}
 	
 	
-	private void getFavorites() {
+	private void observeFavorites() {
 		disposable.add(modelFavorites.getFavorites()
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
@@ -162,5 +165,6 @@ final class MainViewModel extends AndroidViewModel {
 	protected void onCleared() {
 		disposable.clear();
 		super.onCleared();
+		Log.d(LOG_TAG, "onCleared");
 	}
 }
