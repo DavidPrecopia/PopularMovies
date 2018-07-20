@@ -11,7 +11,7 @@ Created for Udacity's Android Developer Nanodegree.
 
 **Icons**
 
-- https://material.io/tools/icons/?style=baseline
+- https://material.io/tools/icons/?style=round
 
 **Libraries**
 
@@ -21,7 +21,7 @@ Created for Udacity's Android Developer Nanodegree.
   - https://github.com/Clans/FloatingActionButton
 - Toasty
   - https://github.com/GrenderG/Toasty
-- Retrofit with Gson
+- Retrofit and Gson
 - RxJava with RxAndroid
 - Glide
 
