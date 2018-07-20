@@ -167,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		switch (item.getItemId()) {
 			case R.id.menu_item_refresh:
 				onRefresh();
+				recyclerView.smoothScrollToPosition(0);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
