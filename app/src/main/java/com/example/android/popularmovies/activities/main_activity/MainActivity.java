@@ -2,7 +2,6 @@ package com.example.android.popularmovies.activities.main_activity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -178,7 +178,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	public void onRefresh() {
 		displayLoading();
 		swipeRefreshLayout.setRefreshing(false);
-		viewModel.onRefresh();
+		switch (lastSelectedSort) {
+			case POPULAR:
+				viewModel.getPopularMovies();
+				break;
+			case HIGHEST_RATED:
+				viewModel.getHighestRatedMovies();
+				break;
+			case FAVORITES:
+				processFavorites(viewModel.getFavoriteMovies().getValue());
+				break;
+		}
 	}
 	
 	
@@ -245,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		setUpToolbar();
 		setUpRecyclerView();
 		setUpFloatingActionMenu();
-		swipeRefreshLayout.setOnRefreshListener(this);
+		setUpRefreshLayoutListener();
 	}
 	
 	private void setViewReferences() {
@@ -268,12 +278,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private int gridLayoutSpanCount() {
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-			return 2;
-		} else {
-			return 4;
-		}
+		DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+		float displayWidth = displayMetrics.widthPixels / displayMetrics.density;
+		int spanCount = (int) (displayWidth / 180);
+		return spanCount < 2 ? 2 : spanCount;
 	}
+	
 	
 	private void setUpFloatingActionMenu() {
 		floatingActionMenu.setIconAnimated(false);
@@ -315,6 +325,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		displayLoading();
 		recyclerView.smoothScrollToPosition(0);
 	}
+	
+	private void setUpRefreshLayoutListener() {
+		swipeRefreshLayout.setOnRefreshListener(this);
+	}
+	
 	
 	
 	private void progressBarVisibility(int visibility) {

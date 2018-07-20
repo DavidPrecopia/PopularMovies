@@ -38,11 +38,6 @@ final class MainViewModel extends AndroidViewModel {
 	private final IModelFavoritesContract modelFavorites;
 	private final INetworkStatusContract networkStatus;
 	
-	// Used for refreshing the list of Movies
-	private int lastSelectedSortBy;
-	private static final int POPULAR_SORT = 100;
-	private static final int HIGHEST_RATED_SORT = 200;
-	
 	MainViewModel(@NonNull Application application) {
 		super(application);
 		this.movies = new MutableLiveData<>();
@@ -66,24 +61,11 @@ final class MainViewModel extends AndroidViewModel {
 	
 	
 	void getPopularMovies() {
-		lastSelectedSortBy = POPULAR_SORT;
 		getMoviesFromModel(modelMovies.getPopularMovies());
 	}
 	
 	void getHighestRatedMovies() {
-		lastSelectedSortBy = HIGHEST_RATED_SORT;
 		getMoviesFromModel(modelMovies.getHighestRatedMovies());
-	}
-	
-	void onRefresh() {
-		switch (lastSelectedSortBy) {
-			case POPULAR_SORT:
-				getMoviesFromModel(modelMovies.getPopularMovies());
-				break;
-			case HIGHEST_RATED_SORT:
-				getMoviesFromModel(modelMovies.getHighestRatedMovies());
-				break;
-		}
 	}
 	
 	private void getMoviesFromModel(final Single<List<Movie>> single) {
