@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_main, menu);
+		getMenuInflater().inflate(R.menu.menu_main_activity, menu);
 		refreshMenuItem = menu.findItem(R.id.menu_item_refresh);
 		return true;
 	}

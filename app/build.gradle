@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.example.android.popularmovies"
         minSdkVersion 21
-        // Because Android P is still in beta
+        // Because Android P is still in beta,
         // I assume it is OK to stick with API 27
         //noinspection OldTargetApi
         targetSdkVersion 27

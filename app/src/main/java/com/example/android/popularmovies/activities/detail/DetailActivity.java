@@ -209,7 +209,7 @@ public class DetailActivity extends AppCompatActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_detail, menu);
+		getMenuInflater().inflate(R.menu.menu_detail_activity, menu);
 		favoriteMenuItem = menu.findItem(R.id.menu_item_favorite);
 		menuInflationSetFavoriteIcon();
 		return true;
