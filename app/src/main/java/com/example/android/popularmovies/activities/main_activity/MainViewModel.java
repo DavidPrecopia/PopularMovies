@@ -48,8 +48,6 @@ final class MainViewModel extends AndroidViewModel {
 		this.modelFavorites = ModelFavorites.getInstance(application);
 		this.networkStatus = NetworkStatus.getInstance(application);
 		
-		Log.d(LOG_TAG, "ViewModel constructor");
-		
 		init();
 	}
 	
@@ -147,6 +145,5 @@ final class MainViewModel extends AndroidViewModel {
 	protected void onCleared() {
 		disposable.clear();
 		super.onCleared();
-		Log.d(LOG_TAG, "onCleared");
 	}
 }

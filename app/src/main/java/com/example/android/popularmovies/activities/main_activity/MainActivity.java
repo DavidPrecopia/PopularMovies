@@ -121,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	
 	private void setUpViewModel() {
-		viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+		MainViewModelFactory factory = new MainViewModelFactory(getApplication());
+		viewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
 	}
 	
 	private void observeViewModel() {
