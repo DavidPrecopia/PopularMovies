@@ -3,6 +3,6 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/menu_item_refresh"
-		android:title="@string/menu_refresh_title"
+		android:title="@string/menu_item_title_refresh"
 		app:showAsAction="never" />
 </menu>

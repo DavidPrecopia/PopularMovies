@@ -88,7 +88,7 @@ final class MainViewModel extends AndroidViewModel {
 			@Override
 			public void onError(Throwable e) {
 				Log.d(LOG_TAG, e.getMessage());
-				showError(getApplication().getString(R.string.error_generic_error));
+				showError(getApplication().getString(R.string.error_generic_message));
 			}
 		};
 	}
@@ -112,7 +112,7 @@ final class MainViewModel extends AndroidViewModel {
 			@Override
 			public void onError(Throwable e) {
 				Log.e(LOG_TAG, e.getMessage());
-				errorMessage.setValue(getApplication().getString(R.string.error_generic_error));
+				errorMessage.setValue(getApplication().getString(R.string.error_generic_message));
 			}
 			
 			@Override

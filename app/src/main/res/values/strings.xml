@@ -3,34 +3,4 @@
 	<string name="title_popular">Popular</string>
 	<string name="title_highest_rated">Highest Rated</string>
 	<string name="title_favorites">Your Favorites</string>
-	
-	
-	<!--MainActivity-->
-	<string name="menu_refresh_title">Refresh</string>
-	<string name="iv_poster_description">Movie poster</string>
-	<string name="error_no_favorite_movies">No favorites selected</string>
-	<string name="key_layout_manager_saved_state">LAYOUT_KEY</string>
-	<string name="key_last_selected_sort">LAST_SELECTED_SORT</string>
-	
-	<!--Floating Action Menu in MainActivity-->
-	<string name="fam_label_main">Sort By</string>
-	<string name="fab_label_favorites">@string/title_favorites</string>
-	<string name="fab_label_popular">@string/title_popular</string>
-	<string name="fab_label_highest_rated">@string/title_highest_rated</string>
-	
-	
-	<!--DetailActivity-->
-	<string name="open_trailer_label">Play trailer</string>
-	<string name="menu_item_favorite_title">Mark as Favorite</string>
-	<string name="error_cannot_open_trailer">Cannot open YouTube</string>
-	<string name="title_reviews">Reviews</string>
-	<string name="error_no_reviews">No Reviews</string>
-	<string name="iv_reviews_content_description">Status of expandable reviews</string>
-	<string name="toast_msg_favorite_added">Added to favorites</string>
-	<string name="toast_msg_favorite_removed">Removed from favorites</string>
-	
-	
-	<!--Error messages-->
-	<string name="error_no_network">No internet connection</string>
-	<string name="error_generic_error">Encounter an error</string>
 </resources>

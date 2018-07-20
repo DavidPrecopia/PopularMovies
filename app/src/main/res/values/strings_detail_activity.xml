@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="menu_item_favorite_title">Mark as Favorite</string>
+	
+	<string name="label_play_trailer">Play trailer</string>
+	<string name="error_cannot_open_trailer">Cannot open YouTube</string>
+	
+	<string name="title_reviews">Reviews</string>
+	<string name="iv_reviews_content_description">Status of expandable reviews</string>
+	<string name="error_no_reviews">No Reviews</string>
+	
+	<string name="toast_message_favorite_added">Added to favorites</string>
+	<string name="toast_message_favorite_removed">Removed from favorites</string>
+</resources>

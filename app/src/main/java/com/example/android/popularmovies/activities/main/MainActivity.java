@@ -32,8 +32,6 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 	
-	private static final String LOG_TAG = MainActivity.class.getSimpleName();
-	
 	private MainViewModel viewModel;
 	private ActivityMainBinding binding;
 	

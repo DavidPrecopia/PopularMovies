@@ -153,12 +153,12 @@ public class DetailActivity extends AppCompatActivity {
 	
 	private void addToFavorites() {
 		viewModel.addToFavorites();
-		Toasty.success(this, getString(R.string.toast_msg_favorite_added)).show();
+		Toasty.success(this, getString(R.string.toast_message_favorite_added)).show();
 	}
 	
 	private void deleteFromFavorites() {
 		viewModel.deleteFromFavorites();
-		Toasty.info(this, getString(R.string.toast_msg_favorite_removed)).show();
+		Toasty.info(this, getString(R.string.toast_message_favorite_removed)).show();
 	}
 	
 	
