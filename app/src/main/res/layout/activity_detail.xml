@@ -3,13 +3,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	tools:context=".activities.detail_activity.DetailActivity" >
+	tools:context=".activities.detail.DetailActivity" >
 	
 	<data>
 		
 		<variable
 			name="movie"
-			type="com.example.android.popularmovies.model.datamodel.MovieDetails" />
+			type="com.example.android.popularmovies.datamodel.MovieDetails" />
 	</data>
 	
 	<android.support.design.widget.CoordinatorLayout
@@ -19,7 +19,7 @@
 		<android.support.design.widget.AppBarLayout
 			android:id="@+id/app_bar_layout"
 			android:layout_width="match_parent"
-			android:layout_height="@dimen/app_bar_height_detail_activity"
+			android:layout_height="250dp"
 			android:theme="@style/ToolbarTheme">
 			
 			<android.support.design.widget.CollapsingToolbarLayout

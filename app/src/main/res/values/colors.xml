@@ -5,9 +5,6 @@
 	<color name="colorAccent">#FF5722</color>
 	<color name="activityBackground">#424242</color>
 	
-	<!--Background when the FloatingActionMenu is open-->
-	<!--80% transparency-->
-	<color name="famFadedBackground">#80000000</color>
-	
-	<color name="error">#FF0000</color>
+	<color name="white">#FFFFFF</color>
+	<color name="red">#FF0000</color>
 </resources>
