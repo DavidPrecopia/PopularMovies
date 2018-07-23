@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	
 	private RecyclerView recyclerView;
 	private MovieAdapter movieAdapter;
-	private Parcelable layoutManagerSavedState;
 	
 	private int lastSelectedSort;
 	private static final int POPULAR = 100;
@@ -63,21 +61,17 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		displayLoading();
 		setUpViewModel();
 		observeViewModel();
+		setUpRecyclerView();
 		if (savedInstanceState == null) {
 			lastSelectedSort = POPULAR;
 			viewModel.getPopularMovies();
 		} else {
-			getSavedValues(savedInstanceState);
+			lastSelectedSort = savedInstanceState.getInt(getString(R.string.key_last_selected_sort));
 			resortTitle();
-			restoreRecyclerView();
+			restoreData();
 		}
 	}
 	
-	
-	private void getSavedValues(Bundle savedInstanceState) {
-		layoutManagerSavedState = savedInstanceState.getParcelable(getString(R.string.key_layout_manager_saved_state));
-		lastSelectedSort = savedInstanceState.getInt(getString(R.string.key_last_selected_sort));
-	}
 	
 	private void resortTitle() {
 		String title;
@@ -102,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	 * known issue with rotation (https://issuetracker.google.com/issues/72690424#comment10)
 	 * or running out of memory
 	 */
-	private void restoreRecyclerView() {
+	private void restoreData() {
 		if (viewModel.getMovies().getValue() == null) {
 			switch (lastSelectedSort) {
 				case POPULAR:
@@ -113,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 					break;
 			}
 		}
-		recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerSavedState);
 	}
 	
 	
@@ -252,12 +245,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	private void setUpView() {
 		setViewReferences();
 		setUpToolbar();
-		setUpRecyclerView();
+		
 		setUpFloatingActionMenu();
 		setUpRefreshLayoutListener();
 	}
 	
 	private void setViewReferences() {
+		recyclerView = binding.recyclerView;
 		swipeRefreshLayout = binding.swipeRefresh;
 		floatingActionMenu = binding.fabBase;
 		progressBar = binding.progressBar;
@@ -269,11 +263,21 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	}
 	
 	private void setUpRecyclerView() {
-		recyclerView = binding.recyclerView;
 		recyclerView.setLayoutManager(new GridLayoutManager(this, gridLayoutSpanCount()));
 		recyclerView.setHasFixedSize(true);
-		this.movieAdapter = new MovieAdapter(new ArrayList<>());
+		// Because I am setting the data before I set the adapter
+		// scroll state is restore for me
+		recyclerViewRestoreData();
 		recyclerView.setAdapter(movieAdapter);
+	}
+	
+	private void recyclerViewRestoreData() {
+		List<Movie> movies = viewModel.getMovies().getValue();
+		if (movies == null) {
+			this.movieAdapter = new MovieAdapter(new ArrayList<>());
+		} else {
+			this.movieAdapter = new MovieAdapter(movies);
+		}
 	}
 	
 	private int gridLayoutSpanCount() {
@@ -347,7 +351,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putParcelable(getString(R.string.key_layout_manager_saved_state), recyclerView.getLayoutManager().onSaveInstanceState());
 		outState.putInt(getString(R.string.key_last_selected_sort), lastSelectedSort);
 	}
 	
