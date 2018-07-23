@@ -21,6 +21,8 @@ Created for Udacity's Android Developer Nanodegree.
   - https://github.com/Clans/FloatingActionButton
 - Toasty
   - https://github.com/GrenderG/Toasty
+- Timber
+  - https://github.com/JakeWharton/timber
 - Retrofit and Gson
 - RxJava with RxAndroid
 - Glide

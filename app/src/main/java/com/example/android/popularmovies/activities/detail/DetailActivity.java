@@ -29,8 +29,6 @@ import es.dmoral.toasty.Toasty;
 
 public class DetailActivity extends AppCompatActivity {
 	
-	private static final String LOG_TAG = DetailActivity.class.getSimpleName();
-	
 	private DetailViewModel viewModel;
 	private ActivityDetailBinding binding;
 	

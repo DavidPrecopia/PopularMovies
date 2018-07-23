@@ -5,7 +5,6 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.IModelContract;
@@ -23,10 +22,9 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 final class DetailViewModel extends AndroidViewModel {
-	
-	private static final String LOG_TAG = DetailViewModel.class.getSimpleName();
 	
 	private final MutableLiveData<MovieDetails> movieDetails;
 	private final MutableLiveData<Boolean> isFavorite;
@@ -78,7 +76,7 @@ final class DetailViewModel extends AndroidViewModel {
 			
 			@Override
 			public void onError(Throwable e) {
-				Log.e(LOG_TAG, e.getMessage());
+				Timber.e(e);
 				errorMessage.setValue(getApplication().getString(R.string.error_generic_message));
 			}
 		};
@@ -109,12 +107,12 @@ final class DetailViewModel extends AndroidViewModel {
 		return new DisposableCompletableObserver() {
 			@Override
 			public void onComplete() {
-				Log.i(LOG_TAG, "DisposableCompletableObserver - onComplete");
+				Timber.i("DisposableCompletableObserver - onComplete");
 			}
 			
 			@Override
 			public void onError(Throwable e) {
-				Log.e(LOG_TAG, e.getMessage());
+				Timber.e(e);
 			}
 		};
 	}
