@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import timber.log.Timber;
-
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 	
 	private MainViewModel viewModel;
@@ -57,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 		super.onCreate(savedInstanceState);
 		binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 		init(savedInstanceState);
-		Timber.i("Post init");
 	}
 	
 	
