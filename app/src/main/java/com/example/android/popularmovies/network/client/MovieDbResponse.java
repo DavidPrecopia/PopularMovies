@@ -1,6 +1,6 @@
 package com.example.android.popularmovies.network.client;
 
-import com.example.android.popularmovies.datamodel.Movie;
+import com.example.android.popularmovies.activities.main.Movie;
 
 import java.util.List;
 

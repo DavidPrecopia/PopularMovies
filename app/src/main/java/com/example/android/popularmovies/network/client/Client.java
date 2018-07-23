@@ -2,9 +2,8 @@ package com.example.android.popularmovies.network.client;
 
 import android.app.Application;
 
-import com.example.android.popularmovies.contracts.IRemoteStorage;
-import com.example.android.popularmovies.datamodel.Movie;
-import com.example.android.popularmovies.datamodel.MovieDetails;
+import com.example.android.popularmovies.activities.detail.MovieDetails;
+import com.example.android.popularmovies.activities.main.Movie;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public final class Client implements IRemoteStorage {
+public final class Client implements IClientContract {
 	
 	private final MovieDbService movieDbService;
 	

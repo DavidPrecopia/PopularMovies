@@ -1,7 +1,7 @@
-package com.example.android.popularmovies.contracts;
+package com.example.android.popularmovies.model;
 
-import com.example.android.popularmovies.datamodel.FavoriteMovie;
-import com.example.android.popularmovies.datamodel.Movie;
+import com.example.android.popularmovies.activities.main.Movie;
+import com.example.android.popularmovies.model.database.FavoriteMovie;
 
 import java.util.List;
 

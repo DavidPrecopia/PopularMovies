@@ -5,8 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
-import com.example.android.popularmovies.datamodel.FavoriteMovie;
-import com.example.android.popularmovies.datamodel.Movie;
+import com.example.android.popularmovies.activities.main.Movie;
 
 import java.util.List;
 

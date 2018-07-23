@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.databinding.ActivityDetailBinding;
-import com.example.android.popularmovies.datamodel.Review;
 import com.xwray.groupie.ExpandableGroup;
 import com.xwray.groupie.GroupAdapter;
 
@@ -82,11 +81,11 @@ public class DetailActivity extends AppCompatActivity {
 		});
 	}
 	
-	private void bindReviews(final List<Review> reviewList) {
+	private void bindReviews(final List<MovieDetails.Review> reviewList) {
 		ExpandableGroup expandableGroup = new ExpandableGroup(
 				new ExpandableHeaderItem(getReviewsTitle(reviewList.isEmpty())), false
 		);
-		for (Review review : reviewList) {
+		for (MovieDetails.Review review : reviewList) {
 			expandableGroup.add(new ReviewItem(review));
 		}
 		groupAdapter.add(expandableGroup);

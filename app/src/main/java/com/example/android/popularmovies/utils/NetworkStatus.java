@@ -5,8 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.example.android.popularmovies.contracts.INetworkStatusContract;
-
 public final class NetworkStatus implements INetworkStatusContract {
 	
 	private final ConnectivityManager connectivityManager;

@@ -1,4 +1,4 @@
-package com.example.android.popularmovies.datamodel;
+package com.example.android.popularmovies.activities.main;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.databinding.BindingAdapter;
@@ -6,6 +6,8 @@ import android.widget.ImageView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.model.database.FavoritesContract;
+import com.example.android.popularmovies.utils.GlideApp;
+import com.example.android.popularmovies.utils.ImageUrlManager;
 import com.google.gson.annotations.SerializedName;
 
 /**

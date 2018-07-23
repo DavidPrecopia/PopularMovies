@@ -1,6 +1,6 @@
 package com.example.android.popularmovies.network.client;
 
-import com.example.android.popularmovies.datamodel.MovieDetails;
+import com.example.android.popularmovies.activities.detail.MovieDetails;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;

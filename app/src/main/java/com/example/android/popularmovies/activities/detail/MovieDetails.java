@@ -1,10 +1,12 @@
-package com.example.android.popularmovies.datamodel;
+package com.example.android.popularmovies.activities.detail;
 
 import android.databinding.BindingAdapter;
 import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.utils.GlideApp;
+import com.example.android.popularmovies.utils.ImageUrlManager;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -12,8 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class MovieDetails {
-	
-	private static final String LOG_TAG = MovieDetails.class.getSimpleName();
 	
 	@SerializedName("id")
 	private final int movieId;
@@ -137,6 +137,25 @@ public final class MovieDetails {
 		
 		private MovieReviews(Review[] reviews) {
 			this.reviews = reviews;
+		}
+	}
+	
+	
+	public static class Review {
+		private final String author;
+		private final String content;
+		
+		private Review(String author, String content) {
+			this.author = author;
+			this.content = content;
+		}
+		
+		public String getAuthor() {
+			return author;
+		}
+		
+		public String getContent() {
+			return content;
 		}
 	}
 }

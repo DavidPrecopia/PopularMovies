@@ -8,7 +8,7 @@
 		
 		<variable
 			name="review"
-			type="com.example.android.popularmovies.datamodel.Review" />
+			type="com.example.android.popularmovies.activities.detail.MovieDetails.Review" />
 	</data>
 	
 	<android.support.v7.widget.CardView
@@ -31,7 +31,7 @@
 				android:layout_marginTop="@dimen/half_standard_margin"
 				android:text="@{review.content}"
 				android:textAppearance="?android:textAppearanceListItem"
-				android:textColor="@android:color/white"
+				android:textColor="@color/white"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
@@ -49,7 +49,7 @@
 				android:maxLines="1"
 				android:text="@{review.author}"
 				android:textAppearance="?android:textAppearanceListItemSecondary"
-				android:textColor="@android:color/white"
+				android:textColor="@color/white"
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="0.0"

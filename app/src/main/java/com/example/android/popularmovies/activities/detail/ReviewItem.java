@@ -4,14 +4,13 @@ import android.support.annotation.NonNull;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.databinding.ListItemReviewBinding;
-import com.example.android.popularmovies.datamodel.Review;
 import com.xwray.groupie.databinding.BindableItem;
 
 final class ReviewItem extends BindableItem<ListItemReviewBinding> {
 	
-	private final Review review;
+	private final MovieDetails.Review review;
 	
-	ReviewItem(Review review) {
+	ReviewItem(MovieDetails.Review review) {
 		this.review = review;
 	}
 	

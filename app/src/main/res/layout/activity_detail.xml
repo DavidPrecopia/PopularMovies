@@ -9,7 +9,7 @@
 		
 		<variable
 			name="movie"
-			type="com.example.android.popularmovies.datamodel.MovieDetails" />
+			type="com.example.android.popularmovies.activities.detail.MovieDetails" />
 	</data>
 	
 	<android.support.design.widget.CoordinatorLayout

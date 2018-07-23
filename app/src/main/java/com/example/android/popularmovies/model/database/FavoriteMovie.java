@@ -1,11 +1,11 @@
-package com.example.android.popularmovies.datamodel;
+package com.example.android.popularmovies.model.database;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.example.android.popularmovies.model.database.FavoritesContract;
+import com.example.android.popularmovies.activities.detail.MovieDetails;
 
 @Entity(tableName = FavoritesContract.TABLE_NAME)
 public final class FavoriteMovie {

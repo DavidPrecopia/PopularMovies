@@ -1,7 +1,7 @@
-package com.example.android.popularmovies.contracts;
+package com.example.android.popularmovies.network;
 
-import com.example.android.popularmovies.datamodel.Movie;
-import com.example.android.popularmovies.datamodel.MovieDetails;
+import com.example.android.popularmovies.activities.detail.MovieDetails;
+import com.example.android.popularmovies.activities.main.Movie;
 
 import java.util.List;
 

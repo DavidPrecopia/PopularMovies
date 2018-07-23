@@ -8,12 +8,11 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.contracts.IModelContract;
-import com.example.android.popularmovies.contracts.INetworkStatusContract;
-import com.example.android.popularmovies.datamodel.FavoriteMovie;
-import com.example.android.popularmovies.datamodel.MovieDetails;
+import com.example.android.popularmovies.model.IModelContract;
 import com.example.android.popularmovies.model.Model;
+import com.example.android.popularmovies.model.database.FavoriteMovie;
 import com.example.android.popularmovies.network.Network;
+import com.example.android.popularmovies.utils.INetworkStatusContract;
 import com.example.android.popularmovies.utils.NetworkStatus;
 
 import java.util.Objects;
@@ -138,5 +137,26 @@ final class DetailViewModel extends AndroidViewModel {
 	protected void onCleared() {
 		disposable.clear();
 		super.onCleared();
+	}
+	
+	
+	static final class MovieInformation {
+		
+		private final MovieDetails movieDetails;
+		private final boolean isFavorite;
+		
+		MovieInformation(MovieDetails movieDetails, boolean isFavorite) {
+			this.movieDetails = movieDetails;
+			this.isFavorite = isFavorite;
+		}
+		
+		
+		MovieDetails getMovieDetails() {
+			return movieDetails;
+		}
+		
+		boolean isFavorite() {
+			return isFavorite;
+		}
 	}
 }

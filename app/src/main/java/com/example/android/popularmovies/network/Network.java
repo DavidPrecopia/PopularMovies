@@ -3,11 +3,10 @@ package com.example.android.popularmovies.network;
 import android.app.Application;
 import android.support.annotation.NonNull;
 
-import com.example.android.popularmovies.contracts.INetworkContract;
-import com.example.android.popularmovies.contracts.IRemoteStorage;
-import com.example.android.popularmovies.datamodel.Movie;
-import com.example.android.popularmovies.datamodel.MovieDetails;
+import com.example.android.popularmovies.activities.detail.MovieDetails;
+import com.example.android.popularmovies.activities.main.Movie;
 import com.example.android.popularmovies.network.client.Client;
+import com.example.android.popularmovies.network.client.IClientContract;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import io.reactivex.Single;
 
 public final class Network implements INetworkContract {
 	
-	private final IRemoteStorage client;
+	private final IClientContract client;
 	
 	private final Single<List<Movie>> popularFromRemote;
 	private final Single<List<Movie>> highestRatedFromRemote;

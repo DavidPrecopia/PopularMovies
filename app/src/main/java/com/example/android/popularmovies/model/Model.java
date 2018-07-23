@@ -2,9 +2,8 @@ package com.example.android.popularmovies.model;
 
 import android.app.Application;
 
-import com.example.android.popularmovies.contracts.IModelContract;
-import com.example.android.popularmovies.datamodel.FavoriteMovie;
-import com.example.android.popularmovies.datamodel.Movie;
+import com.example.android.popularmovies.activities.main.Movie;
+import com.example.android.popularmovies.model.database.FavoriteMovie;
 import com.example.android.popularmovies.model.database.FavoritesDao;
 import com.example.android.popularmovies.model.database.FavoritesDatabase;
 
