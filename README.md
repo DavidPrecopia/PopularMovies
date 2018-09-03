@@ -1,7 +1,7 @@
 # PopularMovies
 Lists information about the most popular and highest rated movies per The Movie Database (https://www.themoviedb.org/).
 
-Created for Udacity's Android Developer Nanodegree.
+This is the second and third projects of Udacity's Android Developer Nanodegree.
 
 # Screenshots
 
@@ -23,8 +23,8 @@ Created for Udacity's Android Developer Nanodegree.
   - https://github.com/GrenderG/Toasty
 - Timber
   - https://github.com/JakeWharton/timber
-- Retrofit and Gson
-- RxJava with RxAndroid
+- Retrofit with Gson
+- RxJava and RxAndroid
 - Glide
 
 # Extra
