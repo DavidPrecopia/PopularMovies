@@ -1,7 +1,7 @@
 # PopularMovies
 Lists information about the most popular and highest rated movies per The Movie Database (https://www.themoviedb.org/).
 
-This is the second and third projects of Udacity's Android Developer Nanodegree.
+This is the second and third projects in Udacity's Android Developer Nanodegree.
 
 # Screenshots
 
