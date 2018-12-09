@@ -31,3 +31,7 @@ This is the second and third projects in Udacity's Android Developer Nanodegree.
 
 - The API key hidden in local files.
   - Instructions: https://medium.com/code-better/hiding-api-keys-from-your-android-repository-b23f5598b906
+
+# Copyright
+
+Copyright &copy; 2018 David M Precopia
