@@ -15,17 +15,13 @@ This is the second and third projects in Udacity's Android Developer Nanodegree.
 
 **Libraries**
 
-- Groupie
-  - https://github.com/lisawray/groupie
-- Floating Action Button
-  - https://github.com/Clans/FloatingActionButton
-- Toasty
-  - https://github.com/GrenderG/Toasty
-- Timber
-  - https://github.com/JakeWharton/timber
+- [Groupie](https://github.com/lisawray/groupie)
+- [Floating Action Button](https://github.com/Clans/FloatingActionButton)
+- [Toasty](https://github.com/GrenderG/Toasty)
+- [Timber](https://github.com/JakeWharton/timber)
 - Retrofit with Gson
 - RxJava and RxAndroid
-- Glide
+- [Glide](https://github.com/bumptech/glide)
 
 # Extra
 
